@@ -1,0 +1,38 @@
+# Dependencies
+/node_modules
+/vendor
+
+# Build output
+/public/build
+/public/hot
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log
+yarn-error.log
+*.log
+
+# IDE & Editor
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build tools
+.budfiles
+.cache
+
+# Claude Code
+.claude
+
+# Plan files (optional - remove if you want to track)
+.plan-config.json

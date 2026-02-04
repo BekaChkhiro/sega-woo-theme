@@ -1,0 +1,851 @@
+@import "tailwindcss" theme(static);
+
+/* ==========================================================================
+   Content Sources - Tell Tailwind where to scan for classes
+   ========================================================================== */
+
+/* Blade templates */
+@source "../views/";
+
+/* PHP files (View Composers, Components, etc.) */
+@source "../../app/";
+
+/* WooCommerce template overrides (when created) */
+@source "../views/woocommerce/";
+
+/* ==========================================================================
+   Theme Configuration - Custom Design Tokens
+   ========================================================================== */
+
+@theme {
+  /* --------------------------------------------
+     Colors - E-commerce Optimized Palette
+     -------------------------------------------- */
+
+  /* Primary - Main brand color (yellow/gold) */
+  --color-primary-50: #fefce8;
+  --color-primary-100: #fef9c3;
+  --color-primary-200: #fef08a;
+  --color-primary-300: #fde047;
+  --color-primary-400: #f3d22e;
+  --color-primary-500: #eab308;
+  --color-primary-600: #dba507;
+  --color-primary-700: #b89206;
+  --color-primary-800: #957705;
+  --color-primary-900: #6b5604;
+  --color-primary-950: #422d02;
+
+  /* Secondary - Supporting brand color */
+  --color-secondary-50: oklch(0.97 0.01 280);
+  --color-secondary-100: oklch(0.93 0.02 280);
+  --color-secondary-200: oklch(0.86 0.04 280);
+  --color-secondary-300: oklch(0.76 0.06 280);
+  --color-secondary-400: oklch(0.64 0.08 280);
+  --color-secondary-500: oklch(0.55 0.10 280);
+  --color-secondary-600: oklch(0.48 0.10 280);
+  --color-secondary-700: oklch(0.42 0.08 280);
+  --color-secondary-800: oklch(0.36 0.06 280);
+  --color-secondary-900: oklch(0.30 0.04 280);
+  --color-secondary-950: oklch(0.22 0.03 280);
+
+  /* Accent - Highlights, sale badges, notifications */
+  --color-accent-50: oklch(0.98 0.02 85);
+  --color-accent-100: oklch(0.95 0.05 85);
+  --color-accent-200: oklch(0.90 0.10 85);
+  --color-accent-300: oklch(0.82 0.15 85);
+  --color-accent-400: oklch(0.75 0.18 85);
+  --color-accent-500: oklch(0.70 0.20 85);
+  --color-accent-600: oklch(0.60 0.18 85);
+  --color-accent-700: oklch(0.50 0.15 85);
+  --color-accent-800: oklch(0.42 0.12 85);
+  --color-accent-900: oklch(0.35 0.10 85);
+  --color-accent-950: oklch(0.25 0.08 85);
+
+  /* Success - Order confirmations, in-stock indicators */
+  --color-success-50: oklch(0.97 0.02 145);
+  --color-success-100: oklch(0.93 0.05 145);
+  --color-success-200: oklch(0.86 0.10 145);
+  --color-success-300: oklch(0.76 0.14 145);
+  --color-success-400: oklch(0.64 0.16 145);
+  --color-success-500: oklch(0.55 0.16 145);
+  --color-success-600: oklch(0.48 0.14 145);
+  --color-success-700: oklch(0.42 0.12 145);
+  --color-success-800: oklch(0.36 0.10 145);
+  --color-success-900: oklch(0.30 0.08 145);
+  --color-success-950: oklch(0.22 0.06 145);
+
+  /* Warning - Low stock, pending orders */
+  --color-warning-50: oklch(0.98 0.02 85);
+  --color-warning-100: oklch(0.95 0.06 85);
+  --color-warning-200: oklch(0.90 0.12 85);
+  --color-warning-300: oklch(0.82 0.16 75);
+  --color-warning-400: oklch(0.75 0.18 65);
+  --color-warning-500: oklch(0.70 0.18 55);
+  --color-warning-600: oklch(0.60 0.16 50);
+  --color-warning-700: oklch(0.50 0.14 45);
+  --color-warning-800: oklch(0.42 0.12 40);
+  --color-warning-900: oklch(0.35 0.10 35);
+  --color-warning-950: oklch(0.25 0.08 30);
+
+  /* Error/Danger - Out of stock, validation errors, sale badges */
+  --color-error-50: oklch(0.97 0.02 25);
+  --color-error-100: oklch(0.93 0.05 25);
+  --color-error-200: oklch(0.86 0.10 25);
+  --color-error-300: oklch(0.76 0.14 25);
+  --color-error-400: oklch(0.64 0.18 25);
+  --color-error-500: oklch(0.55 0.20 25);
+  --color-error-600: oklch(0.48 0.20 25);
+  --color-error-700: oklch(0.42 0.18 25);
+  --color-error-800: oklch(0.36 0.16 25);
+  --color-error-900: oklch(0.30 0.14 25);
+  --color-error-950: oklch(0.22 0.12 25);
+
+  /* Sale - Dedicated sale/discount color */
+  --color-sale: oklch(0.55 0.22 25);
+  --color-sale-light: oklch(0.93 0.05 25);
+
+  /* --------------------------------------------
+     Typography
+     -------------------------------------------- */
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif: "Georgia", ui-serif, serif;
+  --font-mono: "Fira Code", ui-monospace, monospace;
+
+  /* Font sizes with line-height */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.15;
+
+  /* Product-specific text sizes */
+  --text-price: 1.25rem;
+  --text-price--line-height: 1.5rem;
+  --text-price-lg: 1.75rem;
+  --text-price-lg--line-height: 2rem;
+  --text-sale-badge: 0.75rem;
+  --text-sale-badge--line-height: 1rem;
+
+  /* --------------------------------------------
+     Spacing - Extended for e-commerce layouts
+     -------------------------------------------- */
+
+  --spacing-px: 1px;
+  --spacing-0: 0px;
+  --spacing-0_5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-1_5: 0.375rem;
+  --spacing-2: 0.5rem;
+  --spacing-2_5: 0.625rem;
+  --spacing-3: 0.75rem;
+  --spacing-3_5: 0.875rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 2.75rem;
+  --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-28: 7rem;
+  --spacing-32: 8rem;
+  --spacing-36: 9rem;
+  --spacing-40: 10rem;
+  --spacing-44: 11rem;
+  --spacing-48: 12rem;
+  --spacing-52: 13rem;
+  --spacing-56: 14rem;
+  --spacing-60: 15rem;
+  --spacing-64: 16rem;
+  --spacing-72: 18rem;
+  --spacing-80: 20rem;
+  --spacing-96: 24rem;
+
+  /* Product grid gaps */
+  --spacing-grid: 1.5rem;
+  --spacing-grid-sm: 1rem;
+  --spacing-grid-lg: 2rem;
+
+  /* --------------------------------------------
+     Responsive Breakpoints
+     -------------------------------------------- */
+
+  /* Extra small devices (large phones) */
+  --breakpoint-xs: 480px;
+
+  /* --------------------------------------------
+     Container / Layout
+     -------------------------------------------- */
+
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+
+  /* Shop-specific widths */
+  --container-shop: 1440px;
+  --container-product: 1200px;
+  --container-checkout: 960px;
+
+  /* --------------------------------------------
+     Border Radius
+     -------------------------------------------- */
+
+  --radius-none: 0px;
+  --radius-sm: 0.125rem;
+  --radius-default: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Product card radius */
+  --radius-card: 0.5rem;
+  --radius-button: 0.375rem;
+  --radius-badge: 0.25rem;
+
+  /* --------------------------------------------
+     Shadows - Subtle for clean e-commerce look
+     -------------------------------------------- */
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-default: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none: 0 0 #0000;
+
+  /* Product card hover shadow */
+  --shadow-card: 0 2px 8px -2px rgb(0 0 0 / 0.1);
+  --shadow-card-hover: 0 8px 20px -4px rgb(0 0 0 / 0.15);
+
+  /* --------------------------------------------
+     Transitions
+     -------------------------------------------- */
+
+  --transition-fast: 150ms;
+  --transition-default: 200ms;
+  --transition-slow: 300ms;
+  --transition-slower: 500ms;
+
+  /* --------------------------------------------
+     Z-Index Scale
+     -------------------------------------------- */
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+
+  /* --------------------------------------------
+     Aspect Ratios - Product Images
+     -------------------------------------------- */
+
+  --aspect-product: 4 / 5;
+  --aspect-product-square: 1 / 1;
+  --aspect-product-wide: 16 / 9;
+  --aspect-gallery: 3 / 4;
+}
+
+/* ==========================================================================
+   WooCommerce Custom Utilities
+   ========================================================================== */
+
+@utility sale-badge {
+  background-color: var(--color-sale);
+  color: white;
+  font-size: var(--text-sale-badge);
+  line-height: var(--text-sale-badge--line-height);
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-badge);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+@utility out-of-stock-badge {
+  background-color: var(--color-error-100);
+  color: var(--color-error-700);
+  font-size: var(--text-sale-badge);
+  line-height: var(--text-sale-badge--line-height);
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-badge);
+}
+
+@utility in-stock-badge {
+  background-color: var(--color-success-100);
+  color: var(--color-success-700);
+  font-size: var(--text-sale-badge);
+  line-height: var(--text-sale-badge--line-height);
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-badge);
+}
+
+@utility price {
+  font-size: var(--text-price);
+  line-height: var(--text-price--line-height);
+  font-weight: 600;
+  color: var(--color-primary-900);
+}
+
+@utility price-lg {
+  font-size: var(--text-price-lg);
+  line-height: var(--text-price-lg--line-height);
+  font-weight: 700;
+}
+
+@utility price-sale {
+  color: var(--color-sale);
+}
+
+@utility price-original {
+  text-decoration: line-through;
+  color: var(--color-secondary-400);
+  font-weight: 400;
+}
+
+@utility product-card {
+  background-color: white;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow var(--transition-default) ease, transform var(--transition-default) ease;
+}
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary-600);
+  color: white;
+  font-weight: 500;
+  border-radius: var(--radius-button);
+  transition: background-color var(--transition-fast) ease;
+  cursor: pointer;
+}
+
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--color-primary-600);
+  font-weight: 500;
+  border: 1px solid var(--color-primary-600);
+  border-radius: var(--radius-button);
+  transition: all var(--transition-fast) ease;
+  cursor: pointer;
+}
+
+@utility add-to-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--color-primary-600);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-button);
+  transition: background-color var(--transition-fast) ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+@utility quantity-input {
+  width: 4rem;
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid var(--color-secondary-200);
+  border-radius: var(--radius-default);
+}
+
+@utility star-rating {
+  display: inline-flex;
+  gap: 0.125rem;
+  color: var(--color-accent-500);
+}
+
+@utility product-grid {
+  display: grid;
+  gap: var(--spacing-grid-sm);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@utility shop-container {
+  max-width: var(--container-shop);
+  margin-inline: auto;
+  padding-inline: var(--spacing-4);
+}
+
+/* Responsive shop container padding */
+@media (width >= 640px) {
+  .shop-container {
+    padding-inline: var(--spacing-6);
+  }
+}
+
+@media (width >= 1024px) {
+  .shop-container {
+    padding-inline: var(--spacing-8);
+  }
+}
+
+/* ==========================================================================
+   Component Styles with Hover States
+   ========================================================================== */
+
+@layer components {
+  /* Product card hover */
+  .product-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Button hovers */
+  .btn-primary:hover {
+    background-color: var(--color-primary-700);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-primary-600);
+    color: white;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: var(--color-primary-700);
+  }
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+@layer base {
+  /* Alpine.js cloak - Hide elements until Alpine initializes */
+  [x-cloak] {
+    display: none !important;
+  }
+
+  /* Custom Logo Sizing */
+  .custom-logo-link {
+    display: block;
+  }
+
+  .custom-logo {
+    height: 3rem !important;
+    width: auto !important;
+    max-width: 160px !important;
+  }
+
+  @media (width >= 1024px) {
+    .custom-logo {
+      height: 3.5rem !important;
+      max-width: 180px !important;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-secondary-900);
+    background-color: white;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* Remove default button styles */
+  button {
+    cursor: pointer;
+  }
+
+  /* Images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Links - Remove underline globally */
+  a,
+  a:hover,
+  a:focus,
+  a:active,
+  a:visited {
+    text-decoration: none !important;
+  }
+}
+
+/* ==========================================================================
+   Responsive Breakpoint Overrides for Product Grid
+   ========================================================================== */
+
+@layer components {
+  /* Extra small devices (480px+) - 2 columns */
+  @media (width >= 480px) {
+    .product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--spacing-grid-sm);
+    }
+  }
+
+  /* Small devices (640px+) - 2 columns with more gap */
+  @media (width >= 640px) {
+    .product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--spacing-grid);
+    }
+  }
+
+  /* Medium devices (768px+) - 3 columns */
+  @media (width >= 768px) {
+    .product-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Large devices (1024px+) - 4 columns */
+  @media (width >= 1024px) {
+    .product-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Extra large devices (1280px+) - larger gaps */
+  @media (width >= 1280px) {
+    .product-grid {
+      gap: var(--spacing-grid-lg);
+    }
+  }
+}
+
+/* ==========================================================================
+   Responsive Product Card Styles
+   ========================================================================== */
+
+@layer components {
+  /* Product card responsive padding */
+  .products > li article > div:last-child {
+    padding: 0.75rem;
+  }
+
+  @media (width >= 480px) {
+    .products > li article > div:last-child {
+      padding: 1rem;
+    }
+  }
+
+  @media (width >= 640px) {
+    .products > li article > div:last-child {
+      padding: 1rem;
+    }
+  }
+
+  /* Product card title - responsive text size */
+  .products h2 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  @media (width >= 480px) {
+    .products h2 {
+      font-size: 0.9375rem;
+      line-height: 1.375rem;
+    }
+  }
+
+  @media (width >= 640px) {
+    .products h2 {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  }
+
+  /* Product card price - responsive size */
+  .products .text-lg {
+    font-size: 1rem;
+  }
+
+  @media (width >= 480px) {
+    .products .text-lg {
+      font-size: 1.0625rem;
+    }
+  }
+
+  @media (width >= 640px) {
+    .products .text-lg {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Product badges - smaller on mobile */
+  .products article > div:first-child span {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+  }
+
+  @media (width >= 480px) {
+    .products article > div:first-child span {
+      font-size: 0.6875rem;
+      padding: 0.1875rem 0.5rem;
+    }
+  }
+
+  @media (width >= 640px) {
+    .products article > div:first-child span {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.625rem;
+    }
+  }
+
+  /* Add to cart button - responsive size */
+  .products button[type="submit"],
+  .products a[aria-label*="options"],
+  .products a[aria-label*="View"] {
+    height: 2.25rem;
+    width: 2.25rem;
+  }
+
+  @media (width >= 480px) {
+    .products button[type="submit"],
+    .products a[aria-label*="options"],
+    .products a[aria-label*="View"] {
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+  }
+
+  /* Star rating - smaller on mobile */
+  .products .flex > svg[class*="text-yellow"],
+  .products .flex > svg[class*="text-secondary-300"] {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  @media (width >= 640px) {
+    .products .flex > svg[class*="text-yellow"],
+    .products .flex > svg[class*="text-secondary-300"] {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+
+  /* Category text - hide on very small screens, show abbreviated */
+  .products p.text-xs.uppercase {
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+  }
+
+  @media (width >= 480px) {
+    .products p.text-xs.uppercase {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (width >= 640px) {
+    .products p.text-xs.uppercase {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+/* ==========================================================================
+   Global Link Styles - Remove underlines (highest priority)
+   ========================================================================== */
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none !important;
+}
+
+/* ==========================================================================
+   WooCommerce Reset - Remove default clearfix pseudo-elements
+   ========================================================================== */
+
+.products::before,
+.products::after,
+ul.products::before,
+ul.products::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ==========================================================================
+   Single Product Page Enhancements
+   ========================================================================== */
+
+/* Safe area padding for mobile devices with notches */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Hide scrollbar utility for tab navigation */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scroll to anchor for sticky elements */
+html {
+  scroll-padding-top: 6rem;
+}
+
+@media (width >= 1024px) {
+  html {
+    scroll-padding-top: 8rem;
+  }
+}
+
+/* Single product sticky summary behavior */
+@layer components {
+  .product-summary {
+    will-change: transform;
+  }
+
+  @media (width >= 1024px) {
+    .product-summary {
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-secondary-300) transparent;
+    }
+
+    .product-summary::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .product-summary::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .product-summary::-webkit-scrollbar-thumb {
+      background-color: var(--color-secondary-300);
+      border-radius: 2px;
+    }
+  }
+}
+
+/* Product gallery smooth transitions */
+@layer components {
+  .product-gallery img {
+    transition: transform var(--transition-slow) ease-out;
+  }
+
+  .product-gallery:hover img {
+    transform: scale(1.02);
+  }
+
+  .gallery-thumbnail img {
+    transition: transform var(--transition-default) ease-out;
+  }
+}
+
+/* Tab panel fade-in animation */
+@layer components {
+  .product-tab-panel {
+    animation: fadeIn var(--transition-default) ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Mobile sticky cart bar animation */
+@layer components {
+  #mobile-sticky-cart {
+    will-change: transform;
+  }
+}
+
+/* Quantity input focus state enhancement */
+@layer components {
+  .quantity-wrapper:focus-within {
+    box-shadow: 0 0 0 2px var(--color-primary-100);
+    border-radius: var(--radius-xl);
+  }
+}
+
+/* Add to cart button ripple effect */
+@layer components {
+  .add-to-cart-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .add-to-cart-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .add-to-cart-button:hover::after {
+    transform: translateX(100%);
+  }
+}
