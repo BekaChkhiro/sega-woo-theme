@@ -787,27 +787,7 @@ html {
     will-change: transform;
   }
 
-  @media (width >= 1024px) {
-    .product-summary {
-      max-height: calc(100vh - 4rem);
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-secondary-300) transparent;
-    }
-
-    .product-summary::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .product-summary::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .product-summary::-webkit-scrollbar-thumb {
-      background-color: var(--color-secondary-300);
-      border-radius: 2px;
-    }
-  }
+  /* Unified page scroll - no inner scroll on product summary */
 }
 
 /* Product gallery smooth transitions */
