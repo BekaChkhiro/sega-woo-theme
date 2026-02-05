@@ -19,24 +19,11 @@
 @php
   $productTabs = [];
 
+  // Only show Description tab - Reviews and Additional Info are removed
   if ($hasDescription) {
     $productTabs['description'] = [
       'title' => __('Description', 'sage'),
       'priority' => 10,
-    ];
-  }
-
-  if ($hasAdditionalInfo) {
-    $productTabs['additional_information'] = [
-      'title' => __('Additional information', 'sage'),
-      'priority' => 20,
-    ];
-  }
-
-  if ($reviewsEnabled) {
-    $productTabs['reviews'] = [
-      'title' => sprintf(__('Reviews (%d)', 'sage'), $reviewCount),
-      'priority' => 30,
     ];
   }
 
@@ -73,7 +60,7 @@
 
     {{-- Tab Panels --}}
     <div class="tab-panels rounded-b-xl border-x border-b border-secondary-200 bg-white p-6 shadow-sm sm:p-8">
-      {{-- Description Tab --}}
+      {{-- Description Tab (only tab shown) --}}
       @if ($hasDescription)
         <div
           id="tab-description"
@@ -83,38 +70,6 @@
           tabindex="0"
         >
           @include('woocommerce.single-product.tabs.description', ['description' => $description])
-        </div>
-      @endif
-
-      {{-- Additional Information Tab --}}
-      @if ($hasAdditionalInfo)
-        <div
-          id="tab-additional_information"
-          class="product-tab-panel {{ $hasDescription ? 'hidden' : '' }}"
-          role="tabpanel"
-          aria-labelledby="tab-button-additional_information"
-          tabindex="0"
-        >
-          @include('woocommerce.single-product.tabs.additional-information', [
-            'attributes' => $visibleAttributes,
-            'weight' => $weight,
-            'dimensions' => $dimensions,
-            'hasWeight' => $hasWeight,
-            'hasDimensions' => $hasDimensions,
-          ])
-        </div>
-      @endif
-
-      {{-- Reviews Tab --}}
-      @if ($reviewsEnabled)
-        <div
-          id="tab-reviews"
-          class="product-tab-panel {{ $hasDescription || $hasAdditionalInfo ? 'hidden' : '' }}"
-          role="tabpanel"
-          aria-labelledby="tab-button-reviews"
-          tabindex="0"
-        >
-          @include('woocommerce.single-product.tabs.reviews')
         </div>
       @endif
     </div>

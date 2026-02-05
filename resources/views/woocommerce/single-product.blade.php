@@ -60,29 +60,7 @@
           {{ $name }}
         </h1>
 
-        {{-- Rating --}}
-        @if ($reviewsAllowed)
-          <div class="mt-3 flex flex-wrap items-center gap-3">
-            @if ($numRatings > 0)
-              <x-star-rating
-                :product="$id"
-                size="lg"
-                :show-count="false"
-                :show-link="false"
-              />
-              <span class="text-sm text-secondary-600">
-                {{ sprintf(_n('%s review', '%s reviews', $numReviews, 'sage'), number_format_i18n($numReviews)) }}
-              </span>
-              <a href="#reviews" class="text-sm text-primary-600 transition-colors hover:text-primary-700">
-                {{ __('Read reviews', 'sage') }}
-              </a>
-            @else
-              <a href="#reviews" class="text-sm text-primary-600 transition-colors hover:text-primary-700">
-                {{ __('Be the first to review', 'sage') }}
-              </a>
-            @endif
-          </div>
-        @endif
+        {{-- Rating removed - reviews disabled --}}
 
         {{-- Price --}}
         <div class="mt-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer">

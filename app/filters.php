@@ -950,19 +950,14 @@ add_action('init', function () {
 /**
  * Product Tabs Customization
  *
- * Modify, remove, or reorder product tabs on single product pages.
+ * Keep only the Description tab, remove Reviews and Additional Information.
  */
 add_filter('woocommerce_product_tabs', function ($tabs) {
-    // Rename "Additional information" tab
-    if (isset($tabs['additional_information'])) {
-        $tabs['additional_information']['title'] = __('Specifications', 'sage');
-        $tabs['additional_information']['priority'] = 15;
-    }
+    // Remove reviews tab
+    unset($tabs['reviews']);
 
-    // Move reviews tab to the end
-    if (isset($tabs['reviews'])) {
-        $tabs['reviews']['priority'] = 30;
-    }
+    // Remove additional information tab
+    unset($tabs['additional_information']);
 
     // Remove description tab if product has no description
     global $product;
