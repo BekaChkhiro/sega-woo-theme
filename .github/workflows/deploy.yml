@@ -39,8 +39,11 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftps
           local-dir: ./
           server-dir: ${{ secrets.FTP_PATH }}
+          timeout: 60000
           exclude: |
             **/.git*
             **/.github*
