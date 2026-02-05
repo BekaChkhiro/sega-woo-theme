@@ -4,8 +4,9 @@
 > **Framework:** Sage 10 (Roots)
 > **Created:** 2026-02-02
 > **Last Updated:** 2026-02-05
-> **Current Focus:** T11.1 - Audit current performance (Lighthouse, GTmetrix)
+> **Current Focus:** T11.7 - Remove Reviews and Additional Info from tabs
 > **Status:** In Progress
+> **Last Updated:** 2026-02-05
 > **Plugin Version:** 1.1.1
 
 ---
@@ -220,21 +221,113 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 ---
 
-### Phase 11: Performance Optimization (პერფორმანსი)
+### Phase 11: Product Page Improvements (პროდუქტის გვერდი)
+> **Goal:** Enhance variable products, gallery, tabs, and attribute display types
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T11.1 | Create attribute type system (color, button, select) in theme | High | DONE ✅ | - |
+| T11.2 | Build admin UI for attribute type selection | High | DONE ✅ | T11.1 |
+| T11.3 | Implement color swatch display with color picker | Medium | DONE ✅ | T11.2 |
+| T11.4 | Implement button-style attribute display | Medium | DONE ✅ | T11.2 |
+| T11.5 | Implement select dropdown attribute display | Low | DONE ✅ | T11.2 |
+| T11.6 | Support multiple attributes per variable product | High | DONE ✅ | T11.3, T11.4, T11.5 |
+| T11.7 | Remove Reviews and Additional Info from tabs (keep only Description) | Low | TODO | - |
+| T11.8 | Remove inner scrolls from product page (unified scroll) | Medium | TODO | - |
+| T11.9 | Create thumbnail carousel for product gallery (4 visible) | Medium | TODO | - |
+| T11.10 | Style and test variable product attribute selectors | Medium | TODO | T11.6 |
+
+---
+
+### Phase 12: Cart Page Improvements (კალათის გვერდი)
+> **Goal:** Polish cart styles and improve mini-cart design
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T12.1 | Remove yellow border on hover from Order Summary container | Low | TODO | - |
+| T12.2 | Remove hover effects from cart item elements | Low | TODO | - |
+| T12.3 | Redesign mini-cart to match cart page styles | Medium | TODO | T12.1, T12.2 |
+| T12.4 | Unify cart and mini-cart typography and spacing | Low | TODO | T12.3 |
+| T12.5 | Test cart page responsiveness | Low | TODO | T12.4 |
+
+---
+
+### Phase 13: Homepage Improvements (მთავარი გვერდი)
+> **Goal:** Categories carousel, slider customizer, remove unused components
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T13.1 | Convert categories component to carousel (6 visible, show all) | Medium | TODO | - |
+| T13.2 | Create Customizer section for slider banners | High | TODO | - |
+| T13.3 | Add 5 slide slots with image, title, subtitle, link fields | Medium | TODO | T13.2 |
+| T13.4 | Connect slider component to Customizer settings | Medium | TODO | T13.3 |
+| T13.5 | Remove trust-badges-grid component | Low | TODO | - |
+| T13.6 | Remove side-by-side banners after new products section | Low | TODO | - |
+| T13.7 | Test homepage carousel and slider functionality | Low | TODO | T13.4 |
+
+---
+
+### Phase 14: Header Improvements (ჰედერი)
+> **Goal:** Remove account icon, add mega-menu button to all pages
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T14.1 | Remove account icon from header | Low | TODO | - |
+| T14.2 | Create categories dropdown button below logo | Medium | TODO | - |
+| T14.3 | Connect dropdown to mega-menu component | Medium | TODO | T14.2 |
+| T14.4 | Implement subcategory hover reveal (like homepage) | Medium | TODO | T14.3 |
+| T14.5 | Ensure mega-menu works on all pages (not just homepage) | Medium | TODO | T14.4 |
+| T14.6 | Test header navigation and mega-menu | Low | TODO | T14.5 |
+
+---
+
+### Phase 15: Shop Page Improvements (შოპის გვერდი)
+> **Goal:** Products per page, price range filter, category checkboxes, category template
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T15.1 | Add products per page selector (12/24/48/96) | Medium | TODO | - |
+| T15.2 | Move price filter to top position | Low | TODO | - |
+| T15.3 | Implement dual-handle price range slider | High | TODO | T15.2 |
+| T15.4 | Convert category filter to checkbox style | Medium | TODO | - |
+| T15.5 | Enable multi-category selection | Medium | TODO | T15.4 |
+| T15.6 | Implement smart subcategory logic (show only selected subcategories) | High | TODO | T15.5 |
+| T15.7 | Create taxonomy-product_cat.blade.php template | Medium | TODO | - |
+| T15.8 | Show only subcategories in category page filters | Medium | TODO | T15.7 |
+| T15.9 | Remove Availability filter component | Low | TODO | - |
+| T15.10 | Test shop filters and category template | Medium | TODO | T15.8 |
+
+---
+
+### Phase 16: Search Functionality (სერჩის ფუნქციები)
+> **Goal:** Fix search results pagination
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T16.1 | Create search-product.blade.php template | Medium | TODO | - |
+| T16.2 | Create SearchResults View Composer | Medium | TODO | T16.1 |
+| T16.3 | Implement proper WP_Query for product search | High | TODO | T16.2 |
+| T16.4 | Add pagination support to search results | Medium | TODO | T16.3 |
+| T16.5 | Style search results page (match shop page) | Low | TODO | T16.4 |
+| T16.6 | Test search with pagination | Low | TODO | T16.5 |
+
+---
+
+### Phase 17: Performance Optimization (პერფორმანსი)
 > **Goal:** Maximize site speed and optimize for Core Web Vitals
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T11.1 | Audit current performance (Lighthouse, GTmetrix) | Medium | TODO | - |
-| T11.2 | Implement critical CSS inlining | High | TODO | T11.1 |
-| T11.3 | Optimize image loading (WebP, lazy load, srcset) | Medium | TODO | T11.1 |
-| T11.4 | Minimize JavaScript bundle size | Medium | TODO | T11.1 |
-| T11.5 | Add preconnect/prefetch for external resources | Low | TODO | T11.1 |
-| T11.6 | Implement object caching recommendations | Medium | TODO | T11.1 |
-| T11.7 | Optimize database queries in View Composers | High | TODO | T11.1 |
-| T11.8 | Configure CDN recommendations | Medium | TODO | T11.1 |
-| T11.9 | Add service worker for caching (optional) | High | TODO | T11.8 |
-| T11.10 | Final performance audit and report | Medium | TODO | T11.9 |
+| T17.1 | Audit current performance (Lighthouse, GTmetrix) | Medium | TODO | - |
+| T17.2 | Implement critical CSS inlining | High | TODO | T17.1 |
+| T17.3 | Optimize image loading (WebP, lazy load, srcset) | Medium | TODO | T17.1 |
+| T17.4 | Minimize JavaScript bundle size | Medium | TODO | T17.1 |
+| T17.5 | Add preconnect/prefetch for external resources | Low | TODO | T17.1 |
+| T17.6 | Implement object caching recommendations | Medium | TODO | T17.1 |
+| T17.7 | Optimize database queries in View Composers | High | TODO | T17.1 |
+| T17.8 | Configure CDN recommendations | Medium | TODO | T17.1 |
+| T17.9 | Add service worker for caching (optional) | High | TODO | T17.8 |
+| T17.10 | Final performance audit and report | Medium | TODO | T17.9 |
 
 ---
 
@@ -335,8 +428,14 @@ sega-woo-theme/
 | Phase 8: Search Popup | 7 | 7 | 100% |
 | Phase 9: Homepage | 10 | 10 | 100% |
 | Phase 10: Cart/Checkout Redesign | 8 | 8 | 100% |
-| Phase 11: Performance Optimization | 10 | 0 | 0% |
-| **TOTAL** | **106** | **96** | **91%** |
+| Phase 11: Product Page Improvements | 10 | 6 | 60% |
+| Phase 12: Cart Page Improvements | 5 | 0 | 0% |
+| Phase 13: Homepage Improvements | 7 | 0 | 0% |
+| Phase 14: Header Improvements | 6 | 0 | 0% |
+| Phase 15: Shop Page Improvements | 10 | 0 | 0% |
+| Phase 16: Search Functionality | 6 | 0 | 0% |
+| Phase 17: Performance Optimization | 10 | 0 | 0% |
+| **TOTAL** | **150** | **102** | **68%** |
 
 ---
 

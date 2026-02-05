@@ -607,4 +607,26 @@ add_action('customize_register', function ($wp_customize) {
     // Register Checkout Fields Customizer
     $checkout_fields = new \App\Customizer\CheckoutFields();
     $checkout_fields->register($wp_customize);
+
+    // Register Attribute Swatches Customizer
+    $attribute_swatches = new \App\Customizer\AttributeSwatches();
+    $attribute_swatches->register($wp_customize);
 });
+
+/**
+ * Initialize Attribute Swatches Admin UI.
+ *
+ * Adds display type selection to WooCommerce attribute settings
+ * and color picker fields to attribute terms.
+ *
+ * @return void
+ */
+add_action('init', function () {
+    // Only load in admin and if WooCommerce is active
+    if (!is_admin() || !function_exists('WC')) {
+        return;
+    }
+
+    $admin = new \App\Admin\AttributeSwatchesAdmin();
+    $admin->init();
+}, 20);

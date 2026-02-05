@@ -1047,4 +1047,115 @@ class Product extends Composer
         return $this->getProduct();
     }
 
+    /**
+     * Get the display type for an attribute.
+     *
+     * @param string $attributeName The attribute name (e.g., 'pa_color' or 'color')
+     * @return string 'select', 'button', or 'color'
+     */
+    public function getAttributeDisplayType(string $attributeName): string
+    {
+        // Normalize attribute name - remove 'pa_' prefix if present
+        $slug = str_replace('pa_', '', $attributeName);
+
+        $type = get_option("sega_attribute_{$slug}_type", 'select');
+
+        // Validate the type
+        if (!in_array($type, ['select', 'button', 'color'], true)) {
+            return 'select';
+        }
+
+        return $type;
+    }
+
+    /**
+     * Get the swatch color for a term.
+     *
+     * @param string $attributeName The attribute name (e.g., 'pa_color' or 'color')
+     * @param string $termSlug The term slug (e.g., 'red')
+     * @return string|null Hex color value or null
+     */
+    public function getTermSwatchColor(string $attributeName, string $termSlug): ?string
+    {
+        // Normalize attribute name - remove 'pa_' prefix if present
+        $attrSlug = str_replace('pa_', '', $attributeName);
+
+        $color = get_option("sega_attribute_{$attrSlug}_{$termSlug}_color");
+
+        if (!$color) {
+            return null;
+        }
+
+        return $color;
+    }
+
+    /**
+     * Get variation attributes with display configuration.
+     *
+     * Returns enriched attribute data including display type, colors, and options.
+     *
+     * @return array
+     */
+    public function variationAttributesWithDisplay(): array
+    {
+        $product = $this->getProduct();
+
+        if (!$product || !$product instanceof WC_Product_Variable) {
+            return [];
+        }
+
+        $variation_attributes = $product->get_variation_attributes();
+        $default_attributes = $product->get_default_attributes();
+        $result = [];
+
+        foreach ($variation_attributes as $attribute_name => $options) {
+            $sanitized_name = sanitize_title($attribute_name);
+            $display_type = $this->getAttributeDisplayType($attribute_name);
+
+            // Get attribute label
+            $label = wc_attribute_label($attribute_name);
+
+            // Build options array with additional data
+            $enriched_options = [];
+            foreach ($options as $option) {
+                $option_slug = $option;
+                $option_name = $option;
+
+                // Get term data if it's a taxonomy attribute
+                if (taxonomy_exists($attribute_name)) {
+                    $term = get_term_by('slug', $option, $attribute_name);
+                    if ($term) {
+                        $option_name = $term->name;
+                        $option_slug = $term->slug;
+                    }
+                }
+
+                $option_data = [
+                    'slug' => $option_slug,
+                    'name' => $option_name,
+                    'selected' => isset($default_attributes[$sanitized_name]) &&
+                                  $default_attributes[$sanitized_name] === $option_slug,
+                ];
+
+                // Add color data if display type is color
+                if ($display_type === 'color') {
+                    $color = $this->getTermSwatchColor($attribute_name, $option_slug);
+                    $option_data['color'] = $color ?: '#808080'; // Default gray if no color set
+                }
+
+                $enriched_options[] = $option_data;
+            }
+
+            $result[$attribute_name] = [
+                'name' => $attribute_name,
+                'label' => $label,
+                'display_type' => $display_type,
+                'sanitized_name' => $sanitized_name,
+                'options' => $enriched_options,
+            ];
+        }
+
+        return $result;
+    }
+
 }

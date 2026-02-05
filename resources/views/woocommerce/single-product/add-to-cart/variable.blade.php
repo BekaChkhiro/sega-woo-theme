@@ -28,6 +28,7 @@
   $defaultAttributes = $defaultAttributes ?? [];
   $variationsJson = $variationsJson ?? '[]';
   $priceRange = $priceRange ?? [];
+  $variationAttributesWithDisplay = $variationAttributesWithDisplay ?? [];
 @endphp
 
 @if ($purchasable && $inStock)
@@ -47,7 +48,61 @@
     @endphp
 
     {{-- Variation Attributes --}}
-    @if (!empty($variationAttributes))
+    @if (!empty($variationAttributesWithDisplay))
+      <div class="variations space-y-5">
+        @php
+          do_action('woocommerce_before_variations');
+        @endphp
+
+        @foreach ($variationAttributesWithDisplay as $attributeName => $attribute)
+          @if ($attribute['display_type'] === 'color')
+            {{-- Color Swatch --}}
+            <x-color-swatch
+              :attribute-name="$attributeName"
+              :attribute-label="$attribute['label']"
+              :sanitized-name="$attribute['sanitized_name']"
+              :options="$attribute['options']"
+              :product-id="$productId"
+            />
+          @elseif ($attribute['display_type'] === 'button')
+            {{-- Button Swatch --}}
+            <x-button-swatch
+              :attribute-name="$attributeName"
+              :attribute-label="$attribute['label']"
+              :sanitized-name="$attribute['sanitized_name']"
+              :options="$attribute['options']"
+              :product-id="$productId"
+            />
+          @else
+            {{-- Select Dropdown --}}
+            <x-select-swatch
+              :attribute-name="$attributeName"
+              :attribute-label="$attribute['label']"
+              :sanitized-name="$attribute['sanitized_name']"
+              :options="$attribute['options']"
+              :product-id="$productId"
+            />
+          @endif
+        @endforeach
+
+        @php
+          do_action('woocommerce_after_variations');
+        @endphp
+      </div>
+
+      {{-- Clear Selection Link --}}
+      <a
+        href="#"
+        class="reset_variations mt-3 inline-flex items-center gap-1 text-sm text-primary-600 transition-colors hover:text-primary-700"
+        style="display: none;"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        {{ __('Clear selection', 'sage') }}
+      </a>
+    @elseif (!empty($variationAttributes))
+      {{-- Fallback to original variationAttributes if variationAttributesWithDisplay is empty --}}
       <div class="variations space-y-5">
         @php
           do_action('woocommerce_before_variations');
@@ -533,6 +588,7 @@
        * Dims out options that won't result in a valid variation
        */
       function updateAvailableOptions(selected) {
+        // Handle regular select dropdowns
         variationSelects.forEach(select => {
           const currentAttr = select.dataset.attribute_name;
           const options = select.querySelectorAll('option');
@@ -544,21 +600,7 @@
             const testSelection = { ...selected, [currentAttr]: option.value };
 
             // Check if any variation matches this selection
-            const hasMatch = variations.some(variation => {
-              if (!variation.is_purchasable || !variation.is_in_stock) {
-                return false;
-              }
-
-              return Object.keys(testSelection).every(attrName => {
-                const testValue = testSelection[attrName];
-                if (!testValue) return true; // Empty selection matches all
-
-                const variationValue = variation.attributes[attrName];
-                if (!variationValue || variationValue === '') return true; // "Any" matches all
-
-                return testValue === variationValue;
-              });
-            });
+            const hasMatch = checkVariationMatch(testSelection);
 
             // Visual feedback for unavailable options
             option.disabled = !hasMatch;
@@ -567,6 +609,77 @@
             } else {
               option.classList.remove('text-secondary-400');
             }
+          });
+        });
+
+        // Handle color swatches
+        form.querySelectorAll('.color-swatch-option').forEach(swatch => {
+          const row = swatch.closest('.color-swatch-row');
+          const attrName = row?.dataset.attribute;
+          if (!attrName) return;
+
+          const currentAttr = 'attribute_' + attrName;
+          const testSelection = { ...selected, [currentAttr]: swatch.dataset.value };
+          const hasMatch = checkVariationMatch(testSelection);
+
+          // Update swatch availability visual state
+          const unavailableIndicator = swatch.querySelector('.unavailable-indicator');
+          if (!hasMatch) {
+            swatch.classList.add('opacity-40', 'cursor-not-allowed');
+            swatch.disabled = true;
+            if (unavailableIndicator) unavailableIndicator.classList.remove('hidden');
+            if (unavailableIndicator) unavailableIndicator.classList.add('flex');
+          } else {
+            swatch.classList.remove('opacity-40', 'cursor-not-allowed');
+            swatch.disabled = false;
+            if (unavailableIndicator) unavailableIndicator.classList.add('hidden');
+            if (unavailableIndicator) unavailableIndicator.classList.remove('flex');
+          }
+        });
+
+        // Handle button swatches
+        form.querySelectorAll('.button-swatch-option').forEach(swatch => {
+          const row = swatch.closest('.button-swatch-row');
+          const attrName = row?.dataset.attribute;
+          if (!attrName) return;
+
+          const currentAttr = 'attribute_' + attrName;
+          const testSelection = { ...selected, [currentAttr]: swatch.dataset.value };
+          const hasMatch = checkVariationMatch(testSelection);
+
+          // Update swatch availability visual state
+          const unavailableIndicator = swatch.querySelector('.unavailable-indicator');
+          if (!hasMatch) {
+            swatch.classList.add('opacity-40', 'cursor-not-allowed');
+            swatch.disabled = true;
+            if (unavailableIndicator) unavailableIndicator.classList.remove('hidden');
+            if (unavailableIndicator) unavailableIndicator.classList.add('flex');
+          } else {
+            swatch.classList.remove('opacity-40', 'cursor-not-allowed');
+            swatch.disabled = false;
+            if (unavailableIndicator) unavailableIndicator.classList.add('hidden');
+            if (unavailableIndicator) unavailableIndicator.classList.remove('flex');
+          }
+        });
+      }
+
+      /**
+       * Check if a selection matches any available variation
+       */
+      function checkVariationMatch(testSelection) {
+        return variations.some(variation => {
+          if (!variation.is_purchasable || !variation.is_in_stock) {
+            return false;
+          }
+
+          return Object.keys(testSelection).every(attrName => {
+            const testValue = testSelection[attrName];
+            if (!testValue) return true; // Empty selection matches all
+
+            const variationValue = variation.attributes[attrName];
+            if (!variationValue || variationValue === '') return true; // "Any" matches all
+
+            return testValue === variationValue;
           });
         });
       }
@@ -583,12 +696,40 @@
 
         updateVariationDisplay(null);
 
-        // Reset all options to enabled
+        // Reset all select options to enabled
         variationSelects.forEach(select => {
           select.querySelectorAll('option').forEach(option => {
             option.disabled = false;
             option.classList.remove('text-secondary-400');
           });
+        });
+
+        // Reset color swatches
+        form.querySelectorAll('.color-swatch-option').forEach(swatch => {
+          swatch.classList.remove('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500', 'opacity-40', 'cursor-not-allowed');
+          swatch.classList.add('border-secondary-200');
+          swatch.disabled = false;
+          const selectedIndicator = swatch.querySelector('.selected-indicator');
+          const unavailableIndicator = swatch.querySelector('.unavailable-indicator');
+          if (selectedIndicator) selectedIndicator.classList.remove('opacity-100');
+          if (selectedIndicator) selectedIndicator.classList.add('opacity-0');
+          if (unavailableIndicator) unavailableIndicator.classList.add('hidden');
+          if (unavailableIndicator) unavailableIndicator.classList.remove('flex');
+        });
+
+        // Reset color swatch labels
+        form.querySelectorAll('.color-swatch-row .selected-value-label').forEach(label => {
+          label.textContent = '';
+        });
+
+        // Reset button swatches
+        form.querySelectorAll('.button-swatch-option').forEach(swatch => {
+          swatch.classList.remove('border-primary-500', 'bg-primary-50', 'text-primary-700', 'opacity-40', 'cursor-not-allowed');
+          swatch.classList.add('border-secondary-200', 'bg-white', 'text-secondary-700');
+          swatch.disabled = false;
+          const unavailableIndicator = swatch.querySelector('.unavailable-indicator');
+          if (unavailableIndicator) unavailableIndicator.classList.add('hidden');
+          if (unavailableIndicator) unavailableIndicator.classList.remove('flex');
         });
 
         if (resetLink) resetLink.style.display = 'none';
@@ -747,6 +888,82 @@
         select.addEventListener('change', handleAttributeChange);
       });
 
+      // Color swatch click handlers
+      form.querySelectorAll('.color-swatch-option').forEach(swatch => {
+        swatch.addEventListener('click', function() {
+          if (this.disabled) return;
+
+          const value = this.dataset.value;
+          const row = this.closest('.color-swatch-row');
+          const attrName = row?.dataset.attribute;
+          const select = row?.querySelector('.variation-select');
+          const label = row?.querySelector('.selected-value-label');
+
+          if (!select || !attrName) return;
+
+          // Update hidden select
+          select.value = value;
+
+          // Update visual state - remove selected state from siblings
+          row.querySelectorAll('.color-swatch-option').forEach(s => {
+            s.classList.remove('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500');
+            s.classList.add('border-secondary-200');
+            const indicator = s.querySelector('.selected-indicator');
+            if (indicator) {
+              indicator.classList.remove('opacity-100');
+              indicator.classList.add('opacity-0');
+            }
+          });
+
+          // Add selected state to clicked swatch
+          this.classList.add('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500');
+          this.classList.remove('border-secondary-200');
+          const indicator = this.querySelector('.selected-indicator');
+          if (indicator) {
+            indicator.classList.add('opacity-100');
+            indicator.classList.remove('opacity-0');
+          }
+
+          // Update the selected value label
+          if (label) {
+            label.textContent = '- ' + this.title;
+          }
+
+          // Trigger variation change
+          handleAttributeChange();
+        });
+      });
+
+      // Button swatch click handlers
+      form.querySelectorAll('.button-swatch-option').forEach(swatch => {
+        swatch.addEventListener('click', function() {
+          if (this.disabled) return;
+
+          const value = this.dataset.value;
+          const row = this.closest('.button-swatch-row');
+          const attrName = row?.dataset.attribute;
+          const select = row?.querySelector('.variation-select');
+
+          if (!select || !attrName) return;
+
+          // Update hidden select
+          select.value = value;
+
+          // Update visual state - remove selected state from siblings
+          row.querySelectorAll('.button-swatch-option').forEach(s => {
+            s.classList.remove('border-primary-500', 'bg-primary-50', 'text-primary-700');
+            s.classList.add('border-secondary-200', 'bg-white', 'text-secondary-700');
+          });
+
+          // Add selected state to clicked swatch
+          this.classList.add('border-primary-500', 'bg-primary-50', 'text-primary-700');
+          this.classList.remove('border-secondary-200', 'bg-white', 'text-secondary-700');
+
+          // Trigger variation change
+          handleAttributeChange();
+        });
+      });
+
       // Reset link
       if (resetLink) {
         resetLink.addEventListener('click', resetVariations);
@@ -764,6 +981,44 @@
 
       // Initialize
       updateQuantityButtons();
+
+      // Initialize swatch states from selected values
+      function initializeSwatchStates() {
+        // Initialize color swatches
+        form.querySelectorAll('.color-swatch-row').forEach(row => {
+          const select = row.querySelector('.variation-select');
+          const label = row.querySelector('.selected-value-label');
+          if (!select || !select.value) return;
+
+          const selectedSwatch = row.querySelector(`.color-swatch-option[data-value="${select.value}"]`);
+          if (selectedSwatch) {
+            selectedSwatch.classList.add('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500');
+            selectedSwatch.classList.remove('border-secondary-200');
+            const indicator = selectedSwatch.querySelector('.selected-indicator');
+            if (indicator) {
+              indicator.classList.add('opacity-100');
+              indicator.classList.remove('opacity-0');
+            }
+            if (label) {
+              label.textContent = '- ' + selectedSwatch.title;
+            }
+          }
+        });
+
+        // Initialize button swatches
+        form.querySelectorAll('.button-swatch-row').forEach(row => {
+          const select = row.querySelector('.variation-select');
+          if (!select || !select.value) return;
+
+          const selectedSwatch = row.querySelector(`.button-swatch-option[data-value="${select.value}"]`);
+          if (selectedSwatch) {
+            selectedSwatch.classList.add('border-primary-500', 'bg-primary-50', 'text-primary-700');
+            selectedSwatch.classList.remove('border-secondary-200', 'bg-white', 'text-secondary-700');
+          }
+        });
+      }
+
+      initializeSwatchStates();
 
       // If there are default selections, trigger change
       const hasDefaults = Array.from(variationSelects).some(select => select.value !== '');

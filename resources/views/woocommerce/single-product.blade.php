@@ -160,6 +160,7 @@
                 'defaultAttributes' => $defaultAttributes(),
                 'variationsJson' => $variationsJson(),
                 'priceRange' => $priceRange(),
+                'variationAttributesWithDisplay' => $variationAttributesWithDisplay(),
               ])
             @elseif ($isExternalProduct)
               {{-- External/Affiliate Product --}}
