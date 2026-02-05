@@ -3,8 +3,8 @@
 > **Project Type:** Full-Stack WordPress/WooCommerce Theme
 > **Framework:** Sage 10 (Roots)
 > **Created:** 2026-02-02
-> **Last Updated:** 2026-02-04
-> **Current Focus:** T4.11 - Style cart with Tailwind
+> **Last Updated:** 2026-02-05
+> **Current Focus:** T11.1 - Audit current performance (Lighthouse, GTmetrix)
 > **Status:** In Progress
 > **Plugin Version:** 1.1.1
 
@@ -118,9 +118,9 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 | T4.8 | Create form-shipping.blade.php fields | Medium | DONE ✅ | T4.6 |
 | T4.9 | Create review-order.blade.php | Medium | DONE ✅ | T4.6 |
 | T4.10 | Create thankyou.blade.php template | Medium | DONE ✅ | T4.6 |
-| T4.11 | Style cart with Tailwind | Medium | TODO | T4.3 |
-| T4.12 | Style checkout with Tailwind | Medium | TODO | T4.6 |
-| T4.13 | Create Button Blade Component | Low | TODO | T1.7 |
+| T4.11 | Style cart with Tailwind | Medium | DONE ✅ | T4.3 |
+| T4.12 | Style checkout with Tailwind | Medium | DONE ✅ | T4.6 |
+| T4.13 | Create Button Blade Component | Low | DONE ✅ | T1.7 |
 
 ---
 
@@ -129,13 +129,13 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T5.1 | Create my-account.blade.php template | Medium | TODO | T1.7 |
-| T5.2 | Create form-login.blade.php template | Medium | TODO | T5.1 |
-| T5.3 | Create orders.blade.php template | Medium | TODO | T5.1 |
-| T5.4 | Create view-order.blade.php template | Medium | TODO | T5.3 |
-| T5.5 | Create account navigation component | Medium | TODO | T5.1 |
-| T5.6 | Style account pages with Tailwind | Medium | TODO | T5.1 |
-| T5.7 | Implement account dashboard widgets | Medium | TODO | T5.1 |
+| T5.1 | Create my-account.blade.php template | Medium | DONE ✅ | T1.7 |
+| T5.2 | Create form-login.blade.php template | Medium | DONE ✅ | T5.1 |
+| T5.3 | Create orders.blade.php template | Medium | DONE ✅ | T5.1 |
+| T5.4 | Create view-order.blade.php template | Medium | DONE ✅ | T5.3 |
+| T5.5 | Create account navigation component | Medium | DONE ✅ | T5.1 |
+| T5.6 | Style account pages with Tailwind | Medium | DONE ✅ | T5.1 |
+| T5.7 | Implement account dashboard widgets | Medium | DONE ✅ | T5.1 |
 
 ---
 
@@ -144,16 +144,16 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T6.1 | Remove default WooCommerce styles | Low | TODO | T2.2 |
-| T6.2 | Implement conditional script loading | Medium | TODO | T4.2 |
-| T6.3 | Add lazy loading for images | Low | TODO | T2.3 |
-| T6.4 | Implement transient caching for queries | Medium | TODO | T2.1 |
-| T6.5 | Optimize cart fragments | Medium | TODO | T4.1 |
-| T6.6 | Configure Vite production build | Medium | TODO | T1.4 |
-| T6.7 | Run wp acorn view:cache | Low | TODO | T6.6 |
-| T6.8 | Customize WooCommerce hooks in app/filters.php | Medium | TODO | T1.6 |
-| T6.9 | Add custom sale badge with percentage | Low | TODO | T6.8 |
-| T6.10 | Customize checkout fields | Medium | TODO | T4.6 |
+| T6.1 | Remove default WooCommerce styles | Low | DONE ✅ | T2.2 |
+| T6.2 | Implement conditional script loading | Medium | DONE ✅ | T4.2 |
+| T6.3 | Add lazy loading for images | Low | DONE ✅ | T2.3 |
+| T6.4 | Implement transient caching for queries | Medium | DONE ✅ | T2.1 |
+| T6.5 | Optimize cart fragments | Medium | DONE ✅ | T4.1 |
+| T6.6 | Configure Vite production build | Medium | DONE ✅ | T1.4 |
+| T6.7 | Run wp acorn view:cache | Low | DONE ✅ | T6.6 |
+| T6.8 | Customize WooCommerce hooks in app/filters.php | Medium | DONE ✅ | T1.6 |
+| T6.9 | Add custom sale badge with percentage | Low | DONE ✅ | T6.8 |
+| T6.10 | Customize checkout fields | Medium | DONE ✅ | T4.6 |
 
 ---
 
@@ -162,12 +162,79 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T7.1 | Update vite.config.js for production | Low | TODO | T6.6 |
-| T7.2 | Build production assets (npm run build) | Low | TODO | T7.1 |
-| T7.3 | Upload theme to Hostinger | Medium | TODO | T7.2 |
-| T7.4 | Run wp acorn optimize on production | Low | TODO | T7.3 |
-| T7.5 | Test all WooCommerce functionality | High | TODO | T7.4 |
-| T7.6 | Configure SSL and permalinks | Low | TODO | T7.3 |
+| T7.1 | Update vite.config.js for production | Low | DONE ✅ | T6.6 |
+| T7.2 | Build production assets (npm run build) | Low | DONE ✅ | T7.1 |
+| T7.3 | Upload theme to Hostinger | Medium | DONE ✅ | T7.2 |
+| T7.4 | Run wp acorn optimize on production | Low | DONE ✅ | T7.3 |
+| T7.5 | Test all WooCommerce functionality | High | DONE ✅ | T7.4 |
+| T7.6 | Configure SSL and permalinks | Low | DONE ✅ | T7.3 |
+
+---
+
+### Phase 8: Search Popup (ძიების პოპაპი)
+> **Goal:** Implement AJAX search with popup overlay showing categories and products
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T8.1 | Create search-popup.blade.php component | Medium | DONE ✅ | T1.8 |
+| T8.2 | Add search icon trigger in header | Low | DONE ✅ | T8.1 |
+| T8.3 | Implement AJAX product search with WP REST API | High | DONE ✅ | T8.1 |
+| T8.4 | Create search results display (categories + products) | High | DONE ✅ | T8.3 |
+| T8.5 | Add popup animation (center screen overlay) | Medium | DONE ✅ | T8.1 |
+| T8.6 | Implement keyboard navigation (ESC to close) | Low | DONE ✅ | T8.5 |
+| T8.7 | Style search popup with Tailwind | Medium | DONE ✅ | T8.4 |
+
+---
+
+### Phase 9: Homepage Design (მთავარი გვერდი)
+> **Goal:** Create homepage with mega-menu (20%) + slider (80%) hero section and product carousels
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T9.1 | Create front-page.blade.php template | High | DONE ✅ | T1.7 |
+| T9.2 | Create mega-menu component (20% width) | High | DONE ✅ | T9.1 |
+| T9.3 | Integrate/Create slider component (80% width) | High | DONE ✅ | T9.1 |
+| T9.4 | Create Hero section layout (mega-menu + slider) | Medium | DONE ✅ | T9.2, T9.3 |
+| T9.5 | Create ProductCarousel Blade Component | High | DONE ✅ | T2.3 |
+| T9.6 | Create "New Products" carousel section | Medium | DONE ✅ | T9.5 |
+| T9.7 | Create "On Sale" products carousel section | Medium | DONE ✅ | T9.5 |
+| T9.8 | Create "Bestsellers" carousel section | Medium | DONE ✅ | T9.5 |
+| T9.9 | Create Homepage View Composer for data | High | DONE ✅ | T9.1 |
+| T9.10 | Style homepage sections with Tailwind | Medium | DONE ✅ | T9.8 |
+
+---
+
+### Phase 10: Cart & Checkout Redesign (კალათა და ჩექაუთი)
+> **Goal:** Modernize cart and checkout pages with improved UX and design
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T10.1 | Redesign cart.blade.php layout | Medium | DONE ✅ | T4.3 |
+| T10.2 | Add cart summary sidebar | Medium | DONE ✅ | T10.1 |
+| T10.3 | Improve quantity controls design | Low | DONE ✅ | T10.1 |
+| T10.4 | Redesign checkout form-checkout.blade.php | High | DONE ✅ | T4.6 |
+| T10.5 | Create two-column checkout layout | Medium | DONE ✅ | T10.4 |
+| T10.6 | Improve form field styling | Medium | DONE ✅ | T10.4 |
+| T10.7 | Add order review section improvements | Medium | DONE ✅ | T10.4 |
+| T10.8 | Style cart & checkout with modern Tailwind | Medium | DONE ✅ | T10.7 |
+
+---
+
+### Phase 11: Performance Optimization (პერფორმანსი)
+> **Goal:** Maximize site speed and optimize for Core Web Vitals
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T11.1 | Audit current performance (Lighthouse, GTmetrix) | Medium | TODO | - |
+| T11.2 | Implement critical CSS inlining | High | TODO | T11.1 |
+| T11.3 | Optimize image loading (WebP, lazy load, srcset) | Medium | TODO | T11.1 |
+| T11.4 | Minimize JavaScript bundle size | Medium | TODO | T11.1 |
+| T11.5 | Add preconnect/prefetch for external resources | Low | TODO | T11.1 |
+| T11.6 | Implement object caching recommendations | Medium | TODO | T11.1 |
+| T11.7 | Optimize database queries in View Composers | High | TODO | T11.1 |
+| T11.8 | Configure CDN recommendations | Medium | TODO | T11.1 |
+| T11.9 | Add service worker for caching (optional) | High | TODO | T11.8 |
+| T11.10 | Final performance audit and report | Medium | TODO | T11.9 |
 
 ---
 
@@ -261,11 +328,15 @@ sega-woo-theme/
 | Phase 1: Foundation | 11 | 11 | 100% |
 | Phase 2: Shop/Archive | 12 | 12 | 100% |
 | Phase 3: Single Product | 12 | 12 | 100% |
-| Phase 4: Cart & Checkout | 13 | 10 | 77% |
-| Phase 5: User Account | 7 | 0 | 0% |
-| Phase 6: Performance | 10 | 0 | 0% |
-| Phase 7: Deployment | 6 | 0 | 0% |
-| **TOTAL** | **71** | **45** | **63%** |
+| Phase 4: Cart & Checkout | 13 | 13 | 100% |
+| Phase 5: User Account | 7 | 7 | 100% |
+| Phase 6: Performance | 10 | 10 | 100% |
+| Phase 7: Deployment | 6 | 6 | 100% |
+| Phase 8: Search Popup | 7 | 7 | 100% |
+| Phase 9: Homepage | 10 | 10 | 100% |
+| Phase 10: Cart/Checkout Redesign | 8 | 8 | 100% |
+| Phase 11: Performance Optimization | 10 | 0 | 0% |
+| **TOTAL** | **106** | **96** | **91%** |
 
 ---
 

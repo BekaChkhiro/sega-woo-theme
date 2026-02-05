@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-40 border-b border-secondary-100 bg-white/95 backdrop-blur-sm">
+<header x-data class="sticky top-0 z-40 border-b border-secondary-100 bg-white/95 backdrop-blur-sm">
   <div class="shop-container">
     <div class="flex h-16 items-center justify-between gap-4 lg:h-20">
       {{-- Logo / Site Name --}}
@@ -35,8 +35,10 @@
         {{-- Search Toggle --}}
         <button
           type="button"
+          @click="$dispatch('open-search-popup')"
           class="flex h-10 w-10 items-center justify-center rounded-full text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900"
           aria-label="{{ __('Search', 'sage') }}"
+          aria-haspopup="dialog"
         >
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

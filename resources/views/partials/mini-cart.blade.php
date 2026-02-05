@@ -98,7 +98,7 @@
                             {{-- Product Thumbnail --}}
                             <a href="{{ $product->get_permalink() }}" class="flex-shrink-0">
                                 <div class="h-16 w-16 overflow-hidden rounded-md bg-secondary-100">
-                                    {!! $product->get_image('woocommerce_gallery_thumbnail') !!}
+                                    {!! $product->get_image('woocommerce_gallery_thumbnail', ['loading' => 'lazy', 'decoding' => 'async']) !!}
                                 </div>
                             </a>
 

@@ -4,6 +4,14 @@ import.meta.glob([
 ]);
 
 /**
+ * Swiper Slider - Core styles
+ */
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
+
+/**
  * Alpine.js - Lightweight JavaScript framework for interactive components
  */
 import Alpine from 'alpinejs';
@@ -14,12 +22,18 @@ import collapse from '@alpinejs/collapse';
  */
 import miniCart from './components/mini-cart';
 import toast from './components/toast';
+import searchPopup from './components/search-popup';
+import heroSlider from './components/hero-slider';
+import productCarousel from './components/product-carousel';
 
 Alpine.plugin(collapse);
 
 // Register components
 Alpine.data('miniCart', miniCart);
 Alpine.data('toast', toast);
+Alpine.data('searchPopup', searchPopup);
+Alpine.data('heroSlider', heroSlider);
+Alpine.data('productCarousel', productCarousel);
 
 window.Alpine = Alpine;
 Alpine.start();

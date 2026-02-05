@@ -18,6 +18,36 @@ class Shop extends Composer
     ];
 
     /**
+     * Cache expiration time in seconds (1 hour).
+     */
+    protected const CACHE_EXPIRATION = HOUR_IN_SECONDS;
+
+    /**
+     * Cache key prefix.
+     */
+    protected const CACHE_PREFIX = 'sage_shop_';
+
+    /**
+     * Clear all shop-related transient caches.
+     *
+     * Should be called when products, categories, or prices change.
+     */
+    public static function clearCache(): void
+    {
+        delete_transient(self::CACHE_PREFIX . 'categories');
+        delete_transient(self::CACHE_PREFIX . 'price_range');
+        delete_transient(self::CACHE_PREFIX . 'total_products');
+    }
+
+    /**
+     * Clear specific cache by type.
+     */
+    public static function clearCacheByType(string $type): void
+    {
+        delete_transient(self::CACHE_PREFIX . $type);
+    }
+
+    /**
      * Get the shop page title.
      */
     public function shopTitle(): string
@@ -276,30 +306,81 @@ class Shop extends Composer
 
     /**
      * Get product categories for filtering.
+     *
+     * Uses transient caching to avoid repeated database queries.
+     * Category structure is cached; active states and URLs are computed fresh.
      */
     public function productCategories(): array
     {
-        $categories = get_terms([
+        $cache_key = self::CACHE_PREFIX . 'categories';
+        $cached_categories = get_transient($cache_key);
+
+        if ($cached_categories === false) {
+            $categories = get_terms([
+                'taxonomy'   => 'product_cat',
+                'hide_empty' => true,
+                'parent'     => 0,
+            ]);
+
+            if (is_wp_error($categories)) {
+                return [];
+            }
+
+            // Cache the basic category structure without dynamic values
+            $cached_categories = array_map(function ($category) {
+                return [
+                    'id'       => $category->term_id,
+                    'name'     => $category->name,
+                    'slug'     => $category->slug,
+                    'count'    => $category->count,
+                    'children' => $this->getCachedChildCategories($category->term_id),
+                ];
+            }, $categories);
+
+            set_transient($cache_key, $cached_categories, self::CACHE_EXPIRATION);
+        }
+
+        // Add dynamic values (URLs and active states) that can't be cached
+        return array_map(function ($category) {
+            $category['url'] = $this->getCategoryFilterUrl($category['slug']);
+            $category['active'] = $this->isCategoryActive($category['slug']);
+
+            // Add dynamic values to children
+            if (! empty($category['children'])) {
+                $category['children'] = array_map(function ($child) {
+                    $child['url'] = $this->getCategoryFilterUrl($child['slug']);
+                    $child['active'] = $this->isCategoryActive($child['slug']);
+                    return $child;
+                }, $category['children']);
+            }
+
+            return $category;
+        }, $cached_categories);
+    }
+
+    /**
+     * Get child categories for caching (without dynamic values).
+     */
+    protected function getCachedChildCategories(int $parent_id): array
+    {
+        $children = get_terms([
             'taxonomy'   => 'product_cat',
             'hide_empty' => true,
-            'parent'     => 0,
+            'parent'     => $parent_id,
         ]);
 
-        if (is_wp_error($categories)) {
+        if (is_wp_error($children) || empty($children)) {
             return [];
         }
 
-        return array_map(function ($category) {
+        return array_map(function ($child) {
             return [
-                'id'          => $category->term_id,
-                'name'        => $category->name,
-                'slug'        => $category->slug,
-                'count'       => $category->count,
-                'url'         => $this->getCategoryFilterUrl($category->slug),
-                'active'      => $this->isCategoryActive($category->slug),
-                'children'    => $this->getChildCategories($category->term_id),
+                'id'    => $child->term_id,
+                'name'  => $child->name,
+                'slug'  => $child->slug,
+                'count' => $child->count,
             ];
-        }, $categories);
+        }, $children);
     }
 
     /**
@@ -446,9 +527,18 @@ class Shop extends Composer
 
     /**
      * Get the price range for all products.
+     *
+     * Uses transient caching to avoid expensive database queries.
      */
     public function priceRange(): array
     {
+        $cache_key = self::CACHE_PREFIX . 'price_range';
+        $cached_range = get_transient($cache_key);
+
+        if ($cached_range !== false) {
+            return $cached_range;
+        }
+
         global $wpdb;
 
         $min = $wpdb->get_var("
@@ -464,10 +554,14 @@ class Shop extends Composer
             WHERE meta_key = '_price'
         ");
 
-        return [
+        $range = [
             'min' => (float) ($min ?: 0),
             'max' => (float) ($max ?: 0),
         ];
+
+        set_transient($cache_key, $range, self::CACHE_EXPIRATION);
+
+        return $range;
     }
 
     /**
@@ -640,11 +734,24 @@ class Shop extends Composer
 
     /**
      * Get total count of all products.
+     *
+     * Uses transient caching to avoid repeated queries.
      */
     public function totalAllProducts(): int
     {
+        $cache_key = self::CACHE_PREFIX . 'total_products';
+        $cached_count = get_transient($cache_key);
+
+        if ($cached_count !== false) {
+            return (int) $cached_count;
+        }
+
         $count = wp_count_posts('product');
-        return (int) $count->publish;
+        $total = (int) $count->publish;
+
+        set_transient($cache_key, $total, self::CACHE_EXPIRATION);
+
+        return $total;
     }
 
     /**
@@ -664,4 +771,5 @@ class Shop extends Composer
 
         return false;
     }
+
 }

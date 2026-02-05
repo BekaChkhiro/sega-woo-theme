@@ -7,7 +7,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp public/build/.vite/manifest.json public/build/manifest.json",
+    "build:preview": "vite build && vite preview",
+    "preview": "vite preview",
     "translate": "npm run translate:pot && npm run translate:update",
     "translate:pot": "wp i18n make-pot . ./resources/lang/sage.pot --include=\"theme.json,patterns,app,resources\"",
     "translate:update": "for file in ./resources/lang/*.po; do wp i18n update-po ./resources/lang/sage.pot $file; done",
@@ -24,6 +26,7 @@
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.15.6",
-    "alpinejs": "^3.15.6"
+    "alpinejs": "^3.15.6",
+    "swiper": "^12.1.0"
   }
 }

@@ -16,6 +16,65 @@ add_filter('excerpt_more', function () {
 });
 
 /**
+ * Image Performance Optimizations
+ *
+ * Add lazy loading and async decoding to images for better performance.
+ */
+
+/**
+ * Add lazy loading and decoding attributes to WooCommerce product images.
+ *
+ * @param string $html Image HTML.
+ * @param int    $attachment_id Attachment ID.
+ * @param string $size Image size.
+ * @param bool   $icon Whether the image should be an icon.
+ * @param array  $attr Image attributes.
+ * @return string Modified image HTML.
+ */
+add_filter('wp_get_attachment_image', function ($html, $attachment_id, $size, $icon, $attr) {
+    // Skip if already has loading attribute (respect explicit settings)
+    if (strpos($html, 'loading=') !== false) {
+        // Still add decoding if not present
+        if (strpos($html, 'decoding=') === false) {
+            $html = str_replace('<img ', '<img decoding="async" ', $html);
+        }
+        return $html;
+    }
+
+    // Add lazy loading and async decoding
+    $html = str_replace('<img ', '<img loading="lazy" decoding="async" ', $html);
+
+    return $html;
+}, 10, 5);
+
+/**
+ * Add fetchpriority="high" to above-the-fold images (LCP optimization).
+ *
+ * This filter adds fetchpriority="high" to the main product image on single product pages
+ * to improve Largest Contentful Paint (LCP) performance.
+ *
+ * @param array $attr Image attributes.
+ * @param \WP_Post $attachment Attachment post object.
+ * @param string $size Image size.
+ * @return array Modified attributes.
+ */
+add_filter('wp_get_attachment_image_attributes', function ($attr, $attachment, $size) {
+    // On single product page, prioritize the main product image
+    if (function_exists('is_product') && is_product()) {
+        global $product;
+
+        if ($product && $attachment->ID === $product->get_image_id()) {
+            // Main product image should NOT be lazy loaded - it's above the fold
+            $attr['loading'] = 'eager';
+            $attr['fetchpriority'] = 'high';
+            $attr['decoding'] = 'async';
+        }
+    }
+
+    return $attr;
+}, 10, 3);
+
+/**
  * Load custom Blade templates for WooCommerce pages (cart, checkout, my account).
  *
  * These pages use shortcodes on regular WordPress pages, so we need to intercept
@@ -194,9 +253,196 @@ add_action('woocommerce_product_query', function ($query) {
 });
 
 /**
- * WooCommerce Cart Fragments
+ * WooCommerce Cart Fragments Optimization
  *
- * Update the mini-cart via AJAX when items are added/removed from cart.
+ * Optimized cart fragments with:
+ * - Reduced payload size (only send what's needed)
+ * - Session-based caching to avoid regenerating HTML
+ * - Minimal DOM updates for better performance
+ */
+
+/**
+ * Get cached mini-cart HTML from session or generate fresh.
+ *
+ * @param string $type The fragment type (items, footer).
+ * @return string|null Cached HTML or null if not cached.
+ */
+function get_cached_mini_cart_fragment($type)
+{
+    if (! WC()->session) {
+        return null;
+    }
+
+    $cart_hash = WC()->cart->get_cart_hash();
+    $cache_key = 'mini_cart_' . $type . '_' . $cart_hash;
+
+    return WC()->session->get($cache_key);
+}
+
+/**
+ * Cache mini-cart HTML in session.
+ *
+ * @param string $type The fragment type.
+ * @param string $html The HTML to cache.
+ */
+function set_cached_mini_cart_fragment($type, $html)
+{
+    if (! WC()->session) {
+        return;
+    }
+
+    $cart_hash = WC()->cart->get_cart_hash();
+    $cache_key = 'mini_cart_' . $type . '_' . $cart_hash;
+
+    WC()->session->set($cache_key, $html);
+}
+
+/**
+ * Clear mini-cart cache when cart changes.
+ *
+ * Session data is keyed by cart hash, so old cached fragments
+ * become unreachable when the cart changes. This function explicitly
+ * clears the previous cache to prevent session bloat.
+ */
+add_action('woocommerce_cart_updated', function () {
+    if (! WC()->session) {
+        return;
+    }
+
+    // Get previous cart hash from session
+    $prev_hash = WC()->session->get('prev_cart_hash');
+    $curr_hash = WC()->cart->get_cart_hash();
+
+    // If hash changed, clear old cached fragments
+    if ($prev_hash && $prev_hash !== $curr_hash) {
+        WC()->session->set('mini_cart_items_' . $prev_hash, null);
+        WC()->session->set('mini_cart_footer_' . $prev_hash, null);
+    }
+
+    // Store current hash for next comparison
+    WC()->session->set('prev_cart_hash', $curr_hash);
+}, 10);
+
+/**
+ * Add cart hash header to AJAX responses for client-side caching decisions.
+ *
+ * This allows JavaScript to detect if the cart has changed without
+ * having to parse the full response.
+ */
+add_action('woocommerce_add_to_cart_fragments', function ($fragments) {
+    if (function_exists('WC') && WC()->cart) {
+        // Add cart hash as a data attribute for JavaScript access
+        $fragments['cart_hash'] = WC()->cart->get_cart_hash();
+    }
+    return $fragments;
+}, 999);
+
+/**
+ * Generate mini-cart items HTML (optimized version).
+ *
+ * @return string
+ */
+function generate_mini_cart_items_html()
+{
+    $cart = WC()->cart;
+
+    if ($cart->is_empty()) {
+        return '<div class="mini-cart-items max-h-80 overflow-y-auto">
+            <div class="flex flex-col items-center justify-center py-8 text-center">
+                <svg class="mb-3 h-12 w-12 text-secondary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+                <p class="text-sm text-secondary-500">' . esc_html__('Your cart is empty', 'sage') . '</p>
+                <a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="mt-3 text-sm font-medium text-primary-600 hover:text-primary-700">'
+                    . esc_html__('Continue Shopping', 'sage') . ' &rarr;
+                </a>
+            </div>
+        </div>';
+    }
+
+    $items_html = '<ul class="mini-cart-items divide-y divide-secondary-100 px-4 max-h-80 overflow-y-auto">';
+
+    foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+        $product = $cart_item['data'];
+        if (! $product || ! $product->exists()) {
+            continue;
+        }
+
+        $items_html .= sprintf(
+            '<li class="mini-cart-item flex gap-3 py-3" data-key="%s">
+                <a href="%s" class="flex-shrink-0">
+                    <div class="h-16 w-16 overflow-hidden rounded-md bg-secondary-100">%s</div>
+                </a>
+                <div class="flex flex-1 flex-col">
+                    <div class="flex justify-between">
+                        <a href="%s" class="text-sm font-medium text-secondary-900 hover:text-primary-600 line-clamp-2">%s</a>
+                        <button type="button" class="remove-from-cart ml-2 flex-shrink-0 text-secondary-400 hover:text-red-500 transition-colors" data-cart-item-key="%s" aria-label="%s">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-1 flex items-center justify-between text-sm">
+                        <span class="text-secondary-500">%s %s</span>
+                        <span class="font-medium text-secondary-900">%s</span>
+                    </div>
+                </div>
+            </li>',
+            esc_attr($cart_item_key),
+            esc_url($product->get_permalink()),
+            $product->get_image('woocommerce_gallery_thumbnail', ['loading' => 'lazy', 'decoding' => 'async']),
+            esc_url($product->get_permalink()),
+            esc_html($product->get_name()),
+            esc_attr($cart_item_key),
+            esc_attr__('Remove item', 'sage'),
+            esc_html__('Qty:', 'sage'),
+            esc_html($cart_item['quantity']),
+            $cart->get_product_subtotal($product, $cart_item['quantity'])
+        );
+    }
+
+    $items_html .= '</ul>';
+
+    return $items_html;
+}
+
+/**
+ * Generate mini-cart footer HTML (optimized version).
+ *
+ * @param string $subtotal The cart subtotal.
+ * @return string
+ */
+function generate_mini_cart_footer_html($subtotal)
+{
+    $is_empty = WC()->cart->is_empty();
+    $cart_url = wc_get_cart_url();
+    $checkout_url = wc_get_checkout_url();
+
+    return sprintf(
+        '<div class="mini-cart-footer%s">
+            <div class="border-t border-secondary-200 bg-secondary-50 px-4 py-4">
+                <div class="mb-4 flex items-center justify-between">
+                    <span class="text-sm font-medium text-secondary-900">%s</span>
+                    <span class="mini-cart-subtotal text-base font-semibold text-secondary-900">%s</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="%s" class="inline-flex items-center justify-center rounded-md border border-secondary-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">%s</a>
+                    <a href="%s" class="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">%s</a>
+                </div>
+            </div>
+        </div>',
+        $is_empty ? ' hidden' : '',
+        esc_html__('Subtotal', 'sage'),
+        $subtotal,
+        esc_url($cart_url),
+        esc_html__('View Cart', 'sage'),
+        esc_url($checkout_url),
+        esc_html__('Checkout', 'sage')
+    );
+}
+
+/**
+ * Optimized cart fragments filter.
  */
 add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
     if (! function_exists('WC') || ! WC()->cart) {
@@ -206,135 +452,46 @@ add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
     $item_count = WC()->cart->get_cart_contents_count();
     $subtotal = WC()->cart->get_cart_subtotal();
 
-    // Update the cart count badge
+    // Fragment 1: Cart count badge (always fresh - tiny payload)
     $fragments['.mini-cart-count'] = sprintf(
         '<span class="mini-cart-count absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-600 text-xs font-medium text-white transition-transform %s">%s</span>',
         $item_count === 0 ? 'scale-0' : 'scale-100',
         $item_count > 99 ? '99+' : $item_count
     );
 
-    // Update the subtotal
+    // Fragment 2: Cart count text in header (always fresh - tiny payload)
+    $fragments['.mini-cart-count-text'] = sprintf(
+        '<span class="mini-cart-count-text">%s</span>',
+        $item_count
+    );
+
+    // Fragment 3: Subtotal (always fresh - tiny payload)
     $fragments['.mini-cart-subtotal'] = sprintf(
         '<span class="mini-cart-subtotal text-base font-semibold text-secondary-900">%s</span>',
         $subtotal
     );
 
-    // Update the mini cart items list
-    ob_start();
-    if (WC()->cart->is_empty()) {
-        ?>
-        <div class="mini-cart-items max-h-80 overflow-y-auto">
-            <div class="flex flex-col items-center justify-center py-8 text-center">
-                <svg class="mb-3 h-12 w-12 text-secondary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                </svg>
-                <p class="text-sm text-secondary-500"><?php esc_html_e('Your cart is empty', 'sage'); ?></p>
-                <a
-                    href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"
-                    class="mt-3 text-sm font-medium text-primary-600 hover:text-primary-700"
-                >
-                    <?php esc_html_e('Continue Shopping', 'sage'); ?> &rarr;
-                </a>
-            </div>
-        </div>
-        <?php
+    // Fragment 4: Mini-cart items (use cache if available)
+    $cached_items = get_cached_mini_cart_fragment('items');
+    if ($cached_items) {
+        $fragments['.mini-cart-items'] = $cached_items;
     } else {
-        ?>
-        <ul class="mini-cart-items divide-y divide-secondary-100 px-4 max-h-80 overflow-y-auto">
-            <?php foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) :
-                $product = $cart_item['data'];
-                if (! $product || ! $product->exists()) {
-                    continue;
-                }
-                ?>
-                <li class="mini-cart-item flex gap-3 py-3" data-key="<?php echo esc_attr($cart_item_key); ?>">
-                    <a href="<?php echo esc_url($product->get_permalink()); ?>" class="flex-shrink-0">
-                        <div class="h-16 w-16 overflow-hidden rounded-md bg-secondary-100">
-                            <?php echo $product->get_image('woocommerce_gallery_thumbnail'); ?>
-                        </div>
-                    </a>
-                    <div class="flex flex-1 flex-col">
-                        <div class="flex justify-between">
-                            <a
-                                href="<?php echo esc_url($product->get_permalink()); ?>"
-                                class="text-sm font-medium text-secondary-900 hover:text-primary-600 line-clamp-2"
-                            >
-                                <?php echo esc_html($product->get_name()); ?>
-                            </a>
-                            <button
-                                type="button"
-                                class="remove-from-cart ml-2 flex-shrink-0 text-secondary-400 hover:text-red-500 transition-colors"
-                                data-cart-item-key="<?php echo esc_attr($cart_item_key); ?>"
-                                aria-label="<?php esc_attr_e('Remove item', 'sage'); ?>"
-                            >
-                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="mt-1 flex items-center justify-between text-sm">
-                            <span class="text-secondary-500">
-                                <?php esc_html_e('Qty:', 'sage'); ?> <?php echo esc_html($cart_item['quantity']); ?>
-                            </span>
-                            <span class="font-medium text-secondary-900">
-                                <?php echo WC()->cart->get_product_subtotal($product, $cart_item['quantity']); ?>
-                            </span>
-                        </div>
-                    </div>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-        <?php
+        $items_html = generate_mini_cart_items_html();
+        set_cached_mini_cart_fragment('items', $items_html);
+        $fragments['.mini-cart-items'] = $items_html;
     }
-    $fragments['.mini-cart-items'] = ob_get_clean();
 
-    // Update the mini cart footer (show/hide based on cart state)
-    $cart_url = wc_get_cart_url();
-    $checkout_url = wc_get_checkout_url();
-
-    ob_start();
-    if (WC()->cart->is_empty()) {
-        ?>
-        <div class="mini-cart-footer hidden">
-            <div class="border-t border-secondary-200 bg-secondary-50 px-4 py-4">
-                <div class="mb-4 flex items-center justify-between">
-                    <span class="text-sm font-medium text-secondary-900"><?php esc_html_e('Subtotal', 'sage'); ?></span>
-                    <span class="mini-cart-subtotal text-base font-semibold text-secondary-900"><?php echo $subtotal; ?></span>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="<?php echo esc_url($cart_url); ?>" class="inline-flex items-center justify-center rounded-md border border-secondary-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        <?php esc_html_e('View Cart', 'sage'); ?>
-                    </a>
-                    <a href="<?php echo esc_url($checkout_url); ?>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        <?php esc_html_e('Checkout', 'sage'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <?php
+    // Fragment 5: Mini-cart footer (use cache if available)
+    $cached_footer = get_cached_mini_cart_fragment('footer');
+    if ($cached_footer) {
+        $fragments['.mini-cart-footer'] = $cached_footer;
     } else {
-        ?>
-        <div class="mini-cart-footer">
-            <div class="border-t border-secondary-200 bg-secondary-50 px-4 py-4">
-                <div class="mb-4 flex items-center justify-between">
-                    <span class="text-sm font-medium text-secondary-900"><?php esc_html_e('Subtotal', 'sage'); ?></span>
-                    <span class="mini-cart-subtotal text-base font-semibold text-secondary-900"><?php echo $subtotal; ?></span>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="<?php echo esc_url($cart_url); ?>" class="inline-flex items-center justify-center rounded-md border border-secondary-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        <?php esc_html_e('View Cart', 'sage'); ?>
-                    </a>
-                    <a href="<?php echo esc_url($checkout_url); ?>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        <?php esc_html_e('Checkout', 'sage'); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <?php
+        $footer_html = generate_mini_cart_footer_html($subtotal);
+        set_cached_mini_cart_fragment('footer', $footer_html);
+        $fragments['.mini-cart-footer'] = $footer_html;
     }
-    $fragments['.mini-cart-footer'] = ob_get_clean();
 
-    // Update cart page totals if on cart page
+    // Cart page totals (only on cart page)
     if (is_cart()) {
         $fragments['.cart-subtotal'] = sprintf(
             '<span class="cart-subtotal text-sm font-medium text-secondary-900 transition-all duration-300">%s</span>',
@@ -391,19 +548,12 @@ add_action('wp_ajax_nopriv_update_cart_item_qty', __NAMESPACE__ . '\\ajax_update
 
 function ajax_update_cart_item_qty()
 {
-    // Debug logging (can be removed in production)
-    error_log('Cart AJAX: update_cart_item_qty called');
-    error_log('Cart AJAX POST data: ' . print_r($_POST, true));
-
     $cart_item_key = isset($_POST['cart_item_key']) ? sanitize_text_field(wp_unslash($_POST['cart_item_key'])) : '';
     $quantity = isset($_POST['quantity']) ? absint($_POST['quantity']) : 1;
 
     if (! $cart_item_key) {
-        error_log('Cart AJAX: Invalid cart item key');
         wp_send_json_error(['message' => __('Invalid cart item.', 'sage')]);
     }
-
-    error_log('Cart AJAX: Processing cart_item_key=' . $cart_item_key . ', quantity=' . $quantity);
 
     // Get cart item
     $cart = WC()->cart;
@@ -522,7 +672,6 @@ function ajax_update_cart_item_qty()
         );
     }
 
-    error_log('Cart AJAX: Success - sending response');
     wp_send_json_success($response_data);
 }
 
@@ -633,14 +782,11 @@ function wc_ajax_add_to_cart()
 /**
  * Add cart page scripts.
  *
- * Enqueues necessary WooCommerce scripts on the cart page.
+ * Adds our custom cart params for AJAX operations.
+ * Note: wc-cart and wc-cart-fragments are now loaded via setup.php conditional loading.
  */
 add_action('wp_enqueue_scripts', function () {
     if (is_cart()) {
-        // Ensure cart and cart fragments scripts are loaded
-        wp_enqueue_script('wc-cart');
-        wp_enqueue_script('wc-cart-fragments');
-
         // Always add our custom cart params - WooCommerce may not add them for custom templates
         wp_add_inline_script('wc-cart', sprintf(
             'window.sega_cart_params = %s;',
@@ -651,4 +797,1648 @@ add_action('wp_enqueue_scripts', function () {
             ])
         ), 'before');
     }
-}, 20);
+}, 25); // Run after conditional loading in setup.php (priority 20)
+
+/**
+ * Transient Cache Invalidation
+ *
+ * Clear shop-related transient caches when relevant data changes.
+ * This ensures users always see fresh data after product/category updates.
+ */
+
+use App\View\Composers\Shop;
+use App\View\Composers\Homepage;
+
+/**
+ * Clear all shop caches when a product is created, updated, or deleted.
+ */
+add_action('woocommerce_new_product', function () {
+    Shop::clearCache();
+    Homepage::clearCache();
+});
+
+add_action('woocommerce_update_product', function () {
+    Shop::clearCache();
+    Homepage::clearCache();
+});
+
+add_action('woocommerce_delete_product', function () {
+    Shop::clearCache();
+    Homepage::clearCache();
+});
+
+add_action('woocommerce_trash_product', function () {
+    Shop::clearCache();
+    Homepage::clearCache();
+});
+
+/**
+ * Clear category cache when product categories change.
+ */
+add_action('created_product_cat', function () {
+    Shop::clearCacheByType('categories');
+    Homepage::clearCacheByType('featured_categories');
+    Homepage::clearCacheByType('mega_menu_cats_0');
+});
+
+add_action('edited_product_cat', function () {
+    Shop::clearCacheByType('categories');
+    Homepage::clearCacheByType('featured_categories');
+    Homepage::clearCacheByType('mega_menu_cats_0');
+});
+
+add_action('delete_product_cat', function () {
+    Shop::clearCacheByType('categories');
+    Homepage::clearCacheByType('featured_categories');
+    Homepage::clearCacheByType('mega_menu_cats_0');
+});
+
+/**
+ * Clear price range cache when product prices are updated.
+ * This covers bulk price updates and individual product saves.
+ */
+add_action('woocommerce_product_set_price', function () {
+    Shop::clearCacheByType('price_range');
+});
+
+add_action('woocommerce_variation_set_price', function () {
+    Shop::clearCacheByType('price_range');
+});
+
+/**
+ * Clear total products cache when product status changes.
+ */
+add_action('transition_post_status', function ($new_status, $old_status, $post) {
+    if ($post->post_type !== 'product') {
+        return;
+    }
+
+    // Only clear if transitioning to/from 'publish' status
+    if ($new_status === 'publish' || $old_status === 'publish') {
+        Shop::clearCacheByType('total_products');
+    }
+}, 10, 3);
+
+/**
+ * Clear all caches when WooCommerce tools clear transients.
+ */
+add_action('woocommerce_system_status_tool_executed', function ($tool) {
+    if ($tool['id'] === 'clear_transients') {
+        Shop::clearCache();
+        Homepage::clearCache();
+    }
+});
+
+/**
+ * Clear all caches on product import completion.
+ */
+add_action('woocommerce_product_import_inserted_product_object', function () {
+    Shop::clearCache();
+    Homepage::clearCache();
+});
+
+add_action('woocommerce_product_import_finished', function () {
+    Shop::clearCache();
+    Homepage::clearCache();
+});
+
+/**
+ * ============================================================================
+ * WooCommerce Hook Customizations
+ * ============================================================================
+ *
+ * Custom hooks to modify default WooCommerce behavior, layouts, and output.
+ * These modifications are designed to work with our Blade templates and
+ * Tailwind CSS styling.
+ */
+
+/**
+ * Breadcrumb Customization
+ *
+ * Modify the default WooCommerce breadcrumb appearance.
+ */
+add_filter('woocommerce_breadcrumb_defaults', function ($defaults) {
+    return [
+        'delimiter'   => '<span class="mx-2 text-secondary-400">/</span>',
+        'wrap_before' => '<nav class="woocommerce-breadcrumb text-sm text-secondary-600 mb-6" aria-label="' . esc_attr__('Breadcrumb', 'sage') . '">',
+        'wrap_after'  => '</nav>',
+        'before'      => '<span class="breadcrumb-item">',
+        'after'       => '</span>',
+        'home'        => __('Shop', 'sage'),
+    ];
+});
+
+/**
+ * Single Product Page Hook Modifications
+ *
+ * Reorganize the single product page layout by removing/repositioning hooks.
+ */
+add_action('init', function () {
+    // Remove default product meta (SKU, categories, tags) - we handle this in our template
+    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40);
+
+    // Remove default sharing (if any plugin adds it)
+    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50);
+
+    // Remove default breadcrumbs from before main content - we place them in our template
+    remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+
+    // Remove default sidebar from shop pages - we have our own sidebar implementation
+    remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+}, 15);
+
+/**
+ * Product Tabs Customization
+ *
+ * Modify, remove, or reorder product tabs on single product pages.
+ */
+add_filter('woocommerce_product_tabs', function ($tabs) {
+    // Rename "Additional information" tab
+    if (isset($tabs['additional_information'])) {
+        $tabs['additional_information']['title'] = __('Specifications', 'sage');
+        $tabs['additional_information']['priority'] = 15;
+    }
+
+    // Move reviews tab to the end
+    if (isset($tabs['reviews'])) {
+        $tabs['reviews']['priority'] = 30;
+    }
+
+    // Remove description tab if product has no description
+    global $product;
+    if ($product && empty($product->get_description())) {
+        unset($tabs['description']);
+    }
+
+    return $tabs;
+}, 98);
+
+/**
+ * Related Products Customization
+ *
+ * Control the number and columns of related products displayed.
+ */
+add_filter('woocommerce_output_related_products_args', function ($args) {
+    $args['posts_per_page'] = 4; // Number of related products
+    $args['columns'] = 4;        // Number of columns
+
+    return $args;
+});
+
+/**
+ * Upsells Customization
+ *
+ * Control the number of upsell products displayed.
+ */
+add_filter('woocommerce_upsell_display_args', function ($args) {
+    $args['posts_per_page'] = 4;
+    $args['columns'] = 4;
+
+    return $args;
+});
+
+/**
+ * Cross-sells Customization (Cart Page)
+ *
+ * Control the number of cross-sell products displayed on the cart page.
+ */
+add_filter('woocommerce_cross_sells_total', function () {
+    return 4;
+});
+
+add_filter('woocommerce_cross_sells_columns', function () {
+    return 4;
+});
+
+/**
+ * Add to Cart Button Text Customization
+ *
+ * Customize the "Add to Cart" button text based on product type.
+ */
+add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
+    if ($product->is_type('variable')) {
+        return __('Select Options', 'sage');
+    }
+
+    if ($product->is_type('grouped')) {
+        return __('View Products', 'sage');
+    }
+
+    if ($product->is_type('external')) {
+        return $product->get_button_text() ?: __('Buy Product', 'sage');
+    }
+
+    if (! $product->is_in_stock()) {
+        return __('Out of Stock', 'sage');
+    }
+
+    return __('Add to Cart', 'sage');
+}, 10, 2);
+
+/**
+ * Single Product Add to Cart Button Text
+ */
+add_filter('woocommerce_product_single_add_to_cart_text', function ($text, $product) {
+    if (! $product->is_in_stock()) {
+        return __('Out of Stock', 'sage');
+    }
+
+    return __('Add to Cart', 'sage');
+}, 10, 2);
+
+/**
+ * Empty Cart Message Customization
+ */
+add_filter('wc_empty_cart_message', function () {
+    return __('Your cart is currently empty. Start shopping to add items to your cart.', 'sage');
+});
+
+/**
+ * ============================================================================
+ * Checkout Field Customization (T6.10)
+ * ============================================================================
+ *
+ * Comprehensive checkout field customization including:
+ * - Field reordering for better UX (contact info first)
+ * - Custom placeholders and labels
+ * - Tailwind CSS input classes
+ * - Field priority adjustments
+ * - Conditional field display
+ * - Improved validation
+ */
+
+/**
+ * Get Tailwind CSS classes for checkout form inputs.
+ *
+ * @param string $type The input type (text, select, textarea, checkbox).
+ * @return array Array of CSS classes.
+ */
+function get_checkout_input_classes($type = 'text')
+{
+    $base_classes = [
+        'w-full',
+        'rounded-lg',
+        'border',
+        'border-secondary-300',
+        'bg-white',
+        'text-sm',
+        'text-secondary-900',
+        'placeholder-secondary-400',
+        'shadow-sm',
+        'transition-colors',
+        'focus:border-primary-500',
+        'focus:outline-none',
+        'focus:ring-2',
+        'focus:ring-primary-500',
+    ];
+
+    switch ($type) {
+        case 'select':
+            return array_merge($base_classes, ['px-4', 'py-2.5', 'appearance-none']);
+        case 'textarea':
+            return array_merge($base_classes, ['px-4', 'py-2.5', 'min-h-[100px]', 'resize-y']);
+        case 'checkbox':
+            return ['h-5', 'w-5', 'rounded', 'border-secondary-300', 'text-primary-600', 'focus:ring-primary-500'];
+        default:
+            return array_merge($base_classes, ['px-4', 'py-2.5']);
+    }
+}
+
+/**
+ * Get checkout field Customizer setting.
+ *
+ * Helper function to retrieve Customizer settings for checkout fields.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @param string $setting   Setting name (enabled, label, placeholder, required).
+ * @param mixed  $default   Default value if setting not found.
+ * @return mixed
+ */
+function get_checkout_field_customizer_setting($field_key, $setting, $default = null)
+{
+    $setting_key = 'checkout_field_' . $field_key . '_' . $setting;
+    return get_theme_mod($setting_key, $default);
+}
+
+/**
+ * Check if a checkout field is enabled via Customizer.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @return bool
+ */
+function is_checkout_field_enabled($field_key)
+{
+    $setting_key = 'checkout_field_' . $field_key . '_enabled';
+
+    // Get all theme mods to check if setting was explicitly set
+    $theme_mods = get_theme_mods();
+
+    // If setting was never saved, default to enabled
+    if (!isset($theme_mods[$setting_key])) {
+        return true;
+    }
+
+    // Return the actual saved value (could be '1', '0', true, false, '', etc.)
+    $value = $theme_mods[$setting_key];
+
+    // Handle various falsy values that indicate "disabled"
+    if ($value === '' || $value === '0' || $value === 0 || $value === false) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Check if a checkout field is required via Customizer.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @param bool   $default   Default required status.
+ * @return bool
+ */
+function is_checkout_field_required($field_key, $default = true)
+{
+    $setting_key = 'checkout_field_' . $field_key . '_required';
+
+    // Get all theme mods to check if setting was explicitly set
+    $theme_mods = get_theme_mods();
+
+    // If setting was never saved, use default
+    if (!isset($theme_mods[$setting_key])) {
+        return $default;
+    }
+
+    // Return the actual saved value
+    $value = $theme_mods[$setting_key];
+
+    // Handle various falsy values that indicate "not required"
+    if ($value === '' || $value === '0' || $value === 0 || $value === false) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Get checkout field label from Customizer.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @param string $default   Default label.
+ * @return string
+ */
+function get_checkout_field_label($field_key, $default)
+{
+    $label = get_checkout_field_customizer_setting($field_key, 'label', $default);
+    return !empty($label) ? $label : $default;
+}
+
+/**
+ * Get checkout field placeholder from Customizer.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @param string $default   Default placeholder.
+ * @return string
+ */
+function get_checkout_field_placeholder($field_key, $default)
+{
+    $placeholder = get_checkout_field_customizer_setting($field_key, 'placeholder', $default);
+    return $placeholder !== null ? $placeholder : $default;
+}
+
+/**
+ * Get checkout field priority from Customizer.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @param int    $default   Default priority.
+ * @return int
+ */
+function get_checkout_field_priority($field_key, $default = 10)
+{
+    $priority = get_checkout_field_customizer_setting($field_key, 'priority', $default);
+    return (int) ($priority ?: $default);
+}
+
+/**
+ * Get checkout field width from Customizer.
+ *
+ * @param string $field_key Full field key (e.g., 'billing_email').
+ * @param string $default   Default width (100, 50, 33, 25).
+ * @return string
+ */
+function get_checkout_field_width($field_key, $default = '100')
+{
+    $width = get_checkout_field_customizer_setting($field_key, 'width', $default);
+    return $width ?: $default;
+}
+
+/**
+ * Convert width percentage to CSS class.
+ *
+ * @param string $width Width percentage (25, 33, 50, 66, 75, 100).
+ * @return array CSS classes for the field wrapper.
+ */
+function get_width_classes($width)
+{
+    $classes = ['form-row'];
+
+    switch ($width) {
+        case '25':
+            $classes[] = 'form-row-quarter';
+            break;
+        case '33':
+            $classes[] = 'form-row-third';
+            break;
+        case '50':
+            $classes[] = 'form-row-half';
+            break;
+        case '66':
+            $classes[] = 'form-row-two-thirds';
+            break;
+        case '75':
+            $classes[] = 'form-row-three-quarters';
+            break;
+        case '100':
+        default:
+            $classes[] = 'form-row-wide';
+            break;
+    }
+
+    return $classes;
+}
+
+/**
+ * Customize checkout fields - main filter.
+ *
+ * Integrates with WordPress Customizer settings to allow:
+ * - Enabling/disabling fields
+ * - Custom labels
+ * - Custom placeholders
+ * - Required/optional toggle
+ */
+add_filter('woocommerce_checkout_fields', function ($fields) {
+    // =========================================================================
+    // BILLING FIELDS CUSTOMIZATION
+    // =========================================================================
+
+    if (isset($fields['billing'])) {
+        // Define field order, placeholders, labels, and priorities
+        // Lower priority = appears earlier in the form
+        $billing_config = [
+            'billing_email' => [
+                'priority'    => 5,
+                'label'       => __('Email Address', 'sage'),
+                'placeholder' => __('your@email.com', 'sage'),
+                'class'       => ['form-row-wide'],
+                'autocomplete' => 'email',
+                'required'    => true,
+            ],
+            'billing_phone' => [
+                'priority'    => 10,
+                'label'       => __('Phone Number', 'sage'),
+                'placeholder' => __('+1 (555) 000-0000', 'sage'),
+                'class'       => ['form-row-wide'],
+                'autocomplete' => 'tel',
+                'required'    => true,
+            ],
+            'billing_first_name' => [
+                'priority'    => 20,
+                'label'       => __('First Name', 'sage'),
+                'placeholder' => __('John', 'sage'),
+                'class'       => ['form-row-first'],
+                'autocomplete' => 'given-name',
+                'required'    => true,
+            ],
+            'billing_last_name' => [
+                'priority'    => 25,
+                'label'       => __('Last Name', 'sage'),
+                'placeholder' => __('Doe', 'sage'),
+                'class'       => ['form-row-last'],
+                'autocomplete' => 'family-name',
+                'required'    => true,
+            ],
+            'billing_company' => [
+                'priority'    => 30,
+                'label'       => __('Company', 'sage'),
+                'placeholder' => __('Company name (optional)', 'sage'),
+                'required'    => false,
+                'class'       => ['form-row-wide'],
+                'autocomplete' => 'organization',
+            ],
+            'billing_country' => [
+                'priority'    => 35,
+                'label'       => __('Country / Region', 'sage'),
+                'class'       => ['form-row-wide', 'address-field', 'update_totals_on_change'],
+                'required'    => true,
+            ],
+            'billing_address_1' => [
+                'priority'    => 40,
+                'label'       => __('Street Address', 'sage'),
+                'placeholder' => __('House number and street name', 'sage'),
+                'class'       => ['form-row-wide', 'address-field'],
+                'autocomplete' => 'address-line1',
+                'required'    => true,
+            ],
+            'billing_address_2' => [
+                'priority'    => 45,
+                'label'       => __('Address Line 2', 'sage'),
+                'label_class' => ['screen-reader-text'],
+                'placeholder' => __('Apartment, suite, unit, etc. (optional)', 'sage'),
+                'required'    => false,
+                'class'       => ['form-row-wide', 'address-field'],
+                'autocomplete' => 'address-line2',
+            ],
+            'billing_city' => [
+                'priority'    => 50,
+                'label'       => __('City', 'sage'),
+                'placeholder' => __('City', 'sage'),
+                'class'       => ['form-row-first', 'address-field'],
+                'autocomplete' => 'address-level2',
+                'required'    => true,
+            ],
+            'billing_state' => [
+                'priority'    => 55,
+                'label'       => __('State / Province', 'sage'),
+                'class'       => ['form-row-last', 'address-field'],
+                'required'    => true,
+            ],
+            'billing_postcode' => [
+                'priority'    => 60,
+                'label'       => __('ZIP / Postal Code', 'sage'),
+                'placeholder' => __('ZIP / Postal Code', 'sage'),
+                'class'       => ['form-row-first', 'address-field'],
+                'autocomplete' => 'postal-code',
+                'required'    => true,
+            ],
+        ];
+
+        // Apply billing field configurations with Customizer overrides
+        foreach ($billing_config as $key => $config) {
+            // Check if field is enabled via Customizer
+            if (!is_checkout_field_enabled($key)) {
+                unset($fields['billing'][$key]);
+                continue;
+            }
+
+            if (isset($fields['billing'][$key])) {
+                // Get Customizer values
+                $custom_priority = get_checkout_field_priority($key, $config['priority']);
+                $custom_width = get_checkout_field_width($key, '100');
+                $width_classes = get_width_classes($custom_width);
+
+                // Apply base configuration
+                foreach ($config as $prop => $value) {
+                    if ($prop === 'label') {
+                        $fields['billing'][$key][$prop] = get_checkout_field_label($key, $value);
+                    } elseif ($prop === 'placeholder') {
+                        $fields['billing'][$key][$prop] = get_checkout_field_placeholder($key, $value);
+                    } elseif ($prop === 'required') {
+                        $fields['billing'][$key][$prop] = is_checkout_field_required($key, $value);
+                    } elseif ($prop === 'priority') {
+                        $fields['billing'][$key][$prop] = $custom_priority;
+                    } elseif ($prop === 'class') {
+                        // Merge width classes with existing classes (preserve address-field, etc.)
+                        $existing_classes = array_filter($value, function($class) {
+                            return strpos($class, 'form-row') === false;
+                        });
+                        $fields['billing'][$key][$prop] = array_merge($width_classes, $existing_classes);
+                    } else {
+                        $fields['billing'][$key][$prop] = $value;
+                    }
+                }
+
+                // Add Tailwind input classes
+                $input_type = isset($fields['billing'][$key]['type']) ? $fields['billing'][$key]['type'] : 'text';
+                if ($input_type === 'country' || $input_type === 'state') {
+                    $input_type = 'select';
+                }
+                $fields['billing'][$key]['input_class'] = get_checkout_input_classes($input_type);
+            }
+        }
+    }
+
+    // =========================================================================
+    // SHIPPING FIELDS CUSTOMIZATION
+    // =========================================================================
+
+    if (isset($fields['shipping'])) {
+        $shipping_config = [
+            'shipping_first_name' => [
+                'priority'    => 10,
+                'label'       => __('First Name', 'sage'),
+                'placeholder' => __('John', 'sage'),
+                'class'       => ['form-row-first'],
+                'autocomplete' => 'given-name',
+                'required'    => true,
+            ],
+            'shipping_last_name' => [
+                'priority'    => 15,
+                'label'       => __('Last Name', 'sage'),
+                'placeholder' => __('Doe', 'sage'),
+                'class'       => ['form-row-last'],
+                'autocomplete' => 'family-name',
+                'required'    => true,
+            ],
+            'shipping_company' => [
+                'priority'    => 20,
+                'label'       => __('Company', 'sage'),
+                'placeholder' => __('Company name (optional)', 'sage'),
+                'required'    => false,
+                'class'       => ['form-row-wide'],
+                'autocomplete' => 'organization',
+            ],
+            'shipping_country' => [
+                'priority'    => 25,
+                'label'       => __('Country / Region', 'sage'),
+                'class'       => ['form-row-wide', 'address-field', 'update_totals_on_change'],
+                'required'    => true,
+            ],
+            'shipping_address_1' => [
+                'priority'    => 30,
+                'label'       => __('Street Address', 'sage'),
+                'placeholder' => __('House number and street name', 'sage'),
+                'class'       => ['form-row-wide', 'address-field'],
+                'autocomplete' => 'address-line1',
+                'required'    => true,
+            ],
+            'shipping_address_2' => [
+                'priority'    => 35,
+                'label'       => __('Address Line 2', 'sage'),
+                'label_class' => ['screen-reader-text'],
+                'placeholder' => __('Apartment, suite, unit, etc. (optional)', 'sage'),
+                'required'    => false,
+                'class'       => ['form-row-wide', 'address-field'],
+                'autocomplete' => 'address-line2',
+            ],
+            'shipping_city' => [
+                'priority'    => 40,
+                'label'       => __('City', 'sage'),
+                'placeholder' => __('City', 'sage'),
+                'class'       => ['form-row-first', 'address-field'],
+                'autocomplete' => 'address-level2',
+                'required'    => true,
+            ],
+            'shipping_state' => [
+                'priority'    => 45,
+                'label'       => __('State / Province', 'sage'),
+                'class'       => ['form-row-last', 'address-field'],
+                'required'    => true,
+            ],
+            'shipping_postcode' => [
+                'priority'    => 50,
+                'label'       => __('ZIP / Postal Code', 'sage'),
+                'placeholder' => __('ZIP / Postal Code', 'sage'),
+                'class'       => ['form-row-first', 'address-field'],
+                'autocomplete' => 'postal-code',
+                'required'    => true,
+            ],
+        ];
+
+        // Apply shipping field configurations with Customizer overrides
+        foreach ($shipping_config as $key => $config) {
+            // Check if field is enabled via Customizer
+            if (!is_checkout_field_enabled($key)) {
+                unset($fields['shipping'][$key]);
+                continue;
+            }
+
+            if (isset($fields['shipping'][$key])) {
+                // Get Customizer values
+                $custom_priority = get_checkout_field_priority($key, $config['priority']);
+                $custom_width = get_checkout_field_width($key, '100');
+                $width_classes = get_width_classes($custom_width);
+
+                // Apply base configuration
+                foreach ($config as $prop => $value) {
+                    if ($prop === 'label') {
+                        $fields['shipping'][$key][$prop] = get_checkout_field_label($key, $value);
+                    } elseif ($prop === 'placeholder') {
+                        $fields['shipping'][$key][$prop] = get_checkout_field_placeholder($key, $value);
+                    } elseif ($prop === 'required') {
+                        $fields['shipping'][$key][$prop] = is_checkout_field_required($key, $value);
+                    } elseif ($prop === 'priority') {
+                        $fields['shipping'][$key][$prop] = $custom_priority;
+                    } elseif ($prop === 'class') {
+                        $existing_classes = array_filter($value, function($class) {
+                            return strpos($class, 'form-row') === false;
+                        });
+                        $fields['shipping'][$key][$prop] = array_merge($width_classes, $existing_classes);
+                    } else {
+                        $fields['shipping'][$key][$prop] = $value;
+                    }
+                }
+
+                // Add Tailwind input classes
+                $input_type = isset($fields['shipping'][$key]['type']) ? $fields['shipping'][$key]['type'] : 'text';
+                if ($input_type === 'country' || $input_type === 'state') {
+                    $input_type = 'select';
+                }
+                $fields['shipping'][$key]['input_class'] = get_checkout_input_classes($input_type);
+            }
+        }
+    }
+
+    // =========================================================================
+    // ORDER / ADDITIONAL FIELDS CUSTOMIZATION
+    // =========================================================================
+
+    if (isset($fields['order']['order_comments'])) {
+        // Check if order comments field is enabled
+        if (!is_checkout_field_enabled('order_comments')) {
+            unset($fields['order']['order_comments']);
+        } else {
+            $default_label = __('Order Notes', 'sage');
+            $default_placeholder = __('Special instructions for delivery, gift messages, or any other notes about your order...', 'sage');
+
+            $fields['order']['order_comments']['label'] = get_checkout_field_label('order_comments', $default_label);
+            $fields['order']['order_comments']['placeholder'] = get_checkout_field_placeholder('order_comments', $default_placeholder);
+            $fields['order']['order_comments']['required'] = is_checkout_field_required('order_comments', false);
+            $fields['order']['order_comments']['input_class'] = get_checkout_input_classes('textarea');
+            $fields['order']['order_comments']['class'] = ['form-row-wide', 'notes'];
+        }
+    }
+
+    // =========================================================================
+    // ACCOUNT FIELDS CUSTOMIZATION (for guest checkout with registration)
+    // =========================================================================
+
+    if (isset($fields['account'])) {
+        if (isset($fields['account']['account_username'])) {
+            $fields['account']['account_username']['placeholder'] = __('Choose a username', 'sage');
+            $fields['account']['account_username']['input_class'] = get_checkout_input_classes('text');
+        }
+
+        if (isset($fields['account']['account_password'])) {
+            $fields['account']['account_password']['placeholder'] = __('Create a password', 'sage');
+            $fields['account']['account_password']['input_class'] = get_checkout_input_classes('text');
+        }
+
+        if (isset($fields['account']['account_password-2'])) {
+            $fields['account']['account_password-2']['placeholder'] = __('Confirm your password', 'sage');
+            $fields['account']['account_password-2']['input_class'] = get_checkout_input_classes('text');
+        }
+    }
+
+    return $fields;
+}, 9999); // High priority to run after all other filters
+
+/**
+ * Customize default address field arguments.
+ *
+ * This filter applies to both checkout and my account address forms.
+ */
+add_filter('woocommerce_default_address_fields', function ($fields) {
+    // Reorder fields to put most important first
+    $priority = 10;
+    $order = ['first_name', 'last_name', 'company', 'country', 'address_1', 'address_2', 'city', 'state', 'postcode'];
+
+    foreach ($order as $field_key) {
+        if (isset($fields[$field_key])) {
+            $fields[$field_key]['priority'] = $priority;
+            $priority += 10;
+        }
+    }
+
+    // Make address_2 and company optional with updated label
+    if (isset($fields['address_2'])) {
+        $fields['address_2']['required'] = false;
+        $fields['address_2']['label_class'] = ['screen-reader-text'];
+    }
+
+    if (isset($fields['company'])) {
+        $fields['company']['required'] = false;
+    }
+
+    return $fields;
+});
+
+/**
+ * Add custom validation for checkout fields.
+ */
+add_action('woocommerce_checkout_process', function () {
+    // Validate phone number format (basic validation)
+    $phone = isset($_POST['billing_phone']) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : '';
+
+    if (! empty($phone)) {
+        // Remove common formatting characters for validation
+        $phone_digits = preg_replace('/[^0-9]/', '', $phone);
+
+        // Check if phone has reasonable length (between 7 and 15 digits)
+        if (strlen($phone_digits) < 7 || strlen($phone_digits) > 15) {
+            wc_add_notice(
+                __('Please enter a valid phone number.', 'sage'),
+                'error'
+            );
+        }
+    }
+
+    // Validate email domain (basic check for common typos)
+    $email = isset($_POST['billing_email']) ? sanitize_email(wp_unslash($_POST['billing_email'])) : '';
+
+    if (! empty($email)) {
+        $domain = substr(strrchr($email, '@'), 1);
+
+        // Check for common typos in email domains
+        $common_typos = [
+            'gmial.com'    => 'gmail.com',
+            'gmai.com'     => 'gmail.com',
+            'gamil.com'    => 'gmail.com',
+            'gmail.co'     => 'gmail.com',
+            'hotmal.com'   => 'hotmail.com',
+            'hotmai.com'   => 'hotmail.com',
+            'yahooo.com'   => 'yahoo.com',
+            'yaho.com'     => 'yahoo.com',
+        ];
+
+        if (isset($common_typos[$domain])) {
+            wc_add_notice(
+                sprintf(
+                    /* translators: %s: suggested email domain */
+                    __('Did you mean @%s? Please check your email address.', 'sage'),
+                    $common_typos[$domain]
+                ),
+                'notice'
+            );
+        }
+    }
+});
+
+/**
+ * Customize form field HTML output.
+ *
+ * Adds additional Tailwind classes to the form field wrapper.
+ */
+add_filter('woocommerce_form_field_args', function ($args, $key, $value) {
+    // Add base classes to all form fields
+    if (! isset($args['class'])) {
+        $args['class'] = [];
+    }
+
+    // Ensure class is an array
+    if (! is_array($args['class'])) {
+        $args['class'] = [$args['class']];
+    }
+
+    // Add common wrapper classes
+    $args['class'][] = 'woocommerce-form-field';
+
+    // Add label classes for better styling
+    if (! isset($args['label_class'])) {
+        $args['label_class'] = [];
+    }
+    $args['label_class'][] = 'block';
+    $args['label_class'][] = 'mb-1.5';
+    $args['label_class'][] = 'text-sm';
+    $args['label_class'][] = 'font-medium';
+    $args['label_class'][] = 'text-secondary-700';
+
+    return $args;
+}, 10, 3);
+
+/**
+ * Customize the checkout field container HTML.
+ *
+ * Wraps fields in a container with responsive grid classes.
+ */
+add_filter('woocommerce_form_field', function ($field, $key, $args, $value) {
+    // Add data attribute for easier JavaScript targeting
+    if (strpos($field, 'woocommerce-input-wrapper') !== false) {
+        $field = str_replace(
+            'woocommerce-input-wrapper',
+            'woocommerce-input-wrapper" data-field="' . esc_attr($key),
+            $field
+        );
+    }
+
+    return $field;
+}, 10, 4);
+
+/**
+ * Custom Body Classes for WooCommerce Pages
+ *
+ * Add utility classes to body for easier CSS targeting.
+ */
+add_filter('body_class', function ($classes) {
+    if (function_exists('is_shop') && is_shop()) {
+        $classes[] = 'wc-shop-page';
+    }
+
+    if (function_exists('is_product_category') && is_product_category()) {
+        $classes[] = 'wc-category-page';
+    }
+
+    if (function_exists('is_product_tag') && is_product_tag()) {
+        $classes[] = 'wc-tag-page';
+    }
+
+    if (function_exists('is_product') && is_product()) {
+        $classes[] = 'wc-single-product-page';
+
+        // Add product type class
+        global $product;
+
+        // Ensure $product is a valid WC_Product object
+        if (! $product instanceof \WC_Product) {
+            $product = wc_get_product(get_the_ID());
+        }
+
+        if ($product instanceof \WC_Product) {
+            $classes[] = 'wc-product-type-' . $product->get_type();
+
+            // Add "on sale" class
+            if ($product->is_on_sale()) {
+                $classes[] = 'wc-product-on-sale';
+            }
+
+            // Add "out of stock" class
+            if (! $product->is_in_stock()) {
+                $classes[] = 'wc-product-out-of-stock';
+            }
+        }
+    }
+
+    if (function_exists('is_cart') && is_cart()) {
+        $classes[] = 'wc-cart-page';
+
+        // Add empty cart class
+        if (WC()->cart && WC()->cart->is_empty()) {
+            $classes[] = 'wc-cart-empty';
+        }
+    }
+
+    if (function_exists('is_checkout') && is_checkout()) {
+        $classes[] = 'wc-checkout-page';
+    }
+
+    if (function_exists('is_account_page') && is_account_page()) {
+        $classes[] = 'wc-account-page';
+    }
+
+    return $classes;
+});
+
+/**
+ * WooCommerce Notice Wrapper Customization
+ *
+ * Customize the wrapper for WooCommerce notices (success, error, info).
+ */
+add_filter('woocommerce_demo_store', function ($notice) {
+    // Customize demo store notice styling
+    return '<div class="woocommerce-store-notice fixed bottom-0 left-0 right-0 z-50 bg-primary-600 px-4 py-3 text-center text-sm text-white shadow-lg">
+        <a href="#" class="woocommerce-store-notice__dismiss-link absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white">&times;</a>
+        ' . wp_kses_post($notice) . '
+    </div>';
+});
+
+/**
+ * Login Form Customization
+ *
+ * Modify the login form redirect URL.
+ */
+add_filter('woocommerce_login_redirect', function ($redirect, $user) {
+    // Redirect to My Account page after login
+    return wc_get_page_permalink('myaccount');
+}, 10, 2);
+
+/**
+ * Registration Form Customization
+ *
+ * Modify the registration redirect URL.
+ */
+add_filter('woocommerce_registration_redirect', function () {
+    // Redirect to My Account page after registration
+    return wc_get_page_permalink('myaccount');
+});
+
+/**
+ * Product Thumbnail Size for Archives
+ *
+ * Ensure consistent thumbnail sizes in product loops.
+ */
+add_filter('single_product_archive_thumbnail_size', function () {
+    return 'woocommerce_thumbnail';
+});
+
+/**
+ * Disable WooCommerce Default Styles (Additional)
+ *
+ * We already handle main styles in setup.php, but ensure all styles are removed.
+ */
+add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+
+/**
+ * Gallery Thumbnail Columns
+ *
+ * Control the number of thumbnails per row in product gallery.
+ */
+add_filter('woocommerce_product_thumbnails_columns', function () {
+    return 4;
+});
+
+/**
+ * Review Gravatar Size
+ *
+ * Control the size of gravatars in product reviews.
+ */
+add_filter('woocommerce_review_gravatar_size', function () {
+    return 48;
+});
+
+/**
+ * Order Button Text
+ *
+ * Customize the "Place Order" button text on checkout.
+ */
+add_filter('woocommerce_order_button_text', function () {
+    return __('Complete Order', 'sage');
+});
+
+/**
+ * Cart Item Quantity Input Args
+ *
+ * Customize quantity input on cart page.
+ */
+add_filter('woocommerce_quantity_input_args', function ($args, $product) {
+    // Set step to 1 for all products
+    $args['step'] = 1;
+
+    // Set minimum to 1 (can't have 0 items)
+    $args['min_value'] = 1;
+
+    // Set maximum based on stock if managing stock
+    if ($product->managing_stock() && $product->get_stock_quantity()) {
+        $args['max_value'] = $product->get_stock_quantity();
+    }
+
+    return $args;
+}, 10, 2);
+
+/**
+ * Single Product Quantity Input Args
+ *
+ * Specific customization for single product page quantity input.
+ */
+add_filter('woocommerce_quantity_input_args', function ($args, $product) {
+    if (is_product()) {
+        $args['input_value'] = 1; // Default quantity on single product pages
+    }
+
+    return $args;
+}, 11, 2);
+
+/**
+ * Add Product Schema Markup
+ *
+ * Enhance product structured data for SEO.
+ */
+add_filter('woocommerce_structured_data_product', function ($markup, $product) {
+    // Add brand if available (from a custom field or product attribute)
+    $brand = $product->get_attribute('brand');
+    if ($brand) {
+        $markup['brand'] = [
+            '@type' => 'Brand',
+            'name'  => $brand,
+        ];
+    }
+
+    // Add availability status more explicitly
+    if ($product->is_in_stock()) {
+        $markup['availability'] = 'https://schema.org/InStock';
+    } else {
+        $markup['availability'] = 'https://schema.org/OutOfStock';
+    }
+
+    return $markup;
+}, 10, 2);
+
+/**
+ * Customize "Continue Shopping" URL
+ *
+ * After adding to cart, customize where "Continue Shopping" goes.
+ */
+add_filter('woocommerce_continue_shopping_redirect', function () {
+    return wc_get_page_permalink('shop');
+});
+
+/**
+ * Cart Hash for AJAX Efficiency
+ *
+ * Add cart hash to cart page for JavaScript cache invalidation.
+ */
+add_action('woocommerce_before_cart', function () {
+    if (WC()->cart) {
+        echo '<div class="cart-hash-container" data-cart-hash="' . esc_attr(WC()->cart->get_cart_hash()) . '" style="display:none;"></div>';
+    }
+});
+
+/**
+ * Minimum Order Amount Notice (Optional - Commented Out)
+ *
+ * Uncomment and configure to set a minimum order amount.
+ */
+/*
+add_action('woocommerce_check_cart_items', function () {
+    $minimum_amount = 50; // Minimum order amount
+
+    if (WC()->cart->subtotal < $minimum_amount) {
+        wc_add_notice(
+            sprintf(
+                __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'sage'),
+                wc_price(WC()->cart->subtotal),
+                wc_price($minimum_amount)
+            ),
+            'error'
+        );
+    }
+});
+*/
+
+/**
+ * Remove "What is PayPal?" link from checkout
+ *
+ * Removes the info link that can distract customers.
+ */
+add_filter('woocommerce_gateway_icon', function ($icon, $gateway_id) {
+    if ($gateway_id === 'paypal') {
+        // Remove the "What is PayPal?" link, keep just the icon
+        $icon = preg_replace('/<a[^>]*>.*?<\/a>/i', '', $icon);
+    }
+    return $icon;
+}, 10, 2);
+
+/**
+ * Customize "Sold Individually" Products
+ *
+ * Products marked as "sold individually" show different messaging.
+ */
+add_filter('woocommerce_add_to_cart_sold_individually_quantity', function () {
+    return 1;
+});
+
+/**
+ * Ajax Search Products - Include SKU (Optional)
+ *
+ * Allow searching products by SKU in admin and frontend search.
+ */
+add_filter('woocommerce_product_search_form_params', function ($params) {
+    return $params;
+});
+
+/**
+ * ============================================================================
+ * AJAX Product Search REST API (T8.3)
+ * ============================================================================
+ *
+ * Custom REST API endpoint for AJAX product search in the search popup.
+ * Returns both matching categories and products.
+ *
+ * Endpoint: /wp-json/sega/v1/search
+ * Method: GET
+ * Parameters:
+ *   - s (string): Search query (required, min 2 characters)
+ *   - per_page (int): Number of products to return (default: 6, max: 20)
+ *
+ * Response format:
+ * {
+ *   "categories": [
+ *     { "id": 1, "name": "Category Name", "url": "...", "count": 10 }
+ *   ],
+ *   "products": [
+ *     {
+ *       "id": 1,
+ *       "name": "Product Name",
+ *       "url": "...",
+ *       "image": "...",
+ *       "regular_price": "$10.00",
+ *       "sale_price": "$8.00",
+ *       "on_sale": true
+ *     }
+ *   ]
+ * }
+ */
+
+/**
+ * Register the search REST API endpoint.
+ */
+add_action('rest_api_init', function () {
+    register_rest_route('sega/v1', '/search', [
+        'methods'             => 'GET',
+        'callback'            => __NAMESPACE__ . '\\rest_api_product_search',
+        'permission_callback' => '__return_true', // Public endpoint
+        'args'                => [
+            's' => [
+                'required'          => true,
+                'type'              => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'validate_callback' => function ($param) {
+                    return is_string($param) && strlen($param) >= 2;
+                },
+            ],
+            'per_page' => [
+                'required'          => false,
+                'type'              => 'integer',
+                'default'           => 6,
+                'sanitize_callback' => 'absint',
+                'validate_callback' => function ($param) {
+                    return is_numeric($param) && $param >= 1 && $param <= 20;
+                },
+            ],
+        ],
+    ]);
+});
+
+/**
+ * Handle the product search REST API request.
+ *
+ * @param \WP_REST_Request $request The REST request object.
+ * @return \WP_REST_Response The REST response with search results.
+ */
+function rest_api_product_search($request)
+{
+    $search_query = $request->get_param('s');
+    $per_page = $request->get_param('per_page') ?: 6;
+
+    // Search categories
+    $categories = search_product_categories($search_query, 4);
+
+    // Search products
+    $products = search_products($search_query, $per_page);
+
+    return rest_ensure_response([
+        'categories' => $categories,
+        'products'   => $products,
+        'query'      => $search_query,
+    ]);
+}
+
+/**
+ * Search product categories by name.
+ *
+ * @param string $query  The search query.
+ * @param int    $limit  Maximum number of categories to return.
+ * @return array Array of matching categories.
+ */
+function search_product_categories($query, $limit = 4)
+{
+    $terms = get_terms([
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => true,
+        'name__like' => $query,
+        'number'     => $limit,
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+    ]);
+
+    if (is_wp_error($terms) || empty($terms)) {
+        return [];
+    }
+
+    $categories = [];
+
+    foreach ($terms as $term) {
+        $categories[] = [
+            'id'    => $term->term_id,
+            'name'  => $term->name,
+            'slug'  => $term->slug,
+            'url'   => get_term_link($term),
+            'count' => $term->count,
+        ];
+    }
+
+    return $categories;
+}
+
+/**
+ * Search products by title, SKU, and content.
+ *
+ * @param string $query    The search query.
+ * @param int    $per_page Maximum number of products to return.
+ * @return array Array of matching products.
+ */
+function search_products($query, $per_page = 6)
+{
+    // Build the WP_Query args for product search
+    $args = [
+        'post_type'      => 'product',
+        'post_status'    => 'publish',
+        's'              => $query,
+        'posts_per_page' => $per_page,
+        'orderby'        => 'relevance',
+        'order'          => 'DESC',
+        'meta_query'     => [],
+        'tax_query'      => [
+            // Exclude hidden products (WooCommerce 3.0+ uses taxonomy for visibility)
+            [
+                'taxonomy' => 'product_visibility',
+                'field'    => 'name',
+                'terms'    => ['exclude-from-search'],
+                'operator' => 'NOT IN',
+            ],
+        ],
+    ];
+
+    // Check if WooCommerce is set to hide out of stock products from catalog
+    if ('yes' === get_option('woocommerce_hide_out_of_stock_items')) {
+        $args['tax_query'][] = [
+            'taxonomy' => 'product_visibility',
+            'field'    => 'name',
+            'terms'    => ['outofstock'],
+            'operator' => 'NOT IN',
+        ];
+    }
+
+    // Also search by SKU
+    $sku_products = search_products_by_sku($query, $per_page);
+    $sku_ids = array_map(function ($product) {
+        return $product['id'];
+    }, $sku_products);
+
+    $search_query = new \WP_Query($args);
+    $products = [];
+    $added_ids = [];
+
+    // First add SKU matches (they're more specific)
+    foreach ($sku_products as $product) {
+        if (count($products) >= $per_page) {
+            break;
+        }
+        $products[] = $product;
+        $added_ids[] = $product['id'];
+    }
+
+    // Then add title/content matches (excluding SKU matches to avoid duplicates)
+    if ($search_query->have_posts()) {
+        while ($search_query->have_posts() && count($products) < $per_page) {
+            $search_query->the_post();
+            $product_id = get_the_ID();
+
+            // Skip if already added from SKU search
+            if (in_array($product_id, $added_ids)) {
+                continue;
+            }
+
+            $product = wc_get_product($product_id);
+
+            if (! $product || ! $product->is_visible()) {
+                continue;
+            }
+
+            $products[] = format_product_for_search($product);
+            $added_ids[] = $product_id;
+        }
+        wp_reset_postdata();
+    }
+
+    return $products;
+}
+
+/**
+ * Search products by SKU.
+ *
+ * @param string $query    The SKU to search for.
+ * @param int    $per_page Maximum number of products to return.
+ * @return array Array of matching products.
+ */
+function search_products_by_sku($query, $per_page = 6)
+{
+    global $wpdb;
+
+    // Search for products with SKU matching the query
+    // This includes partial matches
+    $sku_query = '%' . $wpdb->esc_like($query) . '%';
+
+    // Get product IDs where SKU matches (including variations)
+    $product_ids = $wpdb->get_col(
+        $wpdb->prepare(
+            "SELECT DISTINCT p.ID
+            FROM {$wpdb->posts} p
+            INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+            WHERE p.post_type IN ('product', 'product_variation')
+            AND p.post_status = 'publish'
+            AND pm.meta_key = '_sku'
+            AND pm.meta_value LIKE %s
+            LIMIT %d",
+            $sku_query,
+            $per_page
+        )
+    );
+
+    if (empty($product_ids)) {
+        return [];
+    }
+
+    $products = [];
+
+    foreach ($product_ids as $product_id) {
+        $product = wc_get_product($product_id);
+
+        if (! $product) {
+            continue;
+        }
+
+        // If it's a variation, get the parent product for display
+        if ($product->is_type('variation')) {
+            $parent_id = $product->get_parent_id();
+            $parent_product = wc_get_product($parent_id);
+
+            if ($parent_product && $parent_product->is_visible()) {
+                // Check if parent already added
+                $parent_already_added = false;
+                foreach ($products as $p) {
+                    if ($p['id'] === $parent_id) {
+                        $parent_already_added = true;
+                        break;
+                    }
+                }
+
+                if (! $parent_already_added) {
+                    $products[] = format_product_for_search($parent_product);
+                }
+            }
+        } elseif ($product->is_visible()) {
+            $products[] = format_product_for_search($product);
+        }
+
+        if (count($products) >= $per_page) {
+            break;
+        }
+    }
+
+    return $products;
+}
+
+/**
+ * Format a WC_Product for the search results.
+ *
+ * @param \WC_Product $product The product object.
+ * @return array Formatted product data.
+ */
+function format_product_for_search($product)
+{
+    // Get product image
+    $image_id = $product->get_image_id();
+    $image_url = '';
+
+    if ($image_id) {
+        $image_src = wp_get_attachment_image_src($image_id, 'woocommerce_thumbnail');
+        $image_url = $image_src ? $image_src[0] : '';
+    }
+
+    // If no image, use placeholder
+    if (! $image_url) {
+        $image_url = wc_placeholder_img_src('woocommerce_thumbnail');
+    }
+
+    // Get prices
+    $regular_price = $product->get_regular_price();
+    $sale_price = $product->get_sale_price();
+    $on_sale = $product->is_on_sale();
+
+    // For variable products, get price range
+    if ($product->is_type('variable')) {
+        $regular_price = $product->get_variation_regular_price('min');
+        $sale_price = $product->get_variation_sale_price('min');
+    }
+
+    // Format prices with currency - decode HTML entities for clean display
+    $formatted_regular_price = $regular_price ? html_entity_decode(wp_strip_all_tags(wc_price($regular_price)), ENT_QUOTES, 'UTF-8') : '';
+    $formatted_sale_price = $sale_price ? html_entity_decode(wp_strip_all_tags(wc_price($sale_price)), ENT_QUOTES, 'UTF-8') : '';
+
+    // Get stock status
+    $stock_status = $product->get_stock_status(); // 'instock', 'outofstock', 'onbackorder'
+    $stock_quantity = $product->get_stock_quantity();
+
+    return [
+        'id'             => $product->get_id(),
+        'name'           => $product->get_name(),
+        'url'            => $product->get_permalink(),
+        'image'          => $image_url,
+        'regular_price'  => $formatted_regular_price,
+        'sale_price'     => $formatted_sale_price,
+        'on_sale'        => $on_sale,
+        'type'           => $product->get_type(),
+        'sku'            => $product->get_sku(),
+        'stock_status'   => $stock_status,
+        'stock_quantity' => $stock_quantity,
+        'in_stock'       => $product->is_in_stock(),
+    ];
+}
+
+/**
+ * Filter products by stock status in admin
+ */
+add_filter('woocommerce_products_admin_list_table_filters', function ($filters) {
+    return $filters;
+});
+
+/**
+ * ============================================================================
+ * Custom Sale Badge with Percentage
+ * ============================================================================
+ *
+ * Replace the default "Sale!" badge with a percentage discount badge.
+ * Handles both simple and variable products.
+ */
+
+/**
+ * Calculate the sale percentage for a product.
+ *
+ * For simple products: calculates the percentage from regular to sale price.
+ * For variable products: returns the maximum discount percentage across all variations.
+ *
+ * @param \WC_Product $product The product object.
+ * @return int The discount percentage (0 if not on sale or can't calculate).
+ */
+function get_product_sale_percentage($product)
+{
+    if (! $product || ! $product->is_on_sale()) {
+        return 0;
+    }
+
+    // Handle variable products
+    if ($product->is_type('variable')) {
+        $max_percentage = 0;
+        $variations = $product->get_available_variations();
+
+        foreach ($variations as $variation) {
+            $regular_price = (float) ($variation['display_regular_price'] ?? 0);
+            $sale_price = (float) ($variation['display_price'] ?? 0);
+
+            if ($regular_price > 0 && $sale_price > 0 && $sale_price < $regular_price) {
+                $percentage = round((($regular_price - $sale_price) / $regular_price) * 100);
+                $max_percentage = max($max_percentage, $percentage);
+            }
+        }
+
+        return (int) $max_percentage;
+    }
+
+    // Handle simple and other product types
+    $regular_price = (float) $product->get_regular_price();
+    $sale_price = (float) $product->get_sale_price();
+
+    if ($regular_price <= 0 || $sale_price <= 0 || $sale_price >= $regular_price) {
+        return 0;
+    }
+
+    return (int) round((($regular_price - $sale_price) / $regular_price) * 100);
+}
+
+/**
+ * Custom sale flash badge with percentage discount.
+ *
+ * Replaces the default "Sale!" text with the actual discount percentage.
+ * Uses Tailwind CSS classes for styling.
+ *
+ * @param string      $html    The sale flash HTML.
+ * @param \WP_Post    $post    The post object.
+ * @param \WC_Product $product The product object.
+ * @return string Modified sale flash HTML.
+ */
+add_filter('woocommerce_sale_flash', function ($html, $post, $product) {
+    $percentage = get_product_sale_percentage($product);
+
+    if ($percentage > 0) {
+        // Badge with percentage and down arrow icon
+        return sprintf(
+            '<span class="onsale inline-flex items-center gap-1 rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                -%d%%
+            </span>',
+            $percentage
+        );
+    }
+
+    // Fallback to simple "Sale" badge if percentage can't be calculated
+    return sprintf(
+        '<span class="onsale rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold text-white shadow-sm">%s</span>',
+        esc_html__('Sale', 'sage')
+    );
+}, 10, 3);
+
+/**
+ * ============================================================================
+ * Disable Elementor on Front Page (Fix JavaScript Errors)
+ * ============================================================================
+ *
+ * Front page uses Blade templates and doesn't need Elementor.
+ * Disabling Elementor scripts/styles on front page prevents JS errors.
+ */
+add_action('wp_enqueue_scripts', function () {
+    // Only run on front page
+    if (! is_front_page()) {
+        return;
+    }
+
+    // Dequeue Elementor frontend scripts
+    wp_dequeue_script('elementor-frontend');
+    wp_dequeue_script('elementor-frontend-modules');
+    wp_dequeue_script('elementor-pro-frontend');
+
+    // Dequeue Elementor styles
+    wp_dequeue_style('elementor-frontend');
+    wp_dequeue_style('elementor-pro');
+    wp_dequeue_style('elementor-icons');
+    wp_dequeue_style('elementor-animations');
+}, 999);

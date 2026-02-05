@@ -1,5 +1,5 @@
 {{--
-  Template: Checkout Shipping Fields
+  Template: Checkout Shipping Fields (Redesigned)
   Description: Renders the shipping address form fields for WooCommerce checkout
   @see woocommerce/templates/checkout/form-shipping.php
 --}}
@@ -9,17 +9,13 @@
 @endphp
 
 <div class="woocommerce-shipping-fields">
-  {{-- Section Header --}}
-  <h2 class="mb-6 flex items-center gap-3 text-lg font-semibold text-secondary-900">
-    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-600">
-      2
-    </span>
-    {{ __('Shipping details', 'sage') }}
-  </h2>
-
   {{-- Ship to Different Address Toggle --}}
   <div class="ship-to-different-address mb-6">
-    <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-secondary-200 bg-secondary-50 p-4 transition-all hover:border-secondary-300">
+    <label class="flex cursor-pointer items-start gap-3 rounded-xl border-2 p-4 transition-all"
+      :class="shipToDifferentAddress
+        ? 'border-primary-500 bg-primary-50/50'
+        : 'border-secondary-200 hover:border-secondary-300 hover:bg-secondary-50/50'"
+    >
       <input
         type="checkbox"
         name="ship_to_different_address"
@@ -29,14 +25,22 @@
         x-model="shipToDifferentAddress"
         {{ !empty($checkout->get_value('ship_to_different_address')) ? 'checked' : '' }}
       />
-      <div>
-        <span class="text-sm font-medium text-secondary-900">
+      <div class="flex-1">
+        <span class="block text-sm font-medium text-secondary-900">
           {{ __('Ship to a different address?', 'sage') }}
         </span>
-        <p class="mt-0.5 text-xs text-secondary-500">
+        <p class="mt-1 text-xs text-secondary-500">
           {{ __('Check this if you want your order delivered to a different address than your billing address.', 'sage') }}
         </p>
       </div>
+      <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full transition-colors"
+        :class="shipToDifferentAddress ? 'bg-primary-100 text-primary-600' : 'bg-secondary-100 text-secondary-400'"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </span>
     </label>
   </div>
 
@@ -54,30 +58,30 @@
         $shipping_fields = $checkout->get_checkout_fields('shipping');
       @endphp
 
-      {{-- Grid Layout for Fields --}}
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {{-- Optimized Grid Layout for Two-Column Checkout --}}
+      <div class="shipping-fields-grid grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-12">
         @foreach ($shipping_fields as $key => $field)
           @php
-            // Determine if field should be full width
-            $full_width_fields = [
-              'shipping_company',
-              'shipping_address_1',
-              'shipping_address_2',
+            // Get width from Customizer setting (cast to string for array lookup)
+            $width = (string) \App\get_checkout_field_width($key, '100');
+
+            // Convert width percentage to Tailwind grid column spans (12 column grid)
+            $width_to_span = [
+              '25'  => 'sm:col-span-3',   // 3/12 = 25%
+              '33'  => 'sm:col-span-4',   // 4/12 = 33%
+              '50'  => 'sm:col-span-6',   // 6/12 = 50%
+              '66'  => 'sm:col-span-8',   // 8/12 = 66%
+              '75'  => 'sm:col-span-9',   // 9/12 = 75%
+              '100' => 'sm:col-span-12',  // 12/12 = 100%
             ];
-            $is_full_width = in_array($key, $full_width_fields);
+
+            $span_class = $width_to_span[$width] ?? 'sm:col-span-12';
 
             // Add custom classes to field
             $field['class'][] = 'form-row-wide';
-            if (!$is_full_width) {
-              $field['class'][] = 'sm:col-span-1';
-            }
           @endphp
 
-          <div @class([
-            'form-field-wrapper',
-            'sm:col-span-2' => $is_full_width,
-            'sm:col-span-1' => !$is_full_width,
-          ])>
+          <div class="form-field-wrapper {{ $span_class }}">
             @php
               woocommerce_form_field($key, $field, $checkout->get_value($key));
             @endphp
@@ -89,137 +93,26 @@
     @php do_action('woocommerce_after_checkout_shipping_form', $checkout); @endphp
   </div>
 
-  {{-- Shipping Notes (optional info shown when not shipping to different address) --}}
+  {{-- Shipping Info (shown when shipping to billing address) --}}
   <div
     x-show="!shipToDifferentAddress"
     x-collapse
     class="shipping-same-as-billing"
   >
-    <div class="flex items-start gap-3 rounded-lg border border-secondary-200 bg-white p-4">
-      <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <div>
-        <p class="text-sm text-secondary-600">
-          {{ __('Your order will be shipped to your billing address.', 'sage') }}
+    <div class="flex items-start gap-3 rounded-xl border border-secondary-200 bg-white p-4">
+      <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+        <svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div class="flex-1">
+        <p class="text-sm font-medium text-secondary-900">
+          {{ __('Shipping to billing address', 'sage') }}
         </p>
-        <button
-          type="button"
-          @click="shipToDifferentAddress = true"
-          class="mt-1 text-sm font-medium text-primary-600 hover:text-primary-700"
-        >
-          {{ __('Use a different shipping address', 'sage') }} &rarr;
-        </button>
+        <p class="mt-0.5 text-xs text-secondary-500">
+          {{ __('Your order will be delivered to the same address as your billing details.', 'sage') }}
+        </p>
       </div>
     </div>
   </div>
 </div>
-
-{{-- Shipping Fields Styling --}}
-<style>
-  /* Custom styles for shipping form fields */
-  .woocommerce-shipping-fields .form-row {
-    margin-bottom: 0;
-  }
-
-  .woocommerce-shipping-fields .woocommerce-input-wrapper {
-    width: 100%;
-  }
-
-  .woocommerce-shipping-fields label:not(.ship-to-different-address label) {
-    display: block;
-    margin-bottom: 0.375rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: rgb(var(--color-secondary-700));
-  }
-
-  .woocommerce-shipping-fields label .required {
-    color: rgb(var(--color-red-500, 239 68 68));
-    margin-left: 0.125rem;
-  }
-
-  .woocommerce-shipping-fields .shipping_address input[type="text"],
-  .woocommerce-shipping-fields .shipping_address input[type="email"],
-  .woocommerce-shipping-fields .shipping_address input[type="tel"],
-  .woocommerce-shipping-fields .shipping_address select,
-  .woocommerce-shipping-fields .shipping_address textarea {
-    width: 100%;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: rgb(var(--color-secondary-900));
-    background-color: white;
-    border: 1px solid rgb(var(--color-secondary-300));
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-
-  .woocommerce-shipping-fields .shipping_address input:focus,
-  .woocommerce-shipping-fields .shipping_address select:focus,
-  .woocommerce-shipping-fields .shipping_address textarea:focus {
-    outline: none;
-    border-color: rgb(var(--color-primary-500));
-    box-shadow: 0 0 0 2px rgb(var(--color-primary-500) / 0.2);
-  }
-
-  .woocommerce-shipping-fields .shipping_address input::placeholder {
-    color: rgb(var(--color-secondary-400));
-  }
-
-  /* Select2 styling for enhanced selects */
-  .woocommerce-shipping-fields .select2-container {
-    width: 100% !important;
-  }
-
-  .woocommerce-shipping-fields .select2-container--default .select2-selection--single {
-    height: auto;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    border: 1px solid rgb(var(--color-secondary-300));
-    border-radius: 0.5rem;
-  }
-
-  .woocommerce-shipping-fields .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 1.25rem;
-    padding: 0;
-    color: rgb(var(--color-secondary-900));
-  }
-
-  .woocommerce-shipping-fields .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 100%;
-    right: 0.75rem;
-  }
-
-  .woocommerce-shipping-fields .select2-container--default.select2-container--focus .select2-selection--single,
-  .woocommerce-shipping-fields .select2-container--default.select2-container--open .select2-selection--single {
-    border-color: rgb(var(--color-primary-500));
-    box-shadow: 0 0 0 2px rgb(var(--color-primary-500) / 0.2);
-  }
-
-  /* Optional field indicator */
-  .woocommerce-shipping-fields .optional {
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: rgb(var(--color-secondary-500));
-    margin-left: 0.25rem;
-  }
-
-  /* Validation states */
-  .woocommerce-shipping-fields .woocommerce-invalid input,
-  .woocommerce-shipping-fields .woocommerce-invalid select {
-    border-color: rgb(var(--color-red-500, 239 68 68));
-  }
-
-  .woocommerce-shipping-fields .woocommerce-validated input,
-  .woocommerce-shipping-fields .woocommerce-validated select {
-    border-color: rgb(var(--color-green-500, 34 197 94));
-  }
-
-  /* Animation for collapse */
-  .shipping_address,
-  .shipping-same-as-billing {
-    overflow: hidden;
-  }
-</style>

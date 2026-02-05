@@ -166,15 +166,15 @@
               {{ __('Quantity', 'sage') }}
             </label>
 
-            <div class="flex items-center rounded-xl border border-secondary-200 bg-white shadow-sm ring-1 ring-secondary-900/5">
+            <div class="group/qty inline-flex items-center gap-1.5 rounded-full bg-secondary-100/80 p-1.5 transition-all duration-200 hover:bg-secondary-100 hover:shadow-md">
               {{-- Decrease Button --}}
               <button
                 type="button"
-                class="quantity-btn quantity-minus flex h-12 w-12 items-center justify-center text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
+                class="quantity-btn quantity-minus flex h-10 w-10 items-center justify-center rounded-full bg-white text-secondary-500 shadow-sm ring-1 ring-secondary-200/50 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-500 disabled:hover:ring-secondary-200/50 disabled:active:scale-100 sm:h-11 sm:w-11"
                 aria-label="{{ __('Decrease quantity', 'sage') }}"
                 data-action="decrease"
               >
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
                 </svg>
               </button>
@@ -192,18 +192,18 @@
                 step="{{ $quantityData['step'] }}"
                 inputmode="numeric"
                 pattern="[0-9]*"
-                class="quantity-input input-text qty text h-12 w-16 border-x border-secondary-300 bg-transparent text-center text-lg font-medium text-secondary-900 focus:outline-none focus:ring-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                class="quantity-input input-text qty text h-10 w-12 border-0 bg-transparent text-center text-base font-bold text-secondary-900 transition-colors focus:outline-none focus:ring-0 sm:h-11 sm:w-14 sm:text-lg [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 aria-label="{{ __('Product quantity', 'sage') }}"
               />
 
               {{-- Increase Button --}}
               <button
                 type="button"
-                class="quantity-btn quantity-plus flex h-12 w-12 items-center justify-center text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
+                class="quantity-btn quantity-plus flex h-10 w-10 items-center justify-center rounded-full bg-white text-secondary-500 shadow-sm ring-1 ring-secondary-200/50 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-500 disabled:hover:ring-secondary-200/50 disabled:active:scale-100 sm:h-11 sm:w-11"
                 aria-label="{{ __('Increase quantity', 'sage') }}"
                 data-action="increase"
               >
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
               </button>

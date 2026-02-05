@@ -57,6 +57,7 @@ class ProductCard extends Component
         return get_the_post_thumbnail($id, 'woocommerce_thumbnail', [
             'class' => 'h-full w-full object-cover transition-transform duration-300 group-hover:scale-105',
             'loading' => 'lazy',
+            'decoding' => 'async',
         ]);
     }
 
@@ -119,10 +120,33 @@ class ProductCard extends Component
 
     public function salePercentage(): int
     {
+        if (! $this->product->is_on_sale()) {
+            return 0;
+        }
+
+        // Handle variable products - find the maximum discount across variations
+        if ($this->product->is_type('variable') && $this->product instanceof \WC_Product_Variable) {
+            $max_percentage = 0;
+            $variations = $this->product->get_available_variations();
+
+            foreach ($variations as $variation) {
+                $regular = (float) ($variation['display_regular_price'] ?? 0);
+                $sale = (float) ($variation['display_price'] ?? 0);
+
+                if ($regular > 0 && $sale > 0 && $sale < $regular) {
+                    $percentage = round((($regular - $sale) / $regular) * 100);
+                    $max_percentage = max($max_percentage, $percentage);
+                }
+            }
+
+            return (int) $max_percentage;
+        }
+
+        // Handle simple and other product types
         $regular = (float) $this->product->get_regular_price();
         $sale = (float) $this->product->get_sale_price();
 
-        if ($regular <= 0 || $sale <= 0) {
+        if ($regular <= 0 || $sale <= 0 || $sale >= $regular) {
             return 0;
         }
 

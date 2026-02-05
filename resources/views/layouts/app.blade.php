@@ -25,6 +25,9 @@
       {{-- Header --}}
       @include('sections.header')
 
+      {{-- Search Popup --}}
+      <x-search-popup />
+
       {{-- Main Content Area --}}
       <div class="flex-1">
         @hasSection('hero')

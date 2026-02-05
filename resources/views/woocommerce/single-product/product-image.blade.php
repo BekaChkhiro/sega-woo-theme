@@ -144,6 +144,7 @@
             alt="{{ $image['alt'] }}"
             class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
+            decoding="async"
           />
         </button>
       @endforeach
@@ -233,6 +234,8 @@
               src="{{ $image['thumb_url'] }}"
               alt="{{ $image['alt'] }}"
               class="h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </button>
         @endforeach

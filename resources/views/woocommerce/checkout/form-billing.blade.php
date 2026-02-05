@@ -1,59 +1,54 @@
 {{--
-  Template: Checkout Billing Fields
+  Template: Checkout Billing Fields (Redesigned)
   Description: Renders the billing address form fields for WooCommerce checkout
   @see woocommerce/templates/checkout/form-billing.php
 --}}
 
 @php
   $checkout = WC()->checkout();
+  $billing_fields = $checkout->get_checkout_fields('billing');
+
+  // Remove email field if it's being shown separately in the contact section
+  if (!is_user_logged_in() && isset($billing_fields['billing_email'])) {
+    unset($billing_fields['billing_email']);
+  }
 @endphp
 
 <div class="woocommerce-billing-fields">
-  {{-- Section Header --}}
-  <h2 class="mb-6 flex items-center gap-3 text-lg font-semibold text-secondary-900">
-    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-600">
-      1
-    </span>
-    {{ __('Billing details', 'sage') }}
-  </h2>
-
   @php do_action('woocommerce_before_checkout_billing_form', $checkout); @endphp
 
   {{-- Billing Fields Container --}}
   <div class="woocommerce-billing-fields__field-wrapper">
+    {{-- Let WooCommerce render all fields naturally, then style with CSS --}}
     @php
-      $billing_fields = $checkout->get_checkout_fields('billing');
+      foreach ($billing_fields as $key => $field) {
+        // Get width from Customizer setting
+        $width = (string) \App\get_checkout_field_width($key, '100');
+
+        // Add width class to field
+        $width_class_map = [
+          '25'  => 'field-width-25',
+          '33'  => 'field-width-33',
+          '50'  => 'field-width-50',
+          '66'  => 'field-width-66',
+          '75'  => 'field-width-75',
+          '100' => 'field-width-100',
+        ];
+        $width_class = $width_class_map[$width] ?? 'field-width-100';
+
+        // Add our width class to the field's class array
+        if (!isset($billing_fields[$key]['class'])) {
+          $billing_fields[$key]['class'] = [];
+        }
+        $billing_fields[$key]['class'][] = $width_class;
+      }
     @endphp
 
-    {{-- Grid Layout for Fields --}}
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div class="billing-fields-grid" style="display: flex !important; flex-wrap: wrap !important; gap: 1rem !important;">
       @foreach ($billing_fields as $key => $field)
         @php
-          // Determine if field should be full width
-          $full_width_fields = [
-            'billing_company',
-            'billing_address_1',
-            'billing_address_2',
-            'billing_email',
-          ];
-          $is_full_width = in_array($key, $full_width_fields);
-
-          // Add custom classes to field
-          $field['class'][] = 'form-row-wide';
-          if (!$is_full_width) {
-            $field['class'][] = 'sm:col-span-1';
-          }
+          woocommerce_form_field($key, $field, $checkout->get_value($key));
         @endphp
-
-        <div @class([
-          'form-field-wrapper',
-          'sm:col-span-2' => $is_full_width,
-          'sm:col-span-1' => !$is_full_width,
-        ])>
-          @php
-            woocommerce_form_field($key, $field, $checkout->get_value($key));
-          @endphp
-        </div>
       @endforeach
     </div>
   </div>
@@ -68,7 +63,9 @@
 
     @if (!$checkout->is_registration_required())
       <div class="create-account">
-        <label class="flex cursor-pointer items-start gap-3">
+        <label class="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-secondary-200 p-4 transition-all hover:border-secondary-300 hover:bg-secondary-50/50"
+          :class="createAccount ? 'border-primary-500 bg-primary-50/50' : ''"
+        >
           <input
             type="checkbox"
             name="createaccount"
@@ -78,14 +75,21 @@
             x-model="createAccount"
             {{ !empty($checkout->get_value('createaccount')) ? 'checked' : '' }}
           />
-          <div>
-            <span class="text-sm font-medium text-secondary-700">
+          <div class="flex-1">
+            <span class="block text-sm font-medium text-secondary-900">
               {{ __('Create an account?', 'sage') }}
             </span>
-            <p class="mt-0.5 text-xs text-secondary-500">
-              {{ __('Create an account for faster checkout and order tracking.', 'sage') }}
+            <p class="mt-1 text-xs text-secondary-500">
+              {{ __('Create an account for faster checkout, order tracking, and exclusive offers.', 'sage') }}
             </p>
           </div>
+          <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-secondary-100 text-secondary-400"
+            :class="createAccount ? 'bg-primary-100 text-primary-600' : ''"
+          >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </span>
         </label>
 
         {{-- Account Fields (shown when checkbox is checked) --}}
@@ -97,10 +101,13 @@
           @php do_action('woocommerce_before_checkout_account_fields', $checkout); @endphp
 
           @if (!empty($checkout->get_checkout_fields('account')))
-            <div class="space-y-4 rounded-lg border border-secondary-200 bg-secondary-50 p-4">
-              <p class="text-sm text-secondary-600">
-                {{ __('Create your account credentials below:', 'sage') }}
-              </p>
+            <div class="space-y-4 rounded-xl border border-secondary-200 bg-secondary-50/50 p-4">
+              <div class="flex items-center gap-2 text-sm text-secondary-600">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                {{ __('Create your secure password below:', 'sage') }}
+              </div>
 
               @foreach ($checkout->get_checkout_fields('account') as $key => $field)
                 <div class="account-field">
@@ -120,107 +127,3 @@
     @php do_action('woocommerce_after_checkout_registration_form', $checkout); @endphp
   </div>
 @endif
-
-{{-- Billing Fields Styling --}}
-<style>
-  /* Custom styles for billing form fields */
-  .woocommerce-billing-fields .form-row {
-    margin-bottom: 0;
-  }
-
-  .woocommerce-billing-fields .woocommerce-input-wrapper {
-    width: 100%;
-  }
-
-  .woocommerce-billing-fields label {
-    display: block;
-    margin-bottom: 0.375rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: rgb(var(--color-secondary-700));
-  }
-
-  .woocommerce-billing-fields label .required {
-    color: rgb(var(--color-red-500, 239 68 68));
-    margin-left: 0.125rem;
-  }
-
-  .woocommerce-billing-fields input[type="text"],
-  .woocommerce-billing-fields input[type="email"],
-  .woocommerce-billing-fields input[type="tel"],
-  .woocommerce-billing-fields input[type="password"],
-  .woocommerce-billing-fields select,
-  .woocommerce-billing-fields textarea {
-    width: 100%;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: rgb(var(--color-secondary-900));
-    background-color: white;
-    border: 1px solid rgb(var(--color-secondary-300));
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-
-  .woocommerce-billing-fields input:focus,
-  .woocommerce-billing-fields select:focus,
-  .woocommerce-billing-fields textarea:focus {
-    outline: none;
-    border-color: rgb(var(--color-primary-500));
-    box-shadow: 0 0 0 2px rgb(var(--color-primary-500) / 0.2);
-  }
-
-  .woocommerce-billing-fields input::placeholder {
-    color: rgb(var(--color-secondary-400));
-  }
-
-  /* Select2 styling for enhanced selects */
-  .woocommerce-billing-fields .select2-container {
-    width: 100% !important;
-  }
-
-  .woocommerce-billing-fields .select2-container--default .select2-selection--single {
-    height: auto;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    border: 1px solid rgb(var(--color-secondary-300));
-    border-radius: 0.5rem;
-  }
-
-  .woocommerce-billing-fields .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 1.25rem;
-    padding: 0;
-    color: rgb(var(--color-secondary-900));
-  }
-
-  .woocommerce-billing-fields .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 100%;
-    right: 0.75rem;
-  }
-
-  .woocommerce-billing-fields .select2-container--default.select2-container--focus .select2-selection--single,
-  .woocommerce-billing-fields .select2-container--default.select2-container--open .select2-selection--single {
-    border-color: rgb(var(--color-primary-500));
-    box-shadow: 0 0 0 2px rgb(var(--color-primary-500) / 0.2);
-  }
-
-  /* Optional field indicator */
-  .woocommerce-billing-fields .optional {
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: rgb(var(--color-secondary-500));
-    margin-left: 0.25rem;
-  }
-
-  /* Validation states */
-  .woocommerce-billing-fields .woocommerce-invalid input,
-  .woocommerce-billing-fields .woocommerce-invalid select {
-    border-color: rgb(var(--color-red-500, 239 68 68));
-  }
-
-  .woocommerce-billing-fields .woocommerce-validated input,
-  .woocommerce-billing-fields .woocommerce-validated select {
-    border-color: rgb(var(--color-green-500, 34 197 94));
-  }
-</style>

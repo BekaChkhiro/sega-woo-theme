@@ -175,6 +175,9 @@ class Product extends Composer
 
     /**
      * Get sale percentage discount.
+     *
+     * For simple products: calculates the percentage from regular to sale price.
+     * For variable products: returns the maximum discount percentage across all variations.
      */
     public function salePercentage(): int
     {
@@ -184,10 +187,29 @@ class Product extends Composer
             return 0;
         }
 
+        // Handle variable products - find the maximum discount across variations
+        if ($product instanceof WC_Product_Variable) {
+            $max_percentage = 0;
+            $variations = $product->get_available_variations();
+
+            foreach ($variations as $variation) {
+                $regular = (float) ($variation['display_regular_price'] ?? 0);
+                $sale = (float) ($variation['display_price'] ?? 0);
+
+                if ($regular > 0 && $sale > 0 && $sale < $regular) {
+                    $percentage = round((($regular - $sale) / $regular) * 100);
+                    $max_percentage = max($max_percentage, $percentage);
+                }
+            }
+
+            return (int) $max_percentage;
+        }
+
+        // Handle simple and other product types
         $regular = (float) $product->get_regular_price();
         $sale = (float) $product->get_sale_price();
 
-        if ($regular <= 0) {
+        if ($regular <= 0 || $sale <= 0 || $sale >= $regular) {
             return 0;
         }
 
@@ -1024,4 +1046,5 @@ class Product extends Composer
     {
         return $this->getProduct();
     }
+
 }
