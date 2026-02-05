@@ -25,6 +25,7 @@ import toast from './components/toast';
 import searchPopup from './components/search-popup';
 import heroSlider from './components/hero-slider';
 import productCarousel from './components/product-carousel';
+import productGallery from './components/product-gallery';
 
 Alpine.plugin(collapse);
 
@@ -34,6 +35,7 @@ Alpine.data('toast', toast);
 Alpine.data('searchPopup', searchPopup);
 Alpine.data('heroSlider', heroSlider);
 Alpine.data('productCarousel', productCarousel);
+Alpine.data('productGallery', productGallery);
 
 window.Alpine = Alpine;
 Alpine.start();

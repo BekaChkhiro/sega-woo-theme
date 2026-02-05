@@ -21,7 +21,7 @@
   $mainImage = $images[0] ?? null;
 @endphp
 
-<div class="product-gallery" x-data="productGallery()" x-cloak>
+<div class="product-gallery" x-data="productGallery" data-images="{{ json_encode($images) }}" x-cloak>
   <div class="relative">
     {{-- Badges --}}
     <div class="absolute left-3 top-3 z-10 flex flex-col gap-2">
@@ -46,28 +46,28 @@
     </div>
 
     {{-- Navigation Arrows (for multiple images) --}}
-    @if ($hasMultipleImages)
-      <button
-        type="button"
-        class="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
-        @click="previousImage()"
-        aria-label="{{ __('Previous image', 'sage') }}"
-      >
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        class="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
-        @click="nextImage()"
-        aria-label="{{ __('Next image', 'sage') }}"
-      >
-        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    @endif
+    <button
+      x-show="images.length > 1"
+      type="button"
+      class="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
+      @click="previousImage()"
+      aria-label="{{ __('Previous image', 'sage') }}"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button
+      x-show="images.length > 1"
+      type="button"
+      class="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
+      @click="nextImage()"
+      aria-label="{{ __('Next image', 'sage') }}"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
 
     {{-- Zoom Button --}}
     @if ($mainImage)
@@ -121,35 +121,64 @@
     </div>
 
     {{-- Image Counter --}}
-    @if ($hasMultipleImages)
-      <div class="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-        <span x-text="currentIndex + 1"></span> / {{ count($images) }}
-      </div>
-    @endif
+    <div x-show="images.length > 1" class="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+      <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
+    </div>
   </div>
 
-  {{-- Gallery Thumbnails --}}
-  @if ($hasMultipleImages)
-    <div class="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-5 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5">
-      @foreach ($images as $index => $image)
-        <button
-          type="button"
-          class="gallery-thumbnail group aspect-square overflow-hidden rounded-xl border-2 bg-secondary-50 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-          :class="currentIndex === {{ $index }} ? 'border-primary-500 ring-2 ring-primary-500/20 shadow-md' : 'border-transparent hover:border-secondary-300 hover:shadow-md'"
-          @click="setImage({{ $index }})"
-          aria-label="{{ sprintf(__('View image %d', 'sage'), $index + 1) }}"
-        >
-          <img
-            src="{{ $image['thumb_url'] }}"
-            alt="{{ $image['alt'] }}"
-            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
-            decoding="async"
-          />
-        </button>
-      @endforeach
+  {{-- Gallery Thumbnails Carousel --}}
+  <div x-show="images.length > 1" class="relative mt-4" x-ref="thumbnailCarouselWrapper">
+    {{-- Thumbnail Navigation - Previous --}}
+    <button
+      type="button"
+      x-ref="thumbPrev"
+      class="absolute -left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-1.5 text-secondary-600 shadow-md transition-all hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-40 disabled:cursor-not-allowed"
+      :class="{ 'invisible': images.length <= 4 }"
+      aria-label="{{ __('Previous thumbnails', 'sage') }}"
+    >
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    {{-- Swiper Container --}}
+    <div class="mx-5 overflow-hidden" x-ref="thumbnailSwiper">
+      <div class="swiper-wrapper">
+        <template x-for="(image, index) in images" :key="'thumb-' + index">
+          <div class="swiper-slide">
+            <button
+              type="button"
+              class="gallery-thumbnail group aspect-square w-full overflow-hidden rounded-xl border-2 bg-secondary-50 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              :class="currentIndex === index ? 'border-primary-500 ring-2 ring-primary-500/20 shadow-md' : 'border-transparent hover:border-secondary-300 hover:shadow-md'"
+              @click="setImage(index); slideThumbnailTo(index)"
+              :aria-label="'{{ __('View image', 'sage') }} ' + (index + 1)"
+            >
+              <img
+                :src="image.thumb_url"
+                :alt="image.alt"
+                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+          </div>
+        </template>
+      </div>
     </div>
-  @endif
+
+    {{-- Thumbnail Navigation - Next --}}
+    <button
+      type="button"
+      x-ref="thumbNext"
+      class="absolute -right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-1.5 text-secondary-600 shadow-md transition-all hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-40 disabled:cursor-not-allowed"
+      :class="{ 'invisible': images.length <= 4 }"
+      aria-label="{{ __('Next thumbnails', 'sage') }}"
+    >
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
 
   {{-- Lightbox Modal --}}
   <div
@@ -182,28 +211,28 @@
     </button>
 
     {{-- Navigation Arrows --}}
-    @if ($hasMultipleImages)
-      <button
-        type="button"
-        class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
-        @click="previousImage()"
-        aria-label="{{ __('Previous image', 'sage') }}"
-      >
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
-        @click="nextImage()"
-        aria-label="{{ __('Next image', 'sage') }}"
-      >
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    @endif
+    <button
+      x-show="images.length > 1"
+      type="button"
+      class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+      @click="previousImage()"
+      aria-label="{{ __('Previous image', 'sage') }}"
+    >
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button
+      x-show="images.length > 1"
+      type="button"
+      class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+      @click="nextImage()"
+      aria-label="{{ __('Next image', 'sage') }}"
+    >
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
 
     {{-- Lightbox Image --}}
     <div class="max-h-[90vh] max-w-[90vw]">
@@ -221,112 +250,34 @@
     </div>
 
     {{-- Lightbox Thumbnails --}}
-    @if ($hasMultipleImages)
-      <div class="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-        @foreach ($images as $index => $image)
-          <button
-            type="button"
-            class="h-16 w-16 overflow-hidden rounded-lg border-2 transition-all focus:outline-none"
-            :class="currentIndex === {{ $index }} ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100'"
-            @click="setImage({{ $index }})"
-          >
-            <img
-              src="{{ $image['thumb_url'] }}"
-              alt="{{ $image['alt'] }}"
-              class="h-full w-full object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-          </button>
-        @endforeach
-      </div>
-    @endif
+    <div x-show="images.length > 1" class="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+      <template x-for="(image, index) in images" :key="'lightbox-thumb-' + index">
+        <button
+          type="button"
+          class="h-16 w-16 overflow-hidden rounded-lg border-2 transition-all focus:outline-none"
+          :class="currentIndex === index ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100'"
+          @click="setImage(index)"
+        >
+          <img
+            :src="image.thumb_url"
+            :alt="image.alt"
+            class="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </button>
+      </template>
+    </div>
 
     {{-- Image Counter --}}
-    @if ($hasMultipleImages)
-      <div class="absolute left-4 top-4 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-        <span x-text="currentIndex + 1"></span> / {{ count($images) }}
-      </div>
-    @endif
+    <div x-show="images.length > 1" class="absolute left-4 top-4 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
+      <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
+    </div>
   </div>
 </div>
 
-{{-- Alpine.js Component Data --}}
-@php
-  $galleryData = json_encode([
-    'images' => $images,
-    'currentIndex' => 0,
-    'lightboxOpen' => false,
-  ]);
-@endphp
-
+{{-- WooCommerce Variation Event Listeners --}}
 <script>
-  // Product Gallery Alpine Component
-  function productGallery() {
-    return {
-      images: @json($images),
-      originalImages: @json($images),
-      currentIndex: 0,
-      lightboxOpen: false,
-
-      setImage(index) {
-        this.currentIndex = index;
-      },
-
-      nextImage() {
-        if (this.images.length > 0) {
-          this.currentIndex = (this.currentIndex + 1) % this.images.length;
-        }
-      },
-
-      previousImage() {
-        if (this.images.length > 0) {
-          this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-        }
-      },
-
-      openLightbox() {
-        if (this.images.length > 0) {
-          this.lightboxOpen = true;
-          document.body.style.overflow = 'hidden';
-        }
-      },
-
-      closeLightbox() {
-        this.lightboxOpen = false;
-        document.body.style.overflow = '';
-      },
-
-      // Update gallery when variation changes (for variable products)
-      updateGalleryImage(imageUrl, fullUrl, thumbUrl, alt, srcset, sizes) {
-        const variationImage = {
-          id: 0,
-          url: imageUrl,
-          full_url: fullUrl,
-          thumb_url: thumbUrl,
-          alt: alt,
-          srcset: srcset || '',
-          sizes: sizes || '',
-          is_main: true,
-          is_variation: true
-        };
-
-        // Remove any previously inserted variation image and reset
-        this.images = this.originalImages.filter(img => !img.is_variation);
-
-        // Add variation image at the start
-        this.images.unshift(variationImage);
-        this.currentIndex = 0;
-      },
-
-      // Reset to original images
-      resetGallery() {
-        this.images = [...this.originalImages];
-        this.currentIndex = 0;
-      }
-    };
-  }
-
   // Listen for WooCommerce variation change events
   document.addEventListener('DOMContentLoaded', function() {
     const variationsForm = document.querySelector('.variations-form');

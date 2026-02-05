@@ -803,6 +803,20 @@ html {
   .gallery-thumbnail img {
     transition: transform var(--transition-default) ease-out;
   }
+
+  /* Thumbnail carousel Swiper styles */
+  .product-gallery .swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .product-gallery .swiper-slide {
+    height: auto;
+  }
+
+  .product-gallery .swiper-slide .gallery-thumbnail {
+    height: 100%;
+  }
 }
 
 /* Tab panel fade-in animation */
