@@ -4,7 +4,7 @@
 > **Framework:** Sage 10 (Roots)
 > **Created:** 2026-02-02
 > **Last Updated:** 2026-02-06
-> **Current Focus:** Phase 14 - Header Improvements
+> **Current Focus:** T14.2 - Create categories dropdown button below logo
 > **Status:** In Progress
 > **Last Updated:** 2026-02-06
 > **Plugin Version:** 1.1.1
@@ -272,7 +272,7 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T14.1 | Remove account icon from header | Low | TODO | - |
+| T14.1 | Remove account icon from header | Low | DONE ✅ | - |
 | T14.2 | Create categories dropdown button below logo | Medium | TODO | - |
 | T14.3 | Connect dropdown to mega-menu component | Medium | TODO | T14.2 |
 | T14.4 | Implement subcategory hover reveal (like homepage) | Medium | TODO | T14.3 |
@@ -431,11 +431,11 @@ sega-woo-theme/
 | Phase 11: Product Page Improvements | 10 | 10 | 100% |
 | Phase 12: Cart Page Improvements | 5 | 5 | 100% |
 | Phase 13: Homepage Improvements | 7 | 7 | 100% |
-| Phase 14: Header Improvements | 6 | 0 | 0% |
+| Phase 14: Header Improvements | 6 | 1 | 17% |
 | Phase 15: Shop Page Improvements | 10 | 0 | 0% |
 | Phase 16: Search Functionality | 6 | 0 | 0% |
 | Phase 17: Performance Optimization | 10 | 0 | 0% |
-| **TOTAL** | **150** | **118** | **79%** |
+| **TOTAL** | **150** | **119** | **79%** |
 
 ---
 

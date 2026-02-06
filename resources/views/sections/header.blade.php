@@ -30,7 +30,7 @@
         </nav>
       @endif
 
-      {{-- Header Actions (Search, Account, Cart) --}}
+      {{-- Header Actions (Search, Cart) --}}
       <div class="flex items-center gap-2 lg:gap-4">
         {{-- Search Toggle --}}
         <button
@@ -44,19 +44,6 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </button>
-
-        {{-- Account Link --}}
-        @if (function_exists('wc_get_page_permalink'))
-          <a
-            href="{{ wc_get_page_permalink('myaccount') }}"
-            class="hidden h-10 w-10 items-center justify-center rounded-full text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900 sm:flex"
-            aria-label="{{ __('My Account', 'sage') }}"
-          >
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </a>
-        @endif
 
         {{-- Mini Cart Dropdown --}}
         @if (function_exists('WC'))
@@ -93,19 +80,6 @@
             'link_after' => '</span>',
           ]) !!}
         </nav>
-      @endif
-
-      {{-- Mobile Account Link --}}
-      @if (function_exists('wc_get_page_permalink'))
-        <a
-          href="{{ wc_get_page_permalink('myaccount') }}"
-          class="mt-4 flex items-center gap-2 border-t border-secondary-100 pt-4 text-base font-medium text-secondary-700"
-        >
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          {{ __('My Account', 'sage') }}
-        </a>
       @endif
     </div>
   </div>
