@@ -3880,132 +3880,6 @@ html {
 }
 
 /* --------------------------------------------
-   Promotional Banners Section
-   -------------------------------------------- */
-
-@layer components {
-  /* Promo card base */
-  .promo-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--radius-xl);
-    transition: transform var(--transition-default) ease,
-                box-shadow var(--transition-default) ease;
-  }
-
-  .promo-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-2xl);
-  }
-
-  /* Promo card decorative circle */
-  .promo-card .promo-circle {
-    position: absolute;
-    border-radius: var(--radius-full);
-    background-color: rgba(255, 255, 255, 0.1);
-    transition: transform var(--transition-slow) ease;
-  }
-
-  .promo-card:hover .promo-circle {
-    transform: scale(1.2);
-  }
-
-  /* Promo card badge */
-  .promo-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-full);
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Promo CTA button */
-  .promo-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1.25rem;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    font-size: 0.875rem;
-    transition: all var(--transition-fast) ease;
-  }
-
-  .promo-cta:hover {
-    transform: translateX(4px);
-  }
-
-  .promo-cta svg {
-    transition: transform var(--transition-fast) ease;
-  }
-
-  .promo-cta:hover svg {
-    transform: translateX(4px);
-  }
-}
-
-/* --------------------------------------------
-   Trust Badges / Features Section
-   -------------------------------------------- */
-
-@layer components {
-  /* Trust badge card */
-  .trust-badge {
-    position: relative;
-    transition: all var(--transition-default) ease;
-  }
-
-  .trust-badge:hover {
-    transform: translateY(-4px);
-    border-color: var(--color-primary-200);
-    box-shadow: var(--shadow-md);
-  }
-
-  /* Trust badge icon container */
-  .trust-badge-icon {
-    transition: transform var(--transition-default) ease,
-                background-color var(--transition-default) ease;
-  }
-
-  .trust-badge:hover .trust-badge-icon {
-    transform: scale(1.1) rotate(5deg);
-  }
-
-  /* Trust badge title */
-  .trust-badge-title {
-    transition: color var(--transition-fast) ease;
-  }
-
-  .trust-badge:hover .trust-badge-title {
-    color: var(--color-primary-600);
-  }
-
-  /* Trust badges grid responsive spacing */
-  .trust-badges-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  @media (width >= 768px) {
-    .trust-badges-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-  }
-
-  @media (width >= 1280px) {
-    .trust-badges-grid {
-      gap: 2rem;
-    }
-  }
-}
-
-/* --------------------------------------------
    Product Carousel Section Enhancements
    -------------------------------------------- */
 
@@ -4225,15 +4099,11 @@ html {
 
   /* Touch-friendly targets on mobile */
   @media (hover: none) {
-    .category-card,
-    .promo-card,
-    .trust-badge {
+    .category-card {
       transition: none;
     }
 
-    .category-card:active,
-    .promo-card:active,
-    .trust-badge:active {
+    .category-card:active {
       transform: scale(0.98);
       opacity: 0.9;
     }
@@ -4293,9 +4163,7 @@ html {
 
 @layer components {
   /* Focus states for interactive elements */
-  .category-card:focus-visible,
-  .promo-card a:focus-visible,
-  .trust-badge:focus-visible {
+  .category-card:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
   }
@@ -4304,16 +4172,12 @@ html {
   @media (prefers-reduced-motion: reduce) {
     .homepage-section,
     .category-card,
-    .promo-card,
-    .trust-badge,
     .carousel-skeleton-item {
       animation: none;
       transition: none;
     }
 
-    .category-card:hover,
-    .promo-card:hover,
-    .trust-badge:hover {
+    .category-card:hover {
       transform: none;
     }
   }

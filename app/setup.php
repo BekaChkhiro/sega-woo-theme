@@ -604,6 +604,10 @@ add_action('customize_register', function ($wp_customize) {
         return;
     }
 
+    // Register Homepage Slider Customizer
+    $homepage_slider = new \App\Customizer\HomepageSlider();
+    $homepage_slider->register($wp_customize);
+
     // Register Checkout Fields Customizer
     $checkout_fields = new \App\Customizer\CheckoutFields();
     $checkout_fields->register($wp_customize);

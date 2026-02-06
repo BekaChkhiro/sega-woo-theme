@@ -4,13 +4,25 @@ import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
 /**
  * Hero Slider Component
  * Uses Swiper.js for smooth, touch-friendly slider functionality
+ *
+ * @param {Object} config - Configuration options
+ * @param {boolean} config.autoplay - Enable autoplay (default: true)
+ * @param {number} config.delay - Autoplay delay in ms (default: 5000)
+ * @param {boolean} config.showNavigation - Show navigation arrows (default: true)
+ * @param {boolean} config.showPagination - Show pagination dots (default: true)
  */
-export default function heroSlider() {
+export default function heroSlider(config = {}) {
   return {
     swiper: null,
     currentSlide: 0,
     totalSlides: 0,
     isAutoplayPaused: false,
+    config: {
+      autoplay: config.autoplay ?? true,
+      delay: config.delay ?? 5000,
+      showNavigation: config.showNavigation ?? true,
+      showPagination: config.showPagination ?? true,
+    },
 
     init() {
       this.$nextTick(() => {
@@ -22,6 +34,17 @@ export default function heroSlider() {
       const swiperEl = this.$refs.swiper;
       if (!swiperEl) return;
 
+      // Destroy existing instance if any
+      if (this.swiper) {
+        this.swiper.destroy(true, true);
+      }
+
+      const autoplayConfig = this.config.autoplay ? {
+        delay: this.config.delay,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      } : false;
+
       this.swiper = new Swiper(swiperEl, {
         modules: [Navigation, Pagination, Autoplay, EffectFade],
 
@@ -32,11 +55,7 @@ export default function heroSlider() {
         },
 
         // Autoplay
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        },
+        autoplay: autoplayConfig,
 
         // Speed
         speed: 600,
@@ -44,7 +63,7 @@ export default function heroSlider() {
         // Loop
         loop: true,
 
-        // Pagination (dots)
+        // Pagination (dots) - always initialize for live preview toggle
         pagination: {
           el: this.$refs.pagination,
           clickable: true,
@@ -55,7 +74,7 @@ export default function heroSlider() {
           },
         },
 
-        // Navigation (arrows)
+        // Navigation (arrows) - always initialize for live preview toggle
         navigation: {
           nextEl: this.$refs.next,
           prevEl: this.$refs.prev,
@@ -85,6 +104,9 @@ export default function heroSlider() {
           },
         },
       });
+
+      // Expose Swiper instance globally for Customizer live preview
+      window.heroSliderSwiper = this.swiper;
     },
 
     goToSlide(index) {
@@ -121,6 +143,7 @@ export default function heroSlider() {
       if (this.swiper) {
         this.swiper.destroy(true, true);
         this.swiper = null;
+        window.heroSliderSwiper = null;
       }
     },
   };

@@ -7,7 +7,7 @@
   <section class="hero-section section-bg-secondary py-4 lg:py-6">
     <div class="shop-container grid gap-4 lg:grid-cols-5 lg:gap-6">
       {{-- Mega Menu (20% width = 1 col out of 5 on desktop) --}}
-      <div class="mega-menu-wrapper hidden h-[300px] sm:h-[370px] lg:col-span-1 lg:block lg:h-[440px]">
+      <div class="mega-menu-wrapper hidden h-[385px] sm:h-[455px] lg:col-span-1 lg:block lg:h-[525px]">
         <x-mega-menu
           mode="menu"
           menu-location="mega_menu"
@@ -21,12 +21,13 @@
       </div>
 
       {{-- Hero Slider (80% width = 4 cols out of 5 on desktop) --}}
-      <div class="hero-slider-wrapper h-[300px] sm:h-[370px] lg:col-span-4 lg:h-[440px]">
+      <div class="hero-slider-wrapper h-[385px] sm:h-[455px] lg:col-span-4 lg:h-[525px]">
         <x-hero-slider
-          :autoplay="true"
-          :delay="5000"
-          :show-navigation="true"
-          :show-pagination="true"
+          :slides="$sliderSlides"
+          :autoplay="$sliderSettings['autoplay'] ?? true"
+          :delay="$sliderSettings['delay'] ?? 5000"
+          :show-navigation="$sliderSettings['navigation'] ?? true"
+          :show-pagination="$sliderSettings['pagination'] ?? true"
         />
       </div>
     </div>
@@ -34,7 +35,7 @@
 @endsection
 
 @section('content')
-  {{-- Featured Categories Section --}}
+  {{-- Featured Categories Carousel Section --}}
   @if ($hasFeaturedCategories)
     <section class="homepage-section section-bg-primary section-padding shop-container">
       <div class="carousel-section-header">
@@ -56,35 +57,15 @@
         </a>
       </div>
 
-      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6 lg:gap-6">
-        @foreach ($featuredCategories as $category)
-          <a
-            href="{{ $category['url'] }}"
-            class="category-card group flex flex-col items-center rounded-xl border border-secondary-200 bg-white p-4 text-center lg:p-6"
-          >
-            <div class="category-icon mb-3 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-secondary-100 transition-colors group-hover:bg-primary-50 lg:h-20 lg:w-20">
-              @if ($category['thumbnail'])
-                <img
-                  src="{{ $category['thumbnail'] }}"
-                  alt="{{ $category['name'] }}"
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                >
-              @else
-                <svg class="h-8 w-8 text-secondary-400 lg:h-10 lg:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-              @endif
-            </div>
-            <h3 class="text-sm font-medium text-secondary-900 transition-colors group-hover:text-primary-600 lg:text-base">
-              {{ $category['name'] }}
-            </h3>
-            <span class="mt-1 text-xs text-secondary-500">
-              {{ sprintf(_n('%d product', '%d products', $category['count'], 'sage'), $category['count']) }}
-            </span>
-          </a>
-        @endforeach
-      </div>
+      {{-- Category Carousel --}}
+      @include('partials.category-carousel', [
+        'categories' => $featuredCategories,
+        'id' => 'homepage-category-carousel',
+        'slidesPerView' => 6,
+        'spaceBetween' => 24,
+        'loop' => true,
+        'navigation' => true,
+      ])
     </section>
   @endif
 
@@ -133,59 +114,6 @@
       </div>
     </section>
   @endif
-
-  {{-- Promotional Banners --}}
-  <section class="homepage-section section-bg-primary section-padding shop-container">
-    <div class="grid gap-4 md:grid-cols-2 lg:gap-6">
-      {{-- Promo Card 1: Free Shipping --}}
-      <div class="promo-card bg-gradient-to-br from-amber-400 to-orange-500 p-6 lg:p-8">
-        <div class="relative z-10 max-w-xs">
-          <span class="promo-badge mb-2 text-white">
-            {{ __('Limited Time', 'sage') }}
-          </span>
-          <h3 class="mb-2 text-xl font-bold text-white lg:text-2xl">
-            {{ __('Free Shipping', 'sage') }}
-          </h3>
-          <p class="mb-4 text-sm text-white/90">
-            {{ __('On all orders over $50. Shop now and save on delivery!', 'sage') }}
-          </p>
-          <a href="{{ $shopUrl }}" class="promo-cta bg-white text-orange-600 hover:bg-orange-50">
-            {{ __('Shop Now', 'sage') }}
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </div>
-        {{-- Decorative circles --}}
-        <div class="promo-circle -bottom-8 -right-8 h-40 w-40 lg:h-48 lg:w-48"></div>
-        <div class="promo-circle -bottom-4 right-16 h-20 w-20 lg:h-24 lg:w-24"></div>
-      </div>
-
-      {{-- Promo Card 2: Exclusive Deals --}}
-      <div class="promo-card bg-gradient-to-br from-indigo-500 to-purple-600 p-6 lg:p-8">
-        <div class="relative z-10 max-w-xs">
-          <span class="promo-badge mb-2 text-white">
-            {{ __('Members Only', 'sage') }}
-          </span>
-          <h3 class="mb-2 text-xl font-bold text-white lg:text-2xl">
-            {{ __('Exclusive Deals', 'sage') }}
-          </h3>
-          <p class="mb-4 text-sm text-white/90">
-            {{ __('Sign up for our newsletter and get 10% off your first order.', 'sage') }}
-          </p>
-          <a href="{{ $myAccountUrl }}" class="promo-cta bg-white text-indigo-600 hover:bg-indigo-50">
-            {{ __('Join Now', 'sage') }}
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </div>
-        {{-- Decorative circles --}}
-        <div class="promo-circle -bottom-8 -right-8 h-40 w-40 lg:h-48 lg:w-48"></div>
-        <div class="promo-circle -bottom-4 right-16 h-20 w-20 lg:h-24 lg:w-24"></div>
-      </div>
-    </div>
-  </section>
 
   {{-- On Sale Products Carousel Section --}}
   @if ($hasSaleProducts)
@@ -291,68 +219,4 @@
     </section>
   @endif
 
-  {{-- Features/Trust Badges Section --}}
-  <section class="homepage-section section-bg-primary section-padding shop-container">
-    <div class="trust-badges-grid">
-      {{-- Free Shipping --}}
-      <div class="trust-badge flex flex-col items-center rounded-xl border border-secondary-200 bg-white p-4 text-center lg:p-6">
-        <div class="trust-badge-icon mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 lg:h-14 lg:w-14">
-          <svg class="h-6 w-6 text-primary-600 lg:h-7 lg:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-          </svg>
-        </div>
-        <h3 class="trust-badge-title mb-1 text-sm font-semibold text-secondary-900 lg:text-base">
-          {{ __('Free Shipping', 'sage') }}
-        </h3>
-        <p class="text-xs text-secondary-600 lg:text-sm">
-          {{ __('On orders over $50', 'sage') }}
-        </p>
-      </div>
-
-      {{-- Secure Payment --}}
-      <div class="trust-badge flex flex-col items-center rounded-xl border border-secondary-200 bg-white p-4 text-center lg:p-6">
-        <div class="trust-badge-icon mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 lg:h-14 lg:w-14">
-          <svg class="h-6 w-6 text-green-600 lg:h-7 lg:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-          </svg>
-        </div>
-        <h3 class="trust-badge-title mb-1 text-sm font-semibold text-secondary-900 lg:text-base">
-          {{ __('Secure Payment', 'sage') }}
-        </h3>
-        <p class="text-xs text-secondary-600 lg:text-sm">
-          {{ __('100% protected', 'sage') }}
-        </p>
-      </div>
-
-      {{-- 24/7 Support --}}
-      <div class="trust-badge flex flex-col items-center rounded-xl border border-secondary-200 bg-white p-4 text-center lg:p-6">
-        <div class="trust-badge-icon mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 lg:h-14 lg:w-14">
-          <svg class="h-6 w-6 text-blue-600 lg:h-7 lg:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-          </svg>
-        </div>
-        <h3 class="trust-badge-title mb-1 text-sm font-semibold text-secondary-900 lg:text-base">
-          {{ __('24/7 Support', 'sage') }}
-        </h3>
-        <p class="text-xs text-secondary-600 lg:text-sm">
-          {{ __('Dedicated support', 'sage') }}
-        </p>
-      </div>
-
-      {{-- Easy Returns --}}
-      <div class="trust-badge flex flex-col items-center rounded-xl border border-secondary-200 bg-white p-4 text-center lg:p-6">
-        <div class="trust-badge-icon mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 lg:h-14 lg:w-14">
-          <svg class="h-6 w-6 text-purple-600 lg:h-7 lg:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
-          </svg>
-        </div>
-        <h3 class="trust-badge-title mb-1 text-sm font-semibold text-secondary-900 lg:text-base">
-          {{ __('Easy Returns', 'sage') }}
-        </h3>
-        <p class="text-xs text-secondary-600 lg:text-sm">
-          {{ __('30-day return policy', 'sage') }}
-        </p>
-      </div>
-    </div>
-  </section>
 @endsection

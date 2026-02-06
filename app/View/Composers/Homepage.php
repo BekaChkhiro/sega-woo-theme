@@ -440,17 +440,33 @@ class Homepage extends Composer
     }
 
     /**
-     * Get My Account page URL.
+     * Get homepage slider settings from Customizer.
      *
-     * @return string
+     * @return array
      */
-    public function myAccountUrl(): string
+    public function sliderSettings(): array
     {
-        if (! function_exists('wc_get_page_permalink')) {
-            return '/my-account';
-        }
+        return \App\Customizer\HomepageSlider::getSliderSettings();
+    }
 
-        return wc_get_page_permalink('myaccount') ?: '/my-account';
+    /**
+     * Get slider slides from Customizer.
+     *
+     * @return array
+     */
+    public function sliderSlides(): array
+    {
+        return \App\Customizer\HomepageSlider::getSlides();
+    }
+
+    /**
+     * Check if slider has any configured slides.
+     *
+     * @return bool
+     */
+    public function hasSliderSlides(): bool
+    {
+        return \App\Customizer\HomepageSlider::hasSlides();
     }
 
     /**
@@ -467,9 +483,14 @@ class Homepage extends Composer
             'bestsellers' => $this->bestsellers(),
             'featuredProducts' => $this->featuredProducts(),
 
-            // Categories
-            'featuredCategories' => $this->featuredCategories(),
+            // Categories (fetch more for carousel scrolling)
+            'featuredCategories' => $this->featuredCategories(12),
             'megaMenuCategories' => $this->megaMenuCategories(),
+
+            // Slider settings from Customizer
+            'sliderSettings' => $this->sliderSettings(),
+            'sliderSlides' => $this->sliderSlides(),
+            'hasSliderSlides' => $this->hasSliderSlides(),
 
             // Boolean checks
             'hasNewProducts' => $this->hasNewProducts(),
@@ -482,7 +503,6 @@ class Homepage extends Composer
             'newArrivalsUrl' => $this->newArrivalsUrl(),
             'onSaleUrl' => $this->onSaleUrl(),
             'bestsellersUrl' => $this->bestsellersUrl(),
-            'myAccountUrl' => $this->myAccountUrl(),
         ];
     }
 }
