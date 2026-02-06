@@ -13,11 +13,11 @@
 <div class="variation-row color-swatch-row" data-attribute="{{ $sanitizedName }}">
   <label
     for="{{ $attributeSlug() }}-{{ $productId }}"
-    class="mb-2 block text-sm font-medium text-secondary-700"
+    class="mb-3 flex items-center gap-1.5 text-sm font-semibold text-secondary-800"
   >
     {{ $attributeLabel }}
     <span class="text-red-500">*</span>
-    <span class="selected-value-label ml-2 text-sm font-normal text-secondary-500"></span>
+    <span class="selected-value-label ml-1 text-sm font-medium text-primary-600"></span>
   </label>
 
   {{-- Hidden select for form submission (WooCommerce compatibility) --}}
@@ -41,21 +41,29 @@
   </select>
 
   {{-- Visual color swatches --}}
-  <div class="color-swatch-options flex flex-wrap gap-2">
+  <div class="color-swatch-options flex flex-wrap gap-3">
     @foreach ($options as $option)
+      @php
+        $color = $option['color'] ?? '#808080';
+        $isLight = $isLightColor($color);
+        $isWhiteish = in_array(strtolower($color), ['#fff', '#ffffff', '#fafafa', '#f5f5f5', '#fefefe']);
+      @endphp
       <button
         type="button"
-        class="color-swatch-option group relative h-10 w-10 rounded-full border-2 border-secondary-200 transition-all duration-200 hover:scale-110 hover:border-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 {{ !empty($option['selected']) ? 'ring-2 ring-primary-500 ring-offset-2 border-primary-500' : '' }}"
+        class="color-swatch-option group relative h-11 w-11 rounded-full shadow-sm transition-all duration-200 ease-out hover:scale-110 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 {{ !empty($option['selected']) ? 'ring-2 ring-primary-500 ring-offset-2 scale-105' : '' }} {{ $isWhiteish ? 'border-2 border-secondary-300' : 'border-2 border-transparent' }}"
         data-value="{{ $option['slug'] }}"
-        data-color="{{ $option['color'] ?? '#808080' }}"
+        data-color="{{ $color }}"
         title="{{ $option['name'] }}"
         aria-label="{{ sprintf(__('Select %s', 'sage'), $option['name']) }}"
-        style="background-color: {{ $option['color'] ?? '#808080' }};"
+        style="background-color: {{ $color }};"
       >
+        {{-- Inner shadow for depth --}}
+        <span class="absolute inset-0 rounded-full shadow-inner pointer-events-none"></span>
+
         {{-- Selected checkmark indicator --}}
-        <span class="selected-indicator absolute inset-0 flex items-center justify-center opacity-0 transition-opacity {{ !empty($option['selected']) ? 'opacity-100' : '' }}">
+        <span class="selected-indicator absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 {{ !empty($option['selected']) ? 'opacity-100' : '' }}">
           <svg
-            class="h-5 w-5 drop-shadow-md {{ $isLightColor($option['color'] ?? '#808080') ? 'text-secondary-800' : 'text-white' }}"
+            class="h-5 w-5 drop-shadow-md {{ $isLight ? 'text-secondary-800' : 'text-white' }}"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -65,9 +73,14 @@
           </svg>
         </span>
 
-        {{-- Unavailable indicator (strikethrough) --}}
-        <span class="unavailable-indicator absolute inset-0 hidden items-center justify-center">
-          <span class="h-0.5 w-full rotate-45 bg-secondary-600 opacity-60"></span>
+        {{-- Unavailable indicator (diagonal line) --}}
+        <span class="unavailable-indicator absolute inset-0 hidden items-center justify-center rounded-full overflow-hidden">
+          <span class="absolute h-[2px] w-[140%] rotate-45 bg-red-500/70"></span>
+        </span>
+
+        {{-- Hover tooltip --}}
+        <span class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-secondary-800 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 pointer-events-none z-10">
+          {{ $option['name'] }}
         </span>
       </button>
     @endforeach

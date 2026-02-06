@@ -13,17 +13,17 @@
 <div class="variation-row select-swatch-row" data-attribute="{{ $sanitizedName }}">
   <label
     for="{{ $attributeSlug() }}-{{ $productId }}"
-    class="mb-2 block text-sm font-medium text-secondary-700"
+    class="mb-3 flex items-center gap-1.5 text-sm font-semibold text-secondary-800"
   >
     {{ $attributeLabel }}
     <span class="text-red-500">*</span>
   </label>
 
-  <div class="relative">
+  <div class="relative group">
     <select
       id="{{ $attributeSlug() }}-{{ $productId }}"
       name="{{ $attributeSlug() }}"
-      class="variation-select block w-full appearance-none rounded-xl border border-secondary-200 bg-white px-4 py-3.5 pr-10 text-secondary-900 shadow-sm ring-1 ring-secondary-900/5 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
+      class="variation-select block w-full appearance-none cursor-pointer rounded-xl border-2 border-secondary-200 bg-white px-4 py-3.5 pr-12 text-sm font-medium text-secondary-900 shadow-sm transition-all duration-200 hover:border-secondary-300 hover:shadow-md focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1"
       data-attribute_name="{{ $attributeSlug() }}"
       data-show_option_none="yes"
       aria-required="true"
@@ -40,8 +40,8 @@
     </select>
 
     {{-- Dropdown Arrow --}}
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-      <svg class="h-5 w-5 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 transition-transform duration-200 group-focus-within:rotate-180">
+      <svg class="h-5 w-5 text-secondary-500 transition-colors duration-200 group-hover:text-primary-500 group-focus-within:text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
       </svg>
     </div>

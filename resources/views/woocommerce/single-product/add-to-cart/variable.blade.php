@@ -49,7 +49,7 @@
 
     {{-- Variation Attributes --}}
     @if (!empty($variationAttributesWithDisplay))
-      <div class="variations space-y-5">
+      <div class="variations space-y-6">
         @php
           do_action('woocommerce_before_variations');
         @endphp
@@ -93,17 +93,17 @@
       {{-- Clear Selection Link --}}
       <a
         href="#"
-        class="reset_variations mt-3 inline-flex items-center gap-1 text-sm text-primary-600 transition-colors hover:text-primary-700"
+        class="reset_variations mt-4 inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-secondary-500 transition-all duration-200 hover:bg-secondary-100 hover:text-secondary-700"
         style="display: none;"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
         {{ __('Clear selection', 'sage') }}
       </a>
     @elseif (!empty($variationAttributes))
       {{-- Fallback to original variationAttributes if variationAttributesWithDisplay is empty --}}
-      <div class="variations space-y-5">
+      <div class="variations space-y-6">
         @php
           do_action('woocommerce_before_variations');
         @endphp
@@ -119,17 +119,17 @@
           <div class="variation-row" data-attribute="{{ $sanitizedName }}">
             <label
               for="{{ $attributeSlug }}-{{ $productId }}"
-              class="mb-2 block text-sm font-medium text-secondary-700"
+              class="mb-3 flex items-center gap-1.5 text-sm font-semibold text-secondary-800"
             >
               {{ $attributeLabel }}
               <span class="text-red-500">*</span>
             </label>
 
-            <div class="relative">
+            <div class="relative group">
               <select
                 id="{{ $attributeSlug }}-{{ $productId }}"
                 name="{{ $attributeSlug }}"
-                class="variation-select block w-full appearance-none rounded-xl border border-secondary-200 bg-white px-4 py-3.5 pr-10 text-secondary-900 shadow-sm ring-1 ring-secondary-900/5 transition-all duration-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                class="variation-select block w-full appearance-none cursor-pointer rounded-xl border-2 border-secondary-200 bg-white px-4 py-3.5 pr-12 text-sm font-medium text-secondary-900 shadow-sm transition-all duration-200 hover:border-secondary-300 hover:shadow-md focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1"
                 data-attribute_name="{{ $attributeSlug }}"
                 data-show_option_none="yes"
                 aria-required="true"
@@ -158,8 +158,8 @@
               </select>
 
               {{-- Dropdown Arrow --}}
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                <svg class="h-5 w-5 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 transition-transform duration-200 group-focus-within:rotate-180">
+                <svg class="h-5 w-5 text-secondary-500 transition-colors duration-200 group-hover:text-primary-500 group-focus-within:text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -175,11 +175,11 @@
       {{-- Clear Selection Link --}}
       <a
         href="#"
-        class="reset_variations mt-3 inline-flex items-center gap-1 text-sm text-primary-600 transition-colors hover:text-primary-700"
+        class="reset_variations mt-4 inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-secondary-500 transition-all duration-200 hover:bg-secondary-100 hover:text-secondary-700"
         style="display: none;"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
         {{ __('Clear selection', 'sage') }}
       </a>
@@ -331,6 +331,17 @@
       const form = document.querySelector('[data-product-id="{{ $productId }}"].variable-add-to-cart');
       if (!form) return;
 
+      // Immediately unbind WooCommerce's default variation form handlers to prevent interference
+      if (typeof jQuery !== 'undefined') {
+        const $form = jQuery(form);
+        // Remove all WooCommerce variation form event handlers
+        $form.off('.wc-variation-form');
+        $form.off('check_variations update_variation_values found_variation reset_data hide_variation show_variation');
+        // Also unbind from selects
+        $form.find('select').off('.wc-variation-form');
+        $form.find('.variations select').off('change.wc-variation-form');
+      }
+
       // Elements
       const variationSelects = form.querySelectorAll('.variation-select');
       const quantityInput = form.querySelector('.quantity-input');
@@ -358,6 +369,7 @@
 
       // Current state
       let currentVariation = null;
+      let isResetting = false; // Flag to prevent infinite loops
 
       /**
        * Update quantity button states
@@ -428,6 +440,18 @@
       }
 
       /**
+       * Decode URL-encoded string (handles Georgian and other UTF-8 characters)
+       */
+      function decodeValue(value) {
+        if (!value) return value;
+        try {
+          return decodeURIComponent(value);
+        } catch (e) {
+          return value; // Return original if decoding fails
+        }
+      }
+
+      /**
        * Find matching variation
        */
       function findMatchingVariation(selectedAttrs) {
@@ -437,8 +461,8 @@
           }
 
           return Object.keys(selectedAttrs).every(attrName => {
-            const selectedValue = selectedAttrs[attrName];
-            const variationValue = variation.attributes[attrName];
+            const selectedValue = decodeValue(selectedAttrs[attrName]);
+            const variationValue = decodeValue(variation.attributes[attrName]);
 
             // Empty variation attribute means "any"
             if (!variationValue || variationValue === '') {
@@ -499,7 +523,10 @@
           submitBtn.classList.remove('disabled:bg-secondary-400');
 
           // Show reset link
-          if (resetLink) resetLink.style.display = '';
+          if (resetLink) {
+            resetLink.style.display = 'inline-flex';
+            resetLink.style.visibility = 'visible';
+          }
 
           // Trigger WooCommerce event for gallery update
           if (typeof jQuery !== 'undefined') {
@@ -542,10 +569,9 @@
           // Disable the add to cart button
           submitBtn.disabled = true;
 
-          // Trigger WooCommerce reset event
-          if (typeof jQuery !== 'undefined') {
+          // Trigger WooCommerce reset event (only if not already resetting to prevent infinite loop)
+          if (typeof jQuery !== 'undefined' && !isResetting) {
             jQuery(form).trigger('reset_image');
-            jQuery(form).trigger('reset_data');
           }
         }
       }
@@ -559,7 +585,13 @@
 
         // Show/hide reset link
         if (resetLink) {
-          resetLink.style.display = hasSelection ? '' : 'none';
+          if (hasSelection) {
+            resetLink.style.display = 'inline-flex';
+            resetLink.style.visibility = 'visible';
+          } else {
+            resetLink.style.display = 'none';
+            resetLink.style.visibility = 'hidden';
+          }
         }
 
         // Check if all attributes selected
@@ -570,9 +602,12 @@
           if (!variation) {
             // No matching variation - show message
             if (availabilityContainer) {
-              availabilityContainer.innerHTML = '<p class="text-sm text-amber-600">' +
-                '{{ __("This combination is unavailable.", "sage") }}' +
-                '</p>';
+              availabilityContainer.innerHTML = '<div class="flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-700">' +
+                '<svg class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />' +
+                '</svg>' +
+                '<span>{{ __("This combination is unavailable.", "sage") }}</span>' +
+                '</div>';
             }
           }
         } else {
@@ -673,10 +708,10 @@
           }
 
           return Object.keys(testSelection).every(attrName => {
-            const testValue = testSelection[attrName];
+            const testValue = decodeValue(testSelection[attrName]);
             if (!testValue) return true; // Empty selection matches all
 
-            const variationValue = variation.attributes[attrName];
+            const variationValue = decodeValue(variation.attributes[attrName]);
             if (!variationValue || variationValue === '') return true; // "Any" matches all
 
             return testValue === variationValue;
@@ -689,6 +724,10 @@
        */
       function resetVariations(e) {
         if (e) e.preventDefault();
+
+        // Prevent infinite loops
+        if (isResetting) return;
+        isResetting = true;
 
         variationSelects.forEach(select => {
           select.value = '';
@@ -706,8 +745,7 @@
 
         // Reset color swatches
         form.querySelectorAll('.color-swatch-option').forEach(swatch => {
-          swatch.classList.remove('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500', 'opacity-40', 'cursor-not-allowed');
-          swatch.classList.add('border-secondary-200');
+          swatch.classList.remove('ring-2', 'ring-primary-500', 'ring-offset-2', 'scale-105', 'opacity-40', 'cursor-not-allowed');
           swatch.disabled = false;
           const selectedIndicator = swatch.querySelector('.selected-indicator');
           const unavailableIndicator = swatch.querySelector('.unavailable-indicator');
@@ -724,7 +762,7 @@
 
         // Reset button swatches
         form.querySelectorAll('.button-swatch-option').forEach(swatch => {
-          swatch.classList.remove('border-primary-500', 'bg-primary-50', 'text-primary-700', 'opacity-40', 'cursor-not-allowed');
+          swatch.classList.remove('border-primary-500', 'bg-primary-50', 'text-primary-700', 'shadow-md', 'shadow-primary-500/10', 'opacity-40', 'cursor-not-allowed');
           swatch.classList.add('border-secondary-200', 'bg-white', 'text-secondary-700');
           swatch.disabled = false;
           const unavailableIndicator = swatch.querySelector('.unavailable-indicator');
@@ -732,7 +770,13 @@
           if (unavailableIndicator) unavailableIndicator.classList.remove('flex');
         });
 
-        if (resetLink) resetLink.style.display = 'none';
+        if (resetLink) {
+          resetLink.style.display = 'none';
+          resetLink.style.visibility = 'hidden';
+        }
+
+        // Reset the flag
+        isResetting = false;
       }
 
       /**
@@ -906,8 +950,7 @@
 
           // Update visual state - remove selected state from siblings
           row.querySelectorAll('.color-swatch-option').forEach(s => {
-            s.classList.remove('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500');
-            s.classList.add('border-secondary-200');
+            s.classList.remove('ring-2', 'ring-primary-500', 'ring-offset-2', 'scale-105');
             const indicator = s.querySelector('.selected-indicator');
             if (indicator) {
               indicator.classList.remove('opacity-100');
@@ -916,8 +959,7 @@
           });
 
           // Add selected state to clicked swatch
-          this.classList.add('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500');
-          this.classList.remove('border-secondary-200');
+          this.classList.add('ring-2', 'ring-primary-500', 'ring-offset-2', 'scale-105');
           const indicator = this.querySelector('.selected-indicator');
           if (indicator) {
             indicator.classList.add('opacity-100');
@@ -951,12 +993,12 @@
 
           // Update visual state - remove selected state from siblings
           row.querySelectorAll('.button-swatch-option').forEach(s => {
-            s.classList.remove('border-primary-500', 'bg-primary-50', 'text-primary-700');
+            s.classList.remove('border-primary-500', 'bg-primary-50', 'text-primary-700', 'shadow-md', 'shadow-primary-500/10');
             s.classList.add('border-secondary-200', 'bg-white', 'text-secondary-700');
           });
 
           // Add selected state to clicked swatch
-          this.classList.add('border-primary-500', 'bg-primary-50', 'text-primary-700');
+          this.classList.add('border-primary-500', 'bg-primary-50', 'text-primary-700', 'shadow-md', 'shadow-primary-500/10');
           this.classList.remove('border-secondary-200', 'bg-white', 'text-secondary-700');
 
           // Trigger variation change
@@ -973,11 +1015,7 @@
       form.addEventListener('submit', handleSubmit);
 
       // WooCommerce jQuery compatibility
-      if (typeof jQuery !== 'undefined') {
-        jQuery(form).on('reset_data', function() {
-          resetVariations();
-        });
-      }
+      // Note: We handle our own variation logic, WooCommerce's default handlers were disabled at the top
 
       // Initialize
       updateQuantityButtons();
@@ -992,8 +1030,7 @@
 
           const selectedSwatch = row.querySelector(`.color-swatch-option[data-value="${select.value}"]`);
           if (selectedSwatch) {
-            selectedSwatch.classList.add('ring-2', 'ring-primary-500', 'ring-offset-2', 'border-primary-500');
-            selectedSwatch.classList.remove('border-secondary-200');
+            selectedSwatch.classList.add('ring-2', 'ring-primary-500', 'ring-offset-2', 'scale-105');
             const indicator = selectedSwatch.querySelector('.selected-indicator');
             if (indicator) {
               indicator.classList.add('opacity-100');
@@ -1012,7 +1049,7 @@
 
           const selectedSwatch = row.querySelector(`.button-swatch-option[data-value="${select.value}"]`);
           if (selectedSwatch) {
-            selectedSwatch.classList.add('border-primary-500', 'bg-primary-50', 'text-primary-700');
+            selectedSwatch.classList.add('border-primary-500', 'bg-primary-50', 'text-primary-700', 'shadow-md', 'shadow-primary-500/10');
             selectedSwatch.classList.remove('border-secondary-200', 'bg-white', 'text-secondary-700');
           }
         });

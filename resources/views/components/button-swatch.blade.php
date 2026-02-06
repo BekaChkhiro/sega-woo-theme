@@ -13,7 +13,7 @@
 <div class="variation-row button-swatch-row" data-attribute="{{ $sanitizedName }}">
   <label
     for="{{ $attributeSlug() }}-{{ $productId }}"
-    class="mb-2 block text-sm font-medium text-secondary-700"
+    class="mb-3 flex items-center gap-1.5 text-sm font-semibold text-secondary-800"
   >
     {{ $attributeLabel }}
     <span class="text-red-500">*</span>
@@ -40,20 +40,20 @@
   </select>
 
   {{-- Visual button swatches --}}
-  <div class="button-swatch-options flex flex-wrap gap-2">
+  <div class="button-swatch-options flex flex-wrap gap-2.5">
     @foreach ($options as $option)
       <button
         type="button"
-        class="button-swatch-option relative min-w-[3rem] rounded-lg border-2 px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 {{ !empty($option['selected']) ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-secondary-200 bg-white text-secondary-700 hover:border-secondary-300 hover:bg-secondary-50' }}"
+        class="button-swatch-option group relative min-w-[3.25rem] rounded-xl border-2 px-4 py-3 text-sm font-semibold shadow-sm transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-95 {{ !empty($option['selected']) ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-md shadow-primary-500/10' : 'border-secondary-200 bg-white text-secondary-700 hover:border-primary-300 hover:bg-primary-50/50 hover:text-primary-600 hover:shadow-md' }}"
         data-value="{{ $option['slug'] }}"
         title="{{ $option['name'] }}"
         aria-label="{{ sprintf(__('Select %s', 'sage'), $option['name']) }}"
       >
-        <span class="option-text">{{ $option['name'] }}</span>
+        <span class="option-text relative z-10">{{ $option['name'] }}</span>
 
         {{-- Unavailable indicator (line-through) --}}
-        <span class="unavailable-indicator pointer-events-none absolute inset-0 hidden items-center justify-center">
-          <span class="absolute left-1 right-1 top-1/2 h-0.5 -translate-y-1/2 rotate-[-12deg] bg-secondary-400"></span>
+        <span class="unavailable-indicator pointer-events-none absolute inset-0 hidden items-center justify-center rounded-xl overflow-hidden">
+          <span class="absolute left-0 right-0 top-1/2 h-[2px] -translate-y-1/2 rotate-[-8deg] bg-red-400/60"></span>
         </span>
       </button>
     @endforeach
