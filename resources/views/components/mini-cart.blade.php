@@ -42,75 +42,94 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 translate-y-1"
-        class="absolute {{ $positionClasses }} top-full z-dropdown mt-2 w-80 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 sm:w-96"
+        class="absolute {{ $positionClasses }} top-full z-dropdown mt-2 w-[calc(100vw-2rem)] max-w-80 overflow-hidden rounded-2xl border border-secondary-200 bg-white shadow-xl sm:max-w-96"
         x-cloak
     >
         {{-- Header --}}
-        <div class="border-b border-secondary-200 px-4 py-3">
-            <h3 class="text-sm font-semibold text-secondary-900">
-                {{ __('Shopping Cart', 'sage') }}
-                <span class="ml-1 text-secondary-500" x-show="itemCount > 0">
-                    (<span x-text="itemCount"></span>)
+        <div class="border-b border-secondary-100 bg-secondary-50/50 px-5 py-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-secondary-900">
+                    {{ __('Shopping Cart', 'sage') }}
+                </h3>
+                <span class="text-sm text-secondary-500" x-show="itemCount > 0">
+                    <span x-text="itemCount"></span> {{ __('items', 'sage') }}
                 </span>
-            </h3>
+            </div>
         </div>
 
         {{-- Cart Items --}}
         <div class="mini-cart-items max-h-80 overflow-y-auto">
             @if ($isEmpty())
                 {{-- Empty Cart State --}}
-                <div class="flex flex-col items-center justify-center py-8 text-center">
-                    <svg class="mb-3 h-12 w-12 text-secondary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                    </svg>
-                    <p class="text-sm text-secondary-500">{{ __('Your cart is empty', 'sage') }}</p>
+                <div class="flex flex-col items-center justify-center px-6 py-10 text-center">
+                    <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-secondary-100 to-secondary-50">
+                        <svg class="h-10 w-10 text-secondary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+                    </div>
+                    <p class="mb-1 text-sm font-medium text-secondary-900">{{ __('Your cart is empty', 'sage') }}</p>
+                    <p class="mb-4 text-xs text-secondary-500">{{ __('Add items to get started', 'sage') }}</p>
                     <a
                         href="{{ wc_get_page_permalink('shop') }}"
-                        class="mt-3 text-sm font-medium text-primary-600 hover:text-primary-700"
+                        class="inline-flex items-center gap-1.5 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/30"
                     >
-                        {{ __('Continue Shopping', 'sage') }} &rarr;
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                        {{ __('Start Shopping', 'sage') }}
                     </a>
                 </div>
             @else
                 {{-- Cart Items List --}}
-                <ul class="divide-y divide-secondary-100 px-4">
+                <ul class="divide-y divide-secondary-100">
                     @foreach ($items() as $item)
-                        <li class="mini-cart-item flex gap-3 py-3" data-key="{{ $item['key'] }}">
-                            {{-- Product Thumbnail --}}
-                            <a href="{{ $item['permalink'] }}" class="flex-shrink-0">
-                                <div class="h-16 w-16 overflow-hidden rounded-md bg-secondary-100">
-                                    {!! $item['thumbnail'] !!}
-                                </div>
-                            </a>
+                        <li class="mini-cart-item group p-4" data-key="{{ $item['key'] }}">
+                            <div class="flex gap-4">
+                                {{-- Product Thumbnail --}}
+                                <a href="{{ $item['permalink'] }}" class="flex-shrink-0">
+                                    <div class="h-20 w-20 overflow-hidden rounded-xl bg-secondary-100 [&_img]:h-full [&_img]:w-full [&_img]:object-cover">
+                                        {!! $item['thumbnail'] !!}
+                                    </div>
+                                </a>
 
-                            {{-- Product Details --}}
-                            <div class="flex flex-1 flex-col">
-                                <div class="flex justify-between">
-                                    <a
-                                        href="{{ $item['permalink'] }}"
-                                        class="text-sm font-medium text-secondary-900 hover:text-primary-600 line-clamp-2"
-                                    >
-                                        {{ $item['name'] }}
-                                    </a>
-                                    {{-- Remove Button --}}
-                                    <button
-                                        type="button"
-                                        class="ml-2 flex-shrink-0 text-secondary-400 hover:text-error-500 transition-colors"
-                                        @click="removeItem('{{ $item['key'] }}')"
-                                        aria-label="{{ __('Remove item', 'sage') }}"
-                                    >
-                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="mt-1 flex items-center justify-between text-sm">
-                                    <span class="text-secondary-500">
-                                        {{ __('Qty:', 'sage') }} {{ $item['quantity'] }}
-                                    </span>
-                                    <span class="font-medium text-secondary-900">
-                                        {!! $item['subtotal'] !!}
-                                    </span>
+                                {{-- Product Details --}}
+                                <div class="flex flex-1 flex-col justify-center">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <a
+                                            href="{{ $item['permalink'] }}"
+                                            class="text-sm font-medium text-secondary-900 transition-colors hover:text-primary-600 line-clamp-2"
+                                        >
+                                            {{ $item['name'] }}
+                                        </a>
+                                        {{-- Remove Button --}}
+                                        <button
+                                            type="button"
+                                            class="flex-shrink-0 rounded-full p-1 text-secondary-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                                            @click="removeItem('{{ $item['key'] }}')"
+                                            aria-label="{{ __('Remove item', 'sage') }}"
+                                        >
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    {{-- Variation Data --}}
+                                    @if (!empty($item['variation']))
+                                        <div class="mt-1 text-xs text-secondary-500 [&_dl]:flex [&_dl]:flex-wrap [&_dl]:gap-x-2 [&_dd]:font-medium [&_dd]:text-secondary-600 [&_dt]:after:content-[':']">
+                                            {!! $item['variation'] !!}
+                                        </div>
+                                    @endif
+
+                                    <div class="mt-2 flex items-center justify-between">
+                                        <span class="inline-flex items-center gap-0.5 rounded-full bg-secondary-100 px-2.5 py-1 text-xs font-medium text-secondary-600">
+                                            <span class="text-secondary-400">×</span>
+                                            {{ $item['quantity'] }}
+                                        </span>
+                                        <span class="text-base font-bold text-secondary-900">
+                                            {!! $item['subtotal'] !!}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </li>
@@ -121,26 +140,32 @@
 
         {{-- Footer --}}
         <div class="mini-cart-footer {{ $isEmpty() ? 'hidden' : '' }}">
-            <div class="border-t border-secondary-200 bg-secondary-50 px-4 py-4">
+            <div class="border-t border-secondary-200 bg-white p-5">
                 {{-- Subtotal --}}
                 <div class="mb-4 flex items-center justify-between">
-                    <span class="text-sm font-medium text-secondary-900">{{ __('Subtotal', 'sage') }}</span>
-                    <span class="mini-cart-subtotal text-base font-semibold text-secondary-900">{!! $subtotal() !!}</span>
+                    <span class="text-sm text-secondary-600">{{ __('Subtotal', 'sage') }}</span>
+                    <span class="mini-cart-subtotal text-base font-bold text-secondary-900">{!! $subtotal() !!}</span>
                 </div>
 
                 {{-- Action Buttons --}}
                 <div class="grid grid-cols-2 gap-3">
                     <a
                         href="{{ $cartUrl() }}"
-                        class="inline-flex items-center justify-center rounded-md border border-secondary-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                        class="inline-flex items-center justify-center gap-1.5 rounded-xl border border-secondary-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-700 shadow-sm transition-all hover:bg-secondary-50 hover:shadow focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                     >
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
                         {{ __('View Cart', 'sage') }}
                     </a>
                     <a
                         href="{{ $checkoutUrl() }}"
-                        class="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                        class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                     >
                         {{ __('Checkout', 'sage') }}
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </a>
                 </div>
             </div>

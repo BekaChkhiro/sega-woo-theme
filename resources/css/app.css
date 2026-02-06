@@ -883,14 +883,9 @@ html {
    ========================================================================== */
 
 @layer components {
-  /* Cart item hover effect */
+  /* Cart item base styles - hover effects removed per T12.2 */
   .cart-item {
-    transition: box-shadow var(--transition-default) ease,
-                border-color var(--transition-default) ease;
-  }
-
-  .cart-item:hover {
-    border-color: var(--color-secondary-300);
+    transition: opacity var(--transition-default) ease;
   }
 
   /* Cart item removal animation */
@@ -901,15 +896,9 @@ html {
                 transform var(--transition-slow) ease;
   }
 
-  /* Cart totals sticky sidebar */
+  /* Cart totals sticky sidebar - hover effects removed per T12.1 */
   .cart-collaterals {
-    transition: box-shadow var(--transition-default) ease;
-  }
-
-  @media (width >= 1024px) {
-    .cart-collaterals:hover {
-      box-shadow: var(--shadow-lg);
-    }
+    transition: none;
   }
 
   /* Quantity wrapper animations */
@@ -1259,10 +1248,21 @@ html {
 
     .coupon input {
       min-height: 2.75rem;
+      font-size: 1rem; /* Prevent iOS zoom on focus */
     }
 
     .coupon button {
       min-height: 2.75rem;
+    }
+
+    /* Better spacing for cart items on mobile */
+    .cart-item {
+      padding: 1rem;
+    }
+
+    /* Ensure product names don't overflow */
+    .cart-item a[href] {
+      word-break: break-word;
     }
   }
 
@@ -1271,22 +1271,31 @@ html {
     .cart-item img {
       object-fit: cover;
     }
+
+    /* Smaller thumbnails on very small screens */
+    .cart-item .h-24.w-24 {
+      height: 5rem;
+      width: 5rem;
+    }
   }
 
-  /* Sticky checkout button on mobile */
+  /* Order Summary: Remove sticky on mobile for better UX */
   @media (width < 1024px) {
     .cart-collaterals {
-      position: sticky;
-      bottom: 0;
-      background-color: white;
-      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-      box-shadow: 0 -4px 20px -4px rgba(0, 0, 0, 0.1);
-      margin-left: -1rem;
-      margin-right: -1rem;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-      padding-bottom: 1.5rem;
-      z-index: var(--z-sticky);
+      position: relative;
+      bottom: auto;
+    }
+  }
+
+  /* Small mobile adjustments */
+  @media (width < 375px) {
+    .cart-item .quantity-wrapper {
+      transform: scale(0.9);
+      transform-origin: center;
+    }
+
+    .checkout-button {
+      font-size: 0.9375rem;
     }
   }
 }
@@ -4328,24 +4337,16 @@ html {
     overflow: hidden;
   }
 
-  .cart-collaterals .cart_totals::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-2xl);
-    padding: 2px;
-    background: linear-gradient(135deg, var(--color-primary-400), var(--color-primary-600));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity var(--transition-default) ease;
-  }
-
-  .cart-collaterals .cart_totals:hover::before {
-    opacity: 1;
+  /* Yellow border on hover removed per T12.1 */
+  .cart-collaterals,
+  .cart-collaterals:hover,
+  .cart-collaterals > div,
+  .cart-collaterals > div:hover,
+  .cart_totals,
+  .cart_totals:hover {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
 
   /* Cart totals header enhancement */
@@ -4784,11 +4785,11 @@ html {
 }
 
 /* --------------------------------------------
-   Cart Item Enhanced Hover & Interactions
+   Cart Item Styles - hover effects removed per T12.2
    -------------------------------------------- */
 
 @layer components {
-  /* Cart item card enhancements */
+  /* Cart item card base styles */
   .woocommerce-cart-form .cart-item,
   .cart-item-card {
     position: relative;
@@ -4796,48 +4797,13 @@ html {
     border: 1px solid var(--color-secondary-100);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    transition: all var(--transition-default) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .woocommerce-cart-form .cart-item:hover,
-  .cart-item-card:hover {
-    border-color: var(--color-secondary-200);
-    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-  }
-
-  /* Cart item left accent bar */
-  .woocommerce-cart-form .cart-item::before,
-  .cart-item-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, var(--color-primary-400) 0%, var(--color-primary-600) 100%);
-    opacity: 0;
-    transition: opacity var(--transition-fast) ease;
-  }
-
-  .woocommerce-cart-form .cart-item:hover::before,
-  .cart-item-card:hover::before {
-    opacity: 1;
-  }
-
-  /* Cart item image hover zoom */
+  /* Cart item image styles */
   .cart-item-image {
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-lg);
-  }
-
-  .cart-item-image img {
-    transition: transform var(--transition-slow) ease;
-  }
-
-  .cart-item-card:hover .cart-item-image img {
-    transform: scale(1.08);
   }
 
   /* Cart item sale badge */
@@ -4868,11 +4834,7 @@ html {
     transition: all var(--transition-fast) ease;
   }
 
-  .cart-item-quantity:hover {
-    border-color: var(--color-secondary-300);
-    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.1);
-  }
-
+  /* hover effect removed per T12.2 - keeping focus-within for accessibility */
   .cart-item-quantity:focus-within {
     border-color: var(--color-primary-500);
     box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.15);

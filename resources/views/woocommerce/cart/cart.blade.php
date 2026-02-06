@@ -53,18 +53,18 @@
     </div>
   @else
     {{-- Page Header --}}
-    <div class="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div class="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-secondary-900 lg:text-3xl">
+        <h1 class="text-xl font-bold text-secondary-900 sm:text-2xl lg:text-3xl">
           {{ __('Shopping Cart', 'sage') }}
         </h1>
-        <p class="mt-1 text-sm text-secondary-500">
+        <p class="mt-0.5 text-sm text-secondary-500 sm:mt-1">
           {{ sprintf(_n('%d item', '%d items', $cartCount, 'sage'), $cartCount) }}
         </p>
       </div>
       <a
         href="{{ wc_get_page_permalink('shop') }}"
-        class="inline-flex items-center gap-1.5 text-sm font-medium text-secondary-600 transition-colors hover:text-primary-600"
+        class="inline-flex w-fit items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-primary-600 active:scale-[0.98] sm:px-0 sm:py-0 sm:hover:bg-transparent"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -120,7 +120,7 @@
 
                 @if ($_product && $_product->exists() && $cartItem['quantity'] > 0 && apply_filters('woocommerce_cart_item_visible', true, $cartItem, $cartItemKey))
                   <div
-                    class="cart-item group p-4 transition-colors hover:bg-secondary-50/50 md:px-6 md:py-5"
+                    class="cart-item group p-4 md:px-6 md:py-5"
                     data-cart-item-key="{{ $cartItemKey }}"
                   >
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:items-center">
@@ -265,13 +265,13 @@
               <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 {{-- Coupon Form --}}
                 @if (wc_coupons_enabled())
-                  <div class="coupon flex gap-2">
-                    <div class="relative flex-1 sm:max-w-[200px]">
+                  <div class="coupon flex w-full gap-2 sm:w-auto">
+                    <div class="relative min-w-0 flex-1 sm:w-48 sm:flex-none">
                       <input
                         type="text"
                         name="coupon_code"
                         id="coupon_code"
-                        class="h-10 w-full rounded-lg border border-secondary-200 bg-white px-3 pr-10 text-sm text-secondary-900 placeholder-secondary-400 shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        class="h-11 w-full rounded-lg border border-secondary-200 bg-white px-3 pr-10 text-base text-secondary-900 placeholder-secondary-400 shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:h-10 sm:text-sm"
                         placeholder="{{ __('Coupon code', 'sage') }}"
                         value=""
                       />
@@ -282,7 +282,7 @@
                     <button
                       type="submit"
                       name="apply_coupon"
-                      class="h-10 rounded-lg bg-secondary-900 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-secondary-800 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2"
+                      class="h-11 flex-shrink-0 rounded-lg bg-secondary-900 px-4 text-base font-medium text-white shadow-sm transition-colors hover:bg-secondary-800 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 active:scale-[0.98] sm:h-10 sm:text-sm"
                       value="{{ __('Apply', 'sage') }}"
                     >
                       {{ __('Apply', 'sage') }}
@@ -295,17 +295,17 @@
                   type="submit"
                   name="update_cart"
                   id="update-cart-btn"
-                  class="update-cart-btn h-10 rounded-lg border border-secondary-200 bg-white px-5 text-sm font-medium text-secondary-600 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+                  class="update-cart-btn h-11 w-full rounded-lg border border-secondary-200 bg-white px-5 text-base font-medium text-secondary-600 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:w-auto sm:text-sm"
                   value="{{ __('Update cart', 'sage') }}"
                   disabled
                 >
-                  <span class="btn-text inline-flex items-center gap-2">
+                  <span class="btn-text inline-flex items-center justify-center gap-2">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     {{ __('Update cart', 'sage') }}
                   </span>
-                  <span class="btn-loading hidden items-center gap-2">
+                  <span class="btn-loading hidden items-center justify-center gap-2">
                     <svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -322,18 +322,18 @@
 
         {{-- Cart Summary Sidebar --}}
         <div class="xl:col-span-4">
-          <div class="cart-collaterals sticky top-6">
+          <div class="cart-collaterals lg:sticky lg:top-6">
             <div class="overflow-hidden rounded-2xl border border-secondary-200 bg-white shadow-sm">
               {{-- Summary Header --}}
-              <div class="border-b border-secondary-100 bg-secondary-50/50 px-6 py-4">
-                <h2 class="text-lg font-bold text-secondary-900">
+              <div class="border-b border-secondary-100 bg-secondary-50/50 px-4 py-3 sm:px-6 sm:py-4">
+                <h2 class="text-base font-bold text-secondary-900 sm:text-lg">
                   {{ __('Order Summary', 'sage') }}
                 </h2>
               </div>
 
               {{-- Summary Content --}}
-              <div class="cart_totals p-6">
-                <div class="space-y-4">
+              <div class="cart_totals p-4 sm:p-6">
+                <div class="space-y-3 sm:space-y-4">
                   {{-- Subtotal --}}
                   <div class="flex items-center justify-between">
                     <span class="text-sm text-secondary-600">{{ __('Subtotal', 'sage') }}</span>
@@ -403,9 +403,9 @@
                 </div>
 
                 {{-- Total --}}
-                <div class="order-total mt-6 flex items-center justify-between border-t border-secondary-200 pt-6">
+                <div class="order-total mt-4 flex items-center justify-between border-t border-secondary-200 pt-4 sm:mt-6 sm:pt-6">
                   <span class="text-base font-bold text-secondary-900">{{ __('Total', 'sage') }}</span>
-                  <span class="cart-total text-2xl font-bold text-secondary-900">
+                  <span class="cart-total text-xl font-bold text-secondary-900 sm:text-2xl">
                     {!! WC()->cart->get_total() !!}
                   </span>
                 </div>
@@ -418,10 +418,10 @@
                 @endif
 
                 {{-- Proceed to Checkout --}}
-                <div class="wc-proceed-to-checkout mt-6">
+                <div class="wc-proceed-to-checkout mt-4 sm:mt-6">
                   <a
                     href="{{ wc_get_checkout_url() }}"
-                    class="checkout-button flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-4 text-base font-bold text-white shadow-lg shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-600/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                    class="checkout-button flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-5 py-3.5 text-base font-bold text-white shadow-lg shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-600/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] sm:px-6 sm:py-4"
                   >
                     {{ __('Proceed to Checkout', 'sage') }}
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -446,9 +446,9 @@
     @endphp
 
     @if (!empty($crossSells))
-      <div class="cross-sells mt-16">
-        <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-xl font-bold text-secondary-900">
+      <div class="cross-sells mt-10 sm:mt-16">
+        <div class="mb-4 flex items-center justify-between sm:mb-6">
+          <h2 class="text-lg font-bold text-secondary-900 sm:text-xl">
             {{ __('You may also like', 'sage') }}
           </h2>
           <a href="{{ wc_get_page_permalink('shop') }}" class="text-sm font-medium text-primary-600 hover:text-primary-700">
@@ -456,7 +456,7 @@
           </a>
         </div>
 
-        <ul class="products grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        <ul class="products grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
           @foreach ($crossSells as $crossSellProduct)
             <li class="flex">
               <x-product-card :product="$crossSellProduct" class="w-full" />
