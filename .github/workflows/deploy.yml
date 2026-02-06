@@ -44,7 +44,6 @@ jobs:
           local-dir: ./
           server-dir: ${{ secrets.FTP_PATH }}
           timeout: 60000
-          dangerous-clean-slate: true
           exclude: |
             **/.git*
             **/.github*
