@@ -32,15 +32,15 @@ class HomepageSlider
         // Ensure WooCommerce panel exists
         if (!$wp_customize->get_panel('woocommerce_panel')) {
             $wp_customize->add_panel('woocommerce_panel', [
-                'title'       => __('WooCommerce', 'sage'),
-                'description' => __('Customize your store settings.', 'sage'),
+                'title'       => __('WooCommerce', 'sega-woo-theme'),
+                'description' => __('Customize your store settings.', 'sega-woo-theme'),
                 'priority'    => 150,
             ]);
         }
 
         // Add Homepage Slider section
         $wp_customize->add_section('homepage_slider', [
-            'title'       => __('Homepage Slider', 'sage'),
+            'title'       => __('Homepage Slider', 'sega-woo-theme'),
             'description' => $this->get_section_description(),
             'panel'       => 'woocommerce_panel',
             'priority'    => 5,
@@ -70,8 +70,8 @@ class HomepageSlider
     protected function get_section_description(): string
     {
         return '<div class="slider-section-intro">' .
-            '<p>' . sprintf(__('Add up to %d banner slides. Drag to reorder.', 'sage'), self::MAX_SLIDES) . '</p>' .
-            '<p class="tip">' . __('Recommended image size: 1200x500px', 'sage') . '</p>' .
+            '<p>' . sprintf(__('Add up to %d banner slides. Drag to reorder.', 'sega-woo-theme'), self::MAX_SLIDES) . '</p>' .
+            '<p class="tip">' . __('Recommended image size: 1200x500px', 'sega-woo-theme') . '</p>' .
             '</div>';
     }
 
@@ -88,7 +88,7 @@ class HomepageSlider
         ]);
 
         $wp_customize->add_control('homepage_slider_autoplay', [
-            'label'   => __('Autoplay', 'sage'),
+            'label'   => __('Autoplay', 'sega-woo-theme'),
             'section' => 'homepage_slider',
             'type'    => 'checkbox',
             'priority' => 1,
@@ -102,7 +102,7 @@ class HomepageSlider
         ]);
 
         $wp_customize->add_control('homepage_slider_delay', [
-            'label'       => __('Delay (ms)', 'sage'),
+            'label'       => __('Delay (ms)', 'sega-woo-theme'),
             'section'     => 'homepage_slider',
             'type'        => 'number',
             'input_attrs' => ['min' => 2000, 'max' => 10000, 'step' => 500],
@@ -117,7 +117,7 @@ class HomepageSlider
         ]);
 
         $wp_customize->add_control('homepage_slider_navigation', [
-            'label'   => __('Show Arrows', 'sage'),
+            'label'   => __('Show Arrows', 'sega-woo-theme'),
             'section' => 'homepage_slider',
             'type'    => 'checkbox',
             'priority' => 3,
@@ -131,7 +131,7 @@ class HomepageSlider
         ]);
 
         $wp_customize->add_control('homepage_slider_pagination', [
-            'label'   => __('Show Dots', 'sage'),
+            'label'   => __('Show Dots', 'sega-woo-theme'),
             'section' => 'homepage_slider',
             'type'    => 'checkbox',
             'priority' => 4,
@@ -488,7 +488,7 @@ class HomepageSlider
                             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M12 5v14m-7-7h14"/>
                             </svg>
-                            <?php _e('Add Slide', 'sage'); ?>
+                            <?php _e('Add Slide', 'sega-woo-theme'); ?>
                         </button>
                         <div id="slides-list"></div>
                     </div>
@@ -530,7 +530,7 @@ class HomepageSlider
                                 <circle cx="8.5" cy="8.5" r="1.5"/>
                                 <path d="M21 15l-5-5L5 21"/>
                             </svg>
-                            <?php _e('No slides yet. Click "Add Slide" to get started.', 'sage'); ?>
+                            <?php _e('No slides yet. Click "Add Slide" to get started.', 'sega-woo-theme'); ?>
                         </div>
                     `);
                 } else {
@@ -553,19 +553,19 @@ class HomepageSlider
 
                 const previewHtml = slide.image
                     ? `<img src="${slide.image}" alt="">`
-                    : `<div class="no-image"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><br><?php _e('No image', 'sage'); ?></div>`;
+                    : `<div class="no-image"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><br><?php _e('No image', 'sega-woo-theme'); ?></div>`;
 
                 return $(`
                     <div class="slide-accordion" data-id="${slide.id}" data-index="${index}">
                         <div class="slide-accordion-header">
-                            <div class="slide-drag-handle" title="<?php _e('Drag to reorder', 'sage'); ?>">
+                            <div class="slide-drag-handle" title="<?php _e('Drag to reorder', 'sega-woo-theme'); ?>">
                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                                 </svg>
                             </div>
                             <div class="slide-thumb">${thumbHtml}</div>
                             <div class="slide-info">
-                                <span class="slide-title"><?php _e('Slide', 'sage'); ?> ${index + 1}</span>
+                                <span class="slide-title"><?php _e('Slide', 'sega-woo-theme'); ?> ${index + 1}</span>
                             </div>
                             <div class="slide-toggle-icon">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -577,19 +577,19 @@ class HomepageSlider
                             <div class="slide-image-preview" data-id="${slide.id}">${previewHtml}</div>
                             <div class="slide-image-buttons">
                                 <button type="button" class="slide-image-btn select-image" data-id="${slide.id}">
-                                    ${slide.image ? '<?php _e('Change Image', 'sage'); ?>' : '<?php _e('Select Image', 'sage'); ?>'}
+                                    ${slide.image ? '<?php _e('Change Image', 'sega-woo-theme'); ?>' : '<?php _e('Select Image', 'sega-woo-theme'); ?>'}
                                 </button>
-                                ${slide.image ? `<button type="button" class="slide-image-btn remove-image" data-id="${slide.id}"><?php _e('Remove', 'sage'); ?></button>` : ''}
+                                ${slide.image ? `<button type="button" class="slide-image-btn remove-image" data-id="${slide.id}"><?php _e('Remove', 'sega-woo-theme'); ?></button>` : ''}
                             </div>
                             <div class="slide-link-group">
-                                <label><?php _e('Link URL (optional)', 'sage'); ?></label>
+                                <label><?php _e('Link URL (optional)', 'sega-woo-theme'); ?></label>
                                 <input type="url" class="slide-link-input" data-id="${slide.id}" value="${slide.link || ''}" placeholder="https://">
                             </div>
                             <button type="button" class="delete-slide-btn" data-id="${slide.id}">
                                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                 </svg>
-                                <?php _e('Delete Slide', 'sage'); ?>
+                                <?php _e('Delete Slide', 'sega-woo-theme'); ?>
                             </button>
                         </div>
                     </div>
@@ -602,9 +602,9 @@ class HomepageSlider
                 $btn.prop('disabled', slides.length >= MAX_SLIDES);
 
                 if (slides.length >= MAX_SLIDES) {
-                    $btn.html(`<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg> <?php _e('Maximum slides reached', 'sage'); ?>`);
+                    $btn.html(`<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg> <?php _e('Maximum slides reached', 'sega-woo-theme'); ?>`);
                 } else {
-                    $btn.html(`<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg> <?php _e('Add Slide', 'sage'); ?> (${slides.length}/${MAX_SLIDES})`);
+                    $btn.html(`<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg> <?php _e('Add Slide', 'sega-woo-theme'); ?> (${slides.length}/${MAX_SLIDES})`);
                 }
             }
 
@@ -664,7 +664,7 @@ class HomepageSlider
                 // Delete slide
                 $(document).on('click', '.delete-slide-btn', function() {
                     const slideId = $(this).data('id');
-                    if (confirm('<?php _e('Delete this slide?', 'sage'); ?>')) {
+                    if (confirm('<?php _e('Delete this slide?', 'sega-woo-theme'); ?>')) {
                         deleteSlide(slideId);
                     }
                 });
@@ -678,8 +678,8 @@ class HomepageSlider
                 }
 
                 mediaFrame = wp.media({
-                    title: '<?php _e('Select Slide Image', 'sage'); ?>',
-                    button: { text: '<?php _e('Use Image', 'sage'); ?>' },
+                    title: '<?php _e('Select Slide Image', 'sega-woo-theme'); ?>',
+                    button: { text: '<?php _e('Use Image', 'sega-woo-theme'); ?>' },
                     multiple: false
                 });
 
@@ -834,7 +834,7 @@ class HomepageSlider
                                         <circle cx="8.5" cy="8.5" r="1.5"/>
                                         <path d="M21 15l-5-5L5 21"/>
                                     </svg>
-                                    <p class="text-sm opacity-75"><?php _e('Add slides in Customizer', 'sage'); ?></p>
+                                    <p class="text-sm opacity-75"><?php _e('Add slides in Customizer', 'sega-woo-theme'); ?></p>
                                 </div>
                             </div>
                         </div>

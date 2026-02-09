@@ -33,7 +33,7 @@ class Checkout_Fields_Manager_Control extends WP_Customize_Control
             <div class="fields-section enabled-section">
                 <div class="section-header">
                     <span class="section-icon">✓</span>
-                    <span class="section-title"><?php _e('Enabled Fields', 'sage'); ?></span>
+                    <span class="section-title"><?php _e('Enabled Fields', 'sega-woo-theme'); ?></span>
                     <span class="section-count enabled-count">0</span>
                 </div>
                 <div class="fields-list sortable-fields" data-status="enabled">
@@ -45,14 +45,14 @@ class Checkout_Fields_Manager_Control extends WP_Customize_Control
             <div class="fields-section disabled-section">
                 <div class="section-header">
                     <span class="section-icon">✗</span>
-                    <span class="section-title"><?php _e('Disabled Fields', 'sage'); ?></span>
+                    <span class="section-title"><?php _e('Disabled Fields', 'sega-woo-theme'); ?></span>
                     <span class="section-count disabled-count">0</span>
                 </div>
                 <div class="fields-list sortable-fields" data-status="disabled">
                     <!-- Fields will be rendered here by JS -->
                 </div>
                 <div class="empty-state">
-                    <span><?php _e('Drag fields here to disable them', 'sage'); ?></span>
+                    <span><?php _e('Drag fields here to disable them', 'sega-woo-theme'); ?></span>
                 </div>
             </div>
 
@@ -78,8 +78,8 @@ class CheckoutFields
 
         // Add WooCommerce Panel
         $wp_customize->add_panel('woocommerce_panel', [
-            'title'       => __('WooCommerce', 'sage'),
-            'description' => __('Customize your store settings.', 'sage'),
+            'title'       => __('WooCommerce', 'sega-woo-theme'),
+            'description' => __('Customize your store settings.', 'sega-woo-theme'),
             'priority'    => 150,
         ]);
 
@@ -95,7 +95,7 @@ class CheckoutFields
     protected function register_billing_section(WP_Customize_Manager $wp_customize): void
     {
         $wp_customize->add_section('checkout_fields_billing', [
-            'title'       => __('Billing Fields', 'sage'),
+            'title'       => __('Billing Fields', 'sega-woo-theme'),
             'description' => $this->get_section_intro('billing'),
             'panel'       => 'woocommerce_panel',
             'priority'    => 10,
@@ -129,7 +129,7 @@ class CheckoutFields
     protected function register_shipping_section(WP_Customize_Manager $wp_customize): void
     {
         $wp_customize->add_section('checkout_fields_shipping', [
-            'title'       => __('Shipping Fields', 'sage'),
+            'title'       => __('Shipping Fields', 'sega-woo-theme'),
             'description' => $this->get_section_intro('shipping'),
             'panel'       => 'woocommerce_panel',
             'priority'    => 20,
@@ -161,7 +161,7 @@ class CheckoutFields
     protected function register_order_section(WP_Customize_Manager $wp_customize): void
     {
         $wp_customize->add_section('checkout_fields_order', [
-            'title'       => __('Order Fields', 'sage'),
+            'title'       => __('Order Fields', 'sega-woo-theme'),
             'description' => $this->get_section_intro('order'),
             'panel'       => 'woocommerce_panel',
             'priority'    => 30,
@@ -250,9 +250,9 @@ class CheckoutFields
     protected function get_section_intro(string $type): string
     {
         $intros = [
-            'billing'  => __('Drag to reorder. Click to edit. Drag to disabled section to hide.', 'sage'),
-            'shipping' => __('Manage shipping address fields displayed during checkout.', 'sage'),
-            'order'    => __('Manage additional order fields like notes.', 'sage'),
+            'billing'  => __('Drag to reorder. Click to edit. Drag to disabled section to hide.', 'sega-woo-theme'),
+            'shipping' => __('Manage shipping address fields displayed during checkout.', 'sega-woo-theme'),
+            'order'    => __('Manage additional order fields like notes.', 'sega-woo-theme'),
         ];
 
         return '<div class="cfm-section-intro">' . ($intros[$type] ?? '') . '</div>';
@@ -905,86 +905,86 @@ class CheckoutFields
     {
         return [
             'email' => [
-                'label'       => __('Email Address', 'sage'),
-                'placeholder' => __('your@email.com', 'sage'),
+                'label'       => __('Email Address', 'sega-woo-theme'),
+                'placeholder' => __('your@email.com', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 10,
                 'width'       => '100',
                 'icon'        => '📧',
             ],
             'phone' => [
-                'label'       => __('Phone Number', 'sage'),
-                'placeholder' => __('+1 (555) 000-0000', 'sage'),
+                'label'       => __('Phone Number', 'sega-woo-theme'),
+                'placeholder' => __('+1 (555) 000-0000', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 20,
                 'width'       => '100',
                 'icon'        => '📱',
             ],
             'first_name' => [
-                'label'       => __('First Name', 'sage'),
-                'placeholder' => __('John', 'sage'),
+                'label'       => __('First Name', 'sega-woo-theme'),
+                'placeholder' => __('John', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 30,
                 'width'       => '50',
                 'icon'        => '👤',
             ],
             'last_name' => [
-                'label'       => __('Last Name', 'sage'),
-                'placeholder' => __('Doe', 'sage'),
+                'label'       => __('Last Name', 'sega-woo-theme'),
+                'placeholder' => __('Doe', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 40,
                 'width'       => '50',
                 'icon'        => '👤',
             ],
             'company' => [
-                'label'       => __('Company', 'sage'),
-                'placeholder' => __('Company name', 'sage'),
+                'label'       => __('Company', 'sega-woo-theme'),
+                'placeholder' => __('Company name', 'sega-woo-theme'),
                 'required'    => false,
                 'priority'    => 50,
                 'width'       => '100',
                 'icon'        => '🏢',
             ],
             'country' => [
-                'label'       => __('Country / Region', 'sage'),
+                'label'       => __('Country / Region', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 60,
                 'width'       => '100',
                 'icon'        => '🌍',
             ],
             'address_1' => [
-                'label'       => __('Street Address', 'sage'),
-                'placeholder' => __('House number and street', 'sage'),
+                'label'       => __('Street Address', 'sega-woo-theme'),
+                'placeholder' => __('House number and street', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 70,
                 'width'       => '100',
                 'icon'        => '🏠',
             ],
             'address_2' => [
-                'label'       => __('Address Line 2', 'sage'),
-                'placeholder' => __('Apartment, suite, etc.', 'sage'),
+                'label'       => __('Address Line 2', 'sega-woo-theme'),
+                'placeholder' => __('Apartment, suite, etc.', 'sega-woo-theme'),
                 'required'    => false,
                 'priority'    => 80,
                 'width'       => '100',
                 'icon'        => '📍',
             ],
             'city' => [
-                'label'       => __('City', 'sage'),
-                'placeholder' => __('City', 'sage'),
+                'label'       => __('City', 'sega-woo-theme'),
+                'placeholder' => __('City', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 90,
                 'width'       => '50',
                 'icon'        => '🏙️',
             ],
             'state' => [
-                'label'       => __('State / Province', 'sage'),
+                'label'       => __('State / Province', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 100,
                 'width'       => '50',
                 'icon'        => '📍',
             ],
             'postcode' => [
-                'label'       => __('ZIP / Postal Code', 'sage'),
-                'placeholder' => __('ZIP / Postal Code', 'sage'),
+                'label'       => __('ZIP / Postal Code', 'sega-woo-theme'),
+                'placeholder' => __('ZIP / Postal Code', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 110,
                 'width'       => '50',
@@ -1000,70 +1000,70 @@ class CheckoutFields
     {
         return [
             'first_name' => [
-                'label'       => __('First Name', 'sage'),
-                'placeholder' => __('John', 'sage'),
+                'label'       => __('First Name', 'sega-woo-theme'),
+                'placeholder' => __('John', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 10,
                 'width'       => '50',
                 'icon'        => '👤',
             ],
             'last_name' => [
-                'label'       => __('Last Name', 'sage'),
-                'placeholder' => __('Doe', 'sage'),
+                'label'       => __('Last Name', 'sega-woo-theme'),
+                'placeholder' => __('Doe', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 20,
                 'width'       => '50',
                 'icon'        => '👤',
             ],
             'company' => [
-                'label'       => __('Company', 'sage'),
-                'placeholder' => __('Company name', 'sage'),
+                'label'       => __('Company', 'sega-woo-theme'),
+                'placeholder' => __('Company name', 'sega-woo-theme'),
                 'required'    => false,
                 'priority'    => 30,
                 'width'       => '100',
                 'icon'        => '🏢',
             ],
             'country' => [
-                'label'       => __('Country / Region', 'sage'),
+                'label'       => __('Country / Region', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 40,
                 'width'       => '100',
                 'icon'        => '🌍',
             ],
             'address_1' => [
-                'label'       => __('Street Address', 'sage'),
-                'placeholder' => __('House number and street', 'sage'),
+                'label'       => __('Street Address', 'sega-woo-theme'),
+                'placeholder' => __('House number and street', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 50,
                 'width'       => '100',
                 'icon'        => '🏠',
             ],
             'address_2' => [
-                'label'       => __('Address Line 2', 'sage'),
-                'placeholder' => __('Apartment, suite, etc.', 'sage'),
+                'label'       => __('Address Line 2', 'sega-woo-theme'),
+                'placeholder' => __('Apartment, suite, etc.', 'sega-woo-theme'),
                 'required'    => false,
                 'priority'    => 60,
                 'width'       => '100',
                 'icon'        => '📍',
             ],
             'city' => [
-                'label'       => __('City', 'sage'),
-                'placeholder' => __('City', 'sage'),
+                'label'       => __('City', 'sega-woo-theme'),
+                'placeholder' => __('City', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 70,
                 'width'       => '50',
                 'icon'        => '🏙️',
             ],
             'state' => [
-                'label'       => __('State / Province', 'sage'),
+                'label'       => __('State / Province', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 80,
                 'width'       => '50',
                 'icon'        => '📍',
             ],
             'postcode' => [
-                'label'       => __('ZIP / Postal Code', 'sage'),
-                'placeholder' => __('ZIP / Postal Code', 'sage'),
+                'label'       => __('ZIP / Postal Code', 'sega-woo-theme'),
+                'placeholder' => __('ZIP / Postal Code', 'sega-woo-theme'),
                 'required'    => true,
                 'priority'    => 90,
                 'width'       => '50',
@@ -1079,8 +1079,8 @@ class CheckoutFields
     {
         return [
             'comments' => [
-                'label'       => __('Order Notes', 'sage'),
-                'placeholder' => __('Special instructions...', 'sage'),
+                'label'       => __('Order Notes', 'sega-woo-theme'),
+                'placeholder' => __('Special instructions...', 'sega-woo-theme'),
                 'required'    => false,
                 'priority'    => 10,
                 'width'       => '100',

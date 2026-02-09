@@ -12,7 +12,7 @@ namespace App;
  * @return string
  */
 add_filter('excerpt_more', function () {
-    return sprintf(' &hellip; <a href="%s">%s</a>', get_permalink(), __('Continued', 'sage'));
+    return sprintf(' &hellip; <a href="%s">%s</a>', get_permalink(), __('Continued', 'sega-woo-theme'));
 });
 
 /**
@@ -33,6 +33,253 @@ add_filter('loop_shop_per_page', function ($per_page) {
 
     return $per_page;
 }, 20);
+
+/**
+ * Product Search Query Modifications
+ *
+ * Modify the main WordPress query for product searches to ensure proper:
+ * - Filtering to only products
+ * - Pagination support
+ * - Products per page setting
+ * - Sorting options
+ * - Price range filtering
+ * - Visibility filtering (exclude hidden products)
+ */
+add_action('pre_get_posts', function ($query) {
+    // Only modify the main query on the frontend
+    if (is_admin() || ! $query->is_main_query()) {
+        return;
+    }
+
+    // Only modify product searches
+    if (! $query->is_search()) {
+        return;
+    }
+
+    // Check if this is a product search
+    $post_type = $query->get('post_type');
+    if ($post_type !== 'product' && (! isset($_GET['post_type']) || $_GET['post_type'] !== 'product')) {
+        return;
+    }
+
+    // Ensure we're searching only products
+    $query->set('post_type', 'product');
+    $query->set('post_status', 'publish');
+
+    // Handle pagination - WordPress search doesn't automatically parse 'paged' from query string
+    $paged = 1;
+    if (isset($_GET['paged'])) {
+        $paged = absint($_GET['paged']);
+    } elseif (get_query_var('paged')) {
+        $paged = absint(get_query_var('paged'));
+    } elseif (get_query_var('page')) {
+        $paged = absint(get_query_var('page'));
+    }
+    $query->set('paged', max(1, $paged));
+
+    // Products per page
+    $per_page = 12; // Default
+    if (isset($_GET['per_page'])) {
+        $requested = absint($_GET['per_page']);
+        $allowed = [12, 24, 48, 96];
+        if (in_array($requested, $allowed, true)) {
+            $per_page = $requested;
+        }
+    } else {
+        // Use WooCommerce default if available
+        $per_page = apply_filters('loop_shop_per_page', wc_get_default_products_per_row() * wc_get_default_product_rows_per_page());
+    }
+    $query->set('posts_per_page', $per_page);
+
+    // Handle orderby parameter for sorting
+    $orderby = isset($_GET['orderby']) ? wc_clean(wp_unslash($_GET['orderby'])) : 'relevance';
+
+    switch ($orderby) {
+        case 'price':
+            $query->set('meta_key', '_price');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'ASC');
+            break;
+
+        case 'price-desc':
+            $query->set('meta_key', '_price');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'DESC');
+            break;
+
+        case 'date':
+            $query->set('orderby', 'date');
+            $query->set('order', 'DESC');
+            break;
+
+        case 'popularity':
+            $query->set('meta_key', 'total_sales');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'DESC');
+            break;
+
+        case 'rating':
+            $query->set('meta_key', '_wc_average_rating');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'DESC');
+            break;
+
+        case 'menu_order':
+            $query->set('orderby', 'menu_order title');
+            $query->set('order', 'ASC');
+            break;
+
+        case 'relevance':
+        default:
+            // WordPress default search relevance
+            $query->set('orderby', 'relevance');
+            break;
+    }
+
+    // Initialize meta_query array
+    $meta_query = $query->get('meta_query') ?: [];
+
+    // Price range filtering
+    $min_price = isset($_GET['min_price']) ? (float) wc_clean(wp_unslash($_GET['min_price'])) : null;
+    $max_price = isset($_GET['max_price']) ? (float) wc_clean(wp_unslash($_GET['max_price'])) : null;
+
+    if ($min_price !== null || $max_price !== null) {
+        $price_meta_query = [
+            'key'     => '_price',
+            'type'    => 'NUMERIC',
+        ];
+
+        if ($min_price !== null && $max_price !== null) {
+            $price_meta_query['value'] = [$min_price, $max_price];
+            $price_meta_query['compare'] = 'BETWEEN';
+        } elseif ($min_price !== null) {
+            $price_meta_query['value'] = $min_price;
+            $price_meta_query['compare'] = '>=';
+        } else {
+            $price_meta_query['value'] = $max_price;
+            $price_meta_query['compare'] = '<=';
+        }
+
+        $meta_query[] = $price_meta_query;
+    }
+
+    // Exclude products with visibility set to 'hidden' or 'search' excluded
+    $tax_query = $query->get('tax_query') ?: [];
+    $tax_query[] = [
+        'taxonomy' => 'product_visibility',
+        'field'    => 'slug',
+        'terms'    => ['exclude-from-search'],
+        'operator' => 'NOT IN',
+    ];
+    $query->set('tax_query', $tax_query);
+
+    // Apply meta query if we have conditions
+    if (! empty($meta_query)) {
+        $query->set('meta_query', $meta_query);
+    }
+}, 10);
+
+/**
+ * Set up WooCommerce loop for product search results.
+ *
+ * This ensures WooCommerce functions like woocommerce_product_loop() work correctly
+ * on search result pages.
+ */
+add_action('wp', function () {
+    if (! is_search() || ! isset($_GET['post_type']) || $_GET['post_type'] !== 'product') {
+        return;
+    }
+
+    global $wp_query;
+
+    // Get products per page
+    $per_page = 12;
+    if (isset($_GET['per_page'])) {
+        $requested = absint($_GET['per_page']);
+        $allowed = [12, 24, 48, 96];
+        if (in_array($requested, $allowed, true)) {
+            $per_page = $requested;
+        }
+    } else {
+        $per_page = apply_filters('loop_shop_per_page', wc_get_default_products_per_row() * wc_get_default_product_rows_per_page());
+    }
+
+    // Set up WooCommerce loop properties
+    if (function_exists('wc_setup_loop')) {
+        wc_setup_loop([
+            'name'         => 'search',
+            'is_search'    => true,
+            'is_paginated' => true,
+            'total'        => $wp_query->found_posts,
+            'total_pages'  => $wp_query->max_num_pages,
+            'per_page'     => $per_page,
+            'current_page' => max(1, get_query_var('paged', 1)),
+        ]);
+    }
+}, 20);
+
+/**
+ * Extend product search to include SKU matching.
+ *
+ * This modifies the search query's WHERE clause to also match products
+ * whose SKU contains the search term.
+ */
+add_filter('posts_search', function ($search, $query) {
+    global $wpdb;
+
+    // Only modify product search on frontend
+    if (is_admin() || ! $query->is_main_query() || ! $query->is_search()) {
+        return $search;
+    }
+
+    // Check if this is a product search
+    $post_type = $query->get('post_type');
+    if ($post_type !== 'product' && (! isset($_GET['post_type']) || $_GET['post_type'] !== 'product')) {
+        return $search;
+    }
+
+    $search_term = $query->get('s');
+    if (empty($search_term)) {
+        return $search;
+    }
+
+    // Find product IDs that match the SKU
+    $sku_products = $wpdb->get_col($wpdb->prepare("
+        SELECT DISTINCT post_id
+        FROM {$wpdb->postmeta}
+        WHERE meta_key = '_sku'
+        AND meta_value LIKE %s
+    ", '%' . $wpdb->esc_like($search_term) . '%'));
+
+    // Also find parent products for variations that match SKU
+    if (! empty($sku_products)) {
+        $parent_ids = $wpdb->get_col("
+            SELECT DISTINCT post_parent
+            FROM {$wpdb->posts}
+            WHERE ID IN (" . implode(',', array_map('intval', $sku_products)) . ")
+            AND post_parent > 0
+        ");
+
+        if (! empty($parent_ids)) {
+            $sku_products = array_unique(array_merge($sku_products, $parent_ids));
+        }
+    }
+
+    // If we found SKU matches, extend the WHERE clause to include them
+    if (! empty($sku_products)) {
+        $sku_ids_string = implode(',', array_map('intval', $sku_products));
+
+        // Modify the search WHERE clause to OR in the SKU matches
+        $search = preg_replace(
+            '/\(\s*\(/',
+            '((' . $wpdb->posts . '.ID IN (' . $sku_ids_string . ')) OR (',
+            $search,
+            1
+        );
+    }
+
+    return $search;
+}, 10, 2);
 
 /**
  * Image Performance Optimizations
@@ -378,13 +625,13 @@ function generate_mini_cart_items_html()
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                     </svg>
                 </div>
-                <p class="mb-1 text-sm font-medium text-secondary-900">' . esc_html__('Your cart is empty', 'sage') . '</p>
-                <p class="mb-4 text-xs text-secondary-500">' . esc_html__('Add items to get started', 'sage') . '</p>
+                <p class="mb-1 text-sm font-medium text-secondary-900">' . esc_html__('Your cart is empty', 'sega-woo-theme') . '</p>
+                <p class="mb-4 text-xs text-secondary-500">' . esc_html__('Add items to get started', 'sega-woo-theme') . '</p>
                 <a href="' . esc_url(wc_get_page_permalink('shop')) . '" class="inline-flex items-center gap-1.5 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/30">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                     </svg>
-                    ' . esc_html__('Start Shopping', 'sage') . '
+                    ' . esc_html__('Start Shopping', 'sega-woo-theme') . '
                 </a>
             </div>
         </div>';
@@ -437,7 +684,7 @@ function generate_mini_cart_items_html()
             esc_url($product->get_permalink()),
             esc_html($product->get_name()),
             esc_attr($cart_item_key),
-            esc_attr__('Remove item', 'sage'),
+            esc_attr__('Remove item', 'sega-woo-theme'),
             $variation_html,
             esc_html($cart_item['quantity']),
             $cart->get_product_subtotal($product, $cart_item['quantity'])
@@ -486,12 +733,12 @@ function generate_mini_cart_footer_html($subtotal)
             </div>
         </div>',
         $is_empty ? ' hidden' : '',
-        esc_html__('Subtotal', 'sage'),
+        esc_html__('Subtotal', 'sega-woo-theme'),
         $subtotal,
         esc_url($cart_url),
-        esc_html__('View Cart', 'sage'),
+        esc_html__('View Cart', 'sega-woo-theme'),
         esc_url($checkout_url),
-        esc_html__('Checkout', 'sage')
+        esc_html__('Checkout', 'sega-woo-theme')
     );
 }
 
@@ -574,7 +821,7 @@ function ajax_remove_from_cart()
     $cart_item_key = isset($_POST['cart_item_key']) ? sanitize_text_field(wp_unslash($_POST['cart_item_key'])) : '';
 
     if (! $cart_item_key) {
-        wp_send_json_error(['message' => __('Invalid cart item.', 'sage')]);
+        wp_send_json_error(['message' => __('Invalid cart item.', 'sega-woo-theme')]);
     }
 
     $removed = WC()->cart->remove_cart_item($cart_item_key);
@@ -588,7 +835,7 @@ function ajax_remove_from_cart()
         // Get cart fragments
         WC_AJAX::get_refreshed_fragments();
     } else {
-        wp_send_json_error(['message' => __('Could not remove item from cart.', 'sage')]);
+        wp_send_json_error(['message' => __('Could not remove item from cart.', 'sega-woo-theme')]);
     }
 }
 
@@ -606,7 +853,7 @@ function ajax_update_cart_item_qty()
     $quantity = isset($_POST['quantity']) ? absint($_POST['quantity']) : 1;
 
     if (! $cart_item_key) {
-        wp_send_json_error(['message' => __('Invalid cart item.', 'sage')]);
+        wp_send_json_error(['message' => __('Invalid cart item.', 'sega-woo-theme')]);
     }
 
     // Get cart item
@@ -614,7 +861,7 @@ function ajax_update_cart_item_qty()
     $cart_item = $cart->get_cart_item($cart_item_key);
 
     if (! $cart_item) {
-        wp_send_json_error(['message' => __('Cart item not found.', 'sage')]);
+        wp_send_json_error(['message' => __('Cart item not found.', 'sega-woo-theme')]);
     }
 
     // If quantity is 0, remove the item
@@ -622,7 +869,7 @@ function ajax_update_cart_item_qty()
         $removed = $cart->remove_cart_item($cart_item_key);
 
         if (! $removed) {
-            wp_send_json_error(['message' => __('Could not remove item from cart.', 'sage')]);
+            wp_send_json_error(['message' => __('Could not remove item from cart.', 'sega-woo-theme')]);
         }
     } else {
         // Update quantity
@@ -635,7 +882,7 @@ function ajax_update_cart_item_qty()
             if ($stock_quantity !== null && $quantity > $stock_quantity) {
                 wp_send_json_error([
                     'message' => sprintf(
-                        __('Sorry, only %d items are in stock.', 'sage'),
+                        __('Sorry, only %d items are in stock.', 'sega-woo-theme'),
                         $stock_quantity
                     ),
                     'max_quantity' => $stock_quantity,
@@ -648,7 +895,7 @@ function ajax_update_cart_item_qty()
         if ($max_purchase > 0 && $quantity > $max_purchase) {
             wp_send_json_error([
                 'message' => sprintf(
-                    __('Sorry, you can only purchase %d of this item.', 'sage'),
+                    __('Sorry, you can only purchase %d of this item.', 'sega-woo-theme'),
                     $max_purchase
                 ),
                 'max_quantity' => $max_purchase,
@@ -659,7 +906,7 @@ function ajax_update_cart_item_qty()
         $updated = $cart->set_quantity($cart_item_key, $quantity, true);
 
         if (! $updated) {
-            wp_send_json_error(['message' => __('Could not update cart.', 'sage')]);
+            wp_send_json_error(['message' => __('Could not update cart.', 'sega-woo-theme')]);
         }
     }
 
@@ -769,7 +1016,7 @@ function wc_ajax_add_to_cart()
 
     if (! $product) {
         wp_send_json([
-            'error' => __('Product not found.', 'sage'),
+            'error' => __('Product not found.', 'sega-woo-theme'),
         ]);
         return;
     }
@@ -788,7 +1035,7 @@ function wc_ajax_add_to_cart()
         $variation_product = wc_get_product($variation_id);
         if (! $variation_product || ! $variation_product->is_purchasable() || ! $variation_product->is_in_stock()) {
             wp_send_json([
-                'error' => __('This variation is unavailable.', 'sage'),
+                'error' => __('This variation is unavailable.', 'sega-woo-theme'),
             ]);
             return;
         }
@@ -803,7 +1050,7 @@ function wc_ajax_add_to_cart()
     if (! $cart_item_key) {
         // Get WooCommerce notices as error message
         $notices = wc_get_notices('error');
-        $error_message = ! empty($notices) ? wp_strip_all_tags($notices[0]['notice']) : __('Could not add to cart.', 'sage');
+        $error_message = ! empty($notices) ? wp_strip_all_tags($notices[0]['notice']) : __('Could not add to cart.', 'sega-woo-theme');
         wc_clear_notices();
 
         wp_send_json([
@@ -974,11 +1221,11 @@ add_action('woocommerce_product_import_finished', function () {
 add_filter('woocommerce_breadcrumb_defaults', function ($defaults) {
     return [
         'delimiter'   => '<span class="mx-2 text-secondary-400">/</span>',
-        'wrap_before' => '<nav class="woocommerce-breadcrumb text-sm text-secondary-600 mb-6" aria-label="' . esc_attr__('Breadcrumb', 'sage') . '">',
+        'wrap_before' => '<nav class="woocommerce-breadcrumb text-sm text-secondary-600 mb-6" aria-label="' . esc_attr__('Breadcrumb', 'sega-woo-theme') . '">',
         'wrap_after'  => '</nav>',
         'before'      => '<span class="breadcrumb-item">',
         'after'       => '</span>',
-        'home'        => __('Shop', 'sage'),
+        'home'        => __('Shop', 'sega-woo-theme'),
     ];
 });
 
@@ -1066,22 +1313,22 @@ add_filter('woocommerce_cross_sells_columns', function () {
  */
 add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
     if ($product->is_type('variable')) {
-        return __('Select Options', 'sage');
+        return __('Select Options', 'sega-woo-theme');
     }
 
     if ($product->is_type('grouped')) {
-        return __('View Products', 'sage');
+        return __('View Products', 'sega-woo-theme');
     }
 
     if ($product->is_type('external')) {
-        return $product->get_button_text() ?: __('Buy Product', 'sage');
+        return $product->get_button_text() ?: __('Buy Product', 'sega-woo-theme');
     }
 
     if (! $product->is_in_stock()) {
-        return __('Out of Stock', 'sage');
+        return __('Out of Stock', 'sega-woo-theme');
     }
 
-    return __('Add to Cart', 'sage');
+    return __('Add to Cart', 'sega-woo-theme');
 }, 10, 2);
 
 /**
@@ -1089,17 +1336,17 @@ add_filter('woocommerce_product_add_to_cart_text', function ($text, $product) {
  */
 add_filter('woocommerce_product_single_add_to_cart_text', function ($text, $product) {
     if (! $product->is_in_stock()) {
-        return __('Out of Stock', 'sage');
+        return __('Out of Stock', 'sega-woo-theme');
     }
 
-    return __('Add to Cart', 'sage');
+    return __('Add to Cart', 'sega-woo-theme');
 }, 10, 2);
 
 /**
  * Empty Cart Message Customization
  */
 add_filter('wc_empty_cart_message', function () {
-    return __('Your cart is currently empty. Start shopping to add items to your cart.', 'sage');
+    return __('Your cart is currently empty. Start shopping to add items to your cart.', 'sega-woo-theme');
 });
 
 /**
@@ -1335,85 +1582,85 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
         $billing_config = [
             'billing_email' => [
                 'priority'    => 5,
-                'label'       => __('Email Address', 'sage'),
-                'placeholder' => __('your@email.com', 'sage'),
+                'label'       => __('Email Address', 'sega-woo-theme'),
+                'placeholder' => __('your@email.com', 'sega-woo-theme'),
                 'class'       => ['form-row-wide'],
                 'autocomplete' => 'email',
                 'required'    => true,
             ],
             'billing_phone' => [
                 'priority'    => 10,
-                'label'       => __('Phone Number', 'sage'),
-                'placeholder' => __('+1 (555) 000-0000', 'sage'),
+                'label'       => __('Phone Number', 'sega-woo-theme'),
+                'placeholder' => __('+1 (555) 000-0000', 'sega-woo-theme'),
                 'class'       => ['form-row-wide'],
                 'autocomplete' => 'tel',
                 'required'    => true,
             ],
             'billing_first_name' => [
                 'priority'    => 20,
-                'label'       => __('First Name', 'sage'),
-                'placeholder' => __('John', 'sage'),
+                'label'       => __('First Name', 'sega-woo-theme'),
+                'placeholder' => __('John', 'sega-woo-theme'),
                 'class'       => ['form-row-first'],
                 'autocomplete' => 'given-name',
                 'required'    => true,
             ],
             'billing_last_name' => [
                 'priority'    => 25,
-                'label'       => __('Last Name', 'sage'),
-                'placeholder' => __('Doe', 'sage'),
+                'label'       => __('Last Name', 'sega-woo-theme'),
+                'placeholder' => __('Doe', 'sega-woo-theme'),
                 'class'       => ['form-row-last'],
                 'autocomplete' => 'family-name',
                 'required'    => true,
             ],
             'billing_company' => [
                 'priority'    => 30,
-                'label'       => __('Company', 'sage'),
-                'placeholder' => __('Company name (optional)', 'sage'),
+                'label'       => __('Company', 'sega-woo-theme'),
+                'placeholder' => __('Company name (optional)', 'sega-woo-theme'),
                 'required'    => false,
                 'class'       => ['form-row-wide'],
                 'autocomplete' => 'organization',
             ],
             'billing_country' => [
                 'priority'    => 35,
-                'label'       => __('Country / Region', 'sage'),
+                'label'       => __('Country / Region', 'sega-woo-theme'),
                 'class'       => ['form-row-wide', 'address-field', 'update_totals_on_change'],
                 'required'    => true,
             ],
             'billing_address_1' => [
                 'priority'    => 40,
-                'label'       => __('Street Address', 'sage'),
-                'placeholder' => __('House number and street name', 'sage'),
+                'label'       => __('Street Address', 'sega-woo-theme'),
+                'placeholder' => __('House number and street name', 'sega-woo-theme'),
                 'class'       => ['form-row-wide', 'address-field'],
                 'autocomplete' => 'address-line1',
                 'required'    => true,
             ],
             'billing_address_2' => [
                 'priority'    => 45,
-                'label'       => __('Address Line 2', 'sage'),
+                'label'       => __('Address Line 2', 'sega-woo-theme'),
                 'label_class' => ['screen-reader-text'],
-                'placeholder' => __('Apartment, suite, unit, etc. (optional)', 'sage'),
+                'placeholder' => __('Apartment, suite, unit, etc. (optional)', 'sega-woo-theme'),
                 'required'    => false,
                 'class'       => ['form-row-wide', 'address-field'],
                 'autocomplete' => 'address-line2',
             ],
             'billing_city' => [
                 'priority'    => 50,
-                'label'       => __('City', 'sage'),
-                'placeholder' => __('City', 'sage'),
+                'label'       => __('City', 'sega-woo-theme'),
+                'placeholder' => __('City', 'sega-woo-theme'),
                 'class'       => ['form-row-first', 'address-field'],
                 'autocomplete' => 'address-level2',
                 'required'    => true,
             ],
             'billing_state' => [
                 'priority'    => 55,
-                'label'       => __('State / Province', 'sage'),
+                'label'       => __('State / Province', 'sega-woo-theme'),
                 'class'       => ['form-row-last', 'address-field'],
                 'required'    => true,
             ],
             'billing_postcode' => [
                 'priority'    => 60,
-                'label'       => __('ZIP / Postal Code', 'sage'),
-                'placeholder' => __('ZIP / Postal Code', 'sage'),
+                'label'       => __('ZIP / Postal Code', 'sega-woo-theme'),
+                'placeholder' => __('ZIP / Postal Code', 'sega-woo-theme'),
                 'class'       => ['form-row-first', 'address-field'],
                 'autocomplete' => 'postal-code',
                 'required'    => true,
@@ -1473,69 +1720,69 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
         $shipping_config = [
             'shipping_first_name' => [
                 'priority'    => 10,
-                'label'       => __('First Name', 'sage'),
-                'placeholder' => __('John', 'sage'),
+                'label'       => __('First Name', 'sega-woo-theme'),
+                'placeholder' => __('John', 'sega-woo-theme'),
                 'class'       => ['form-row-first'],
                 'autocomplete' => 'given-name',
                 'required'    => true,
             ],
             'shipping_last_name' => [
                 'priority'    => 15,
-                'label'       => __('Last Name', 'sage'),
-                'placeholder' => __('Doe', 'sage'),
+                'label'       => __('Last Name', 'sega-woo-theme'),
+                'placeholder' => __('Doe', 'sega-woo-theme'),
                 'class'       => ['form-row-last'],
                 'autocomplete' => 'family-name',
                 'required'    => true,
             ],
             'shipping_company' => [
                 'priority'    => 20,
-                'label'       => __('Company', 'sage'),
-                'placeholder' => __('Company name (optional)', 'sage'),
+                'label'       => __('Company', 'sega-woo-theme'),
+                'placeholder' => __('Company name (optional)', 'sega-woo-theme'),
                 'required'    => false,
                 'class'       => ['form-row-wide'],
                 'autocomplete' => 'organization',
             ],
             'shipping_country' => [
                 'priority'    => 25,
-                'label'       => __('Country / Region', 'sage'),
+                'label'       => __('Country / Region', 'sega-woo-theme'),
                 'class'       => ['form-row-wide', 'address-field', 'update_totals_on_change'],
                 'required'    => true,
             ],
             'shipping_address_1' => [
                 'priority'    => 30,
-                'label'       => __('Street Address', 'sage'),
-                'placeholder' => __('House number and street name', 'sage'),
+                'label'       => __('Street Address', 'sega-woo-theme'),
+                'placeholder' => __('House number and street name', 'sega-woo-theme'),
                 'class'       => ['form-row-wide', 'address-field'],
                 'autocomplete' => 'address-line1',
                 'required'    => true,
             ],
             'shipping_address_2' => [
                 'priority'    => 35,
-                'label'       => __('Address Line 2', 'sage'),
+                'label'       => __('Address Line 2', 'sega-woo-theme'),
                 'label_class' => ['screen-reader-text'],
-                'placeholder' => __('Apartment, suite, unit, etc. (optional)', 'sage'),
+                'placeholder' => __('Apartment, suite, unit, etc. (optional)', 'sega-woo-theme'),
                 'required'    => false,
                 'class'       => ['form-row-wide', 'address-field'],
                 'autocomplete' => 'address-line2',
             ],
             'shipping_city' => [
                 'priority'    => 40,
-                'label'       => __('City', 'sage'),
-                'placeholder' => __('City', 'sage'),
+                'label'       => __('City', 'sega-woo-theme'),
+                'placeholder' => __('City', 'sega-woo-theme'),
                 'class'       => ['form-row-first', 'address-field'],
                 'autocomplete' => 'address-level2',
                 'required'    => true,
             ],
             'shipping_state' => [
                 'priority'    => 45,
-                'label'       => __('State / Province', 'sage'),
+                'label'       => __('State / Province', 'sega-woo-theme'),
                 'class'       => ['form-row-last', 'address-field'],
                 'required'    => true,
             ],
             'shipping_postcode' => [
                 'priority'    => 50,
-                'label'       => __('ZIP / Postal Code', 'sage'),
-                'placeholder' => __('ZIP / Postal Code', 'sage'),
+                'label'       => __('ZIP / Postal Code', 'sega-woo-theme'),
+                'placeholder' => __('ZIP / Postal Code', 'sega-woo-theme'),
                 'class'       => ['form-row-first', 'address-field'],
                 'autocomplete' => 'postal-code',
                 'required'    => true,
@@ -1595,8 +1842,8 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
         if (!is_checkout_field_enabled('order_comments')) {
             unset($fields['order']['order_comments']);
         } else {
-            $default_label = __('Order Notes', 'sage');
-            $default_placeholder = __('Special instructions for delivery, gift messages, or any other notes about your order...', 'sage');
+            $default_label = __('Order Notes', 'sega-woo-theme');
+            $default_placeholder = __('Special instructions for delivery, gift messages, or any other notes about your order...', 'sega-woo-theme');
 
             $fields['order']['order_comments']['label'] = get_checkout_field_label('order_comments', $default_label);
             $fields['order']['order_comments']['placeholder'] = get_checkout_field_placeholder('order_comments', $default_placeholder);
@@ -1612,17 +1859,17 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 
     if (isset($fields['account'])) {
         if (isset($fields['account']['account_username'])) {
-            $fields['account']['account_username']['placeholder'] = __('Choose a username', 'sage');
+            $fields['account']['account_username']['placeholder'] = __('Choose a username', 'sega-woo-theme');
             $fields['account']['account_username']['input_class'] = get_checkout_input_classes('text');
         }
 
         if (isset($fields['account']['account_password'])) {
-            $fields['account']['account_password']['placeholder'] = __('Create a password', 'sage');
+            $fields['account']['account_password']['placeholder'] = __('Create a password', 'sega-woo-theme');
             $fields['account']['account_password']['input_class'] = get_checkout_input_classes('text');
         }
 
         if (isset($fields['account']['account_password-2'])) {
-            $fields['account']['account_password-2']['placeholder'] = __('Confirm your password', 'sage');
+            $fields['account']['account_password-2']['placeholder'] = __('Confirm your password', 'sega-woo-theme');
             $fields['account']['account_password-2']['input_class'] = get_checkout_input_classes('text');
         }
     }
@@ -1674,7 +1921,7 @@ add_action('woocommerce_checkout_process', function () {
         // Check if phone has reasonable length (between 7 and 15 digits)
         if (strlen($phone_digits) < 7 || strlen($phone_digits) > 15) {
             wc_add_notice(
-                __('Please enter a valid phone number.', 'sage'),
+                __('Please enter a valid phone number.', 'sega-woo-theme'),
                 'error'
             );
         }
@@ -1702,7 +1949,7 @@ add_action('woocommerce_checkout_process', function () {
             wc_add_notice(
                 sprintf(
                     /* translators: %s: suggested email domain */
-                    __('Did you mean @%s? Please check your email address.', 'sage'),
+                    __('Did you mean @%s? Please check your email address.', 'sega-woo-theme'),
                     $common_typos[$domain]
                 ),
                 'notice'
@@ -1898,7 +2145,7 @@ add_filter('woocommerce_review_gravatar_size', function () {
  * Customize the "Place Order" button text on checkout.
  */
 add_filter('woocommerce_order_button_text', function () {
-    return __('Complete Order', 'sage');
+    return __('Complete Order', 'sega-woo-theme');
 });
 
 /**
@@ -1991,7 +2238,7 @@ add_action('woocommerce_check_cart_items', function () {
     if (WC()->cart->subtotal < $minimum_amount) {
         wc_add_notice(
             sprintf(
-                __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'sage'),
+                __('Your current order total is %s — you must have an order with a minimum of %s to place your order.', 'sega-woo-theme'),
                 wc_price(WC()->cart->subtotal),
                 wc_price($minimum_amount)
             ),
@@ -2462,7 +2709,7 @@ add_filter('woocommerce_sale_flash', function ($html, $post, $product) {
     // Fallback to simple "Sale" badge if percentage can't be calculated
     return sprintf(
         '<span class="onsale rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold text-white shadow-sm">%s</span>',
-        esc_html__('Sale', 'sage')
+        esc_html__('Sale', 'sega-woo-theme')
     );
 }, 10, 3);
 
@@ -2516,7 +2763,7 @@ function ajax_filter_products(): void
 {
     // Verify nonce for security
     if (! isset($_POST['nonce']) || ! wp_verify_nonce($_POST['nonce'], 'filter_products_nonce')) {
-        wp_send_json_error(['message' => __('Security check failed', 'sage')], 403);
+        wp_send_json_error(['message' => __('Security check failed', 'sega-woo-theme')], 403);
     }
 
     // Get filter parameters - categories are now IDs, deduplicate
@@ -2673,8 +2920,8 @@ function ajax_filter_products(): void
         echo '<svg class="mb-4 h-16 w-16 text-secondary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">';
         echo '<path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />';
         echo '</svg>';
-        echo '<h2 class="mb-2 text-xl font-semibold text-secondary-900">' . esc_html__('No products found', 'sage') . '</h2>';
-        echo '<p class="mb-6 max-w-sm text-secondary-600">' . esc_html__('No products match your selected filters. Try adjusting your filter criteria.', 'sage') . '</p>';
+        echo '<h2 class="mb-2 text-xl font-semibold text-secondary-900">' . esc_html__('No products found', 'sega-woo-theme') . '</h2>';
+        echo '<p class="mb-6 max-w-sm text-secondary-600">' . esc_html__('No products match your selected filters. Try adjusting your filter criteria.', 'sega-woo-theme') . '</p>';
         echo '</div>';
     }
 
@@ -2687,12 +2934,12 @@ function ajax_filter_products(): void
 
     if ($total <= $per_page || $query->max_num_pages === 1) {
         $result_count = sprintf(
-            _n('Showing the single result', 'Showing all %d results', $total, 'sage'),
+            _n('Showing the single result', 'Showing all %d results', $total, 'sega-woo-theme'),
             $total
         );
     } else {
         $result_count = sprintf(
-            __('Showing %1$d–%2$d of %3$d results', 'sage'),
+            __('Showing %1$d–%2$d of %3$d results', 'sega-woo-theme'),
             $first,
             $last,
             $total
@@ -2705,7 +2952,7 @@ function ajax_filter_products(): void
         $total_pages = $query->max_num_pages;
         $range = 2;
 
-        echo '<nav class="mt-10 flex items-center justify-center" aria-label="' . esc_attr__('Product pagination', 'sage') . '">';
+        echo '<nav class="mt-10 flex items-center justify-center" aria-label="' . esc_attr__('Product pagination', 'sega-woo-theme') . '">';
         echo '<ul class="flex items-center gap-1">';
 
         // Previous button
@@ -2713,7 +2960,7 @@ function ajax_filter_products(): void
             ? 'text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900'
             : 'text-secondary-300 cursor-not-allowed pointer-events-none';
         echo '<li>';
-        echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg transition-colors ' . $prev_class . '" data-page="' . ($paged - 1) . '" aria-label="' . esc_attr__('Previous page', 'sage') . '">';
+        echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg transition-colors ' . $prev_class . '" data-page="' . ($paged - 1) . '" aria-label="' . esc_attr__('Previous page', 'sega-woo-theme') . '">';
         echo '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>';
         echo '</a>';
         echo '</li>';
@@ -2742,7 +2989,7 @@ function ajax_filter_products(): void
             ? 'text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900'
             : 'text-secondary-300 cursor-not-allowed pointer-events-none';
         echo '<li>';
-        echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg transition-colors ' . $next_class . '" data-page="' . ($paged + 1) . '" aria-label="' . esc_attr__('Next page', 'sage') . '">';
+        echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg transition-colors ' . $next_class . '" data-page="' . ($paged + 1) . '" aria-label="' . esc_attr__('Next page', 'sega-woo-theme') . '">';
         echo '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>';
         echo '</a>';
         echo '</li>';
@@ -2778,9 +3025,9 @@ function ajax_filter_products(): void
         if ($min_price > 0 && $max_price > 0) {
             $price_label = wc_price($min_price) . ' - ' . wc_price($max_price);
         } elseif ($min_price > 0) {
-            $price_label = sprintf(__('From %s', 'sage'), wc_price($min_price));
+            $price_label = sprintf(__('From %s', 'sega-woo-theme'), wc_price($min_price));
         } else {
-            $price_label = sprintf(__('Up to %s', 'sage'), wc_price($max_price));
+            $price_label = sprintf(__('Up to %s', 'sega-woo-theme'), wc_price($max_price));
         }
         $active_filters[] = [
             'type'  => 'price',
@@ -2792,7 +3039,7 @@ function ajax_filter_products(): void
     if ($on_sale) {
         $active_filters[] = [
             'type'  => 'on_sale',
-            'label' => __('On Sale', 'sage'),
+            'label' => __('On Sale', 'sega-woo-theme'),
         ];
     }
 
@@ -2800,7 +3047,7 @@ function ajax_filter_products(): void
     if ($in_stock) {
         $active_filters[] = [
             'type'  => 'in_stock',
-            'label' => __('In Stock', 'sage'),
+            'label' => __('In Stock', 'sega-woo-theme'),
         ];
     }
 

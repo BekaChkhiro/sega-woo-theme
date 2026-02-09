@@ -20,6 +20,15 @@ if (is_singular('product')) {
     } else {
         wc_get_template('single-product.php');
     }
+} elseif (is_search()) {
+    // Product search results page
+    if (view()->exists('woocommerce.search-product')) {
+        echo view('woocommerce.search-product')->render();
+    } elseif (view()->exists('woocommerce.archive-product')) {
+        echo view('woocommerce.archive-product')->render();
+    } else {
+        wc_get_template('archive-product.php');
+    }
 } elseif (is_product_category()) {
     // Product category archive pages - use taxonomy template
     if (view()->exists('woocommerce.taxonomy-product_cat')) {

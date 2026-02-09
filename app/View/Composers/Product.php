@@ -908,7 +908,7 @@ class Product extends Composer
 
         // Home
         $breadcrumbs[] = [
-            'label' => __('Home', 'sage'),
+            'label' => __('Home', 'sega-woo-theme'),
             'url'   => home_url('/'),
         ];
 

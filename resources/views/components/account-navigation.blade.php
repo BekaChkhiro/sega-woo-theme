@@ -15,7 +15,7 @@
 @if (!empty($menuItems))
   <nav
     {{ $attributes->merge(['class' => $layout === 'vertical' ? 'sticky top-8 rounded-xl border border-secondary-200 bg-white p-4' : '']) }}
-    aria-label="{{ __('Account navigation', 'sage') }}"
+    aria-label="{{ __('Account navigation', 'sega-woo-theme') }}"
   >
     <ul class="woocommerce-MyAccount-navigation {{ $getContainerClasses() }}">
       @foreach ($menuItems as $endpoint => $label)

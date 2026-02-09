@@ -1,0 +1,1122 @@
+# Russian Translation for Sega WooCommerce Theme
+# Copyright (C) 2026 Sega WooCommerce Theme
+# This file is distributed under the same license as the sega-woo-theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sega WooCommerce Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-09 14:00+0000\n"
+"PO-Revision-Date: 2026-02-09 14:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Claude Code\n"
+"X-Domain: sega-woo-theme\n"
+
+#: Header Navigation
+msgid "Categories"
+msgstr "Категории"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Menu"
+msgstr "Меню"
+
+msgid "Select language"
+msgstr "Выберите язык"
+
+#: Shop Page
+msgid "Shop"
+msgstr "Магазин"
+
+msgid "All Products"
+msgstr "Все товары"
+
+msgid "Add to Cart"
+msgstr "В корзину"
+
+msgid "Add to cart"
+msgstr "В корзину"
+
+msgid "Added!"
+msgstr "Добавлено!"
+
+msgid "Adding..."
+msgstr "Добавление..."
+
+msgid "View Cart"
+msgstr "Корзина"
+
+msgid "Out of Stock"
+msgstr "Нет в наличии"
+
+msgid "In Stock"
+msgstr "В наличии"
+
+msgid "On Sale"
+msgstr "Скидка"
+
+msgid "Sale"
+msgstr "Скидка"
+
+msgid "New"
+msgstr "Новинка"
+
+#: Filters
+msgid "Filters"
+msgstr "Фильтры"
+
+msgid "Filter by Price"
+msgstr "Фильтр по цене"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Apply Filters"
+msgstr "Применить фильтры"
+
+msgid "Clear All"
+msgstr "Очистить все"
+
+msgid "Clear all"
+msgstr "Очистить все"
+
+msgid "Clear filters"
+msgstr "Сбросить фильтры"
+
+#: Sorting
+msgid "Sort by"
+msgstr "Сортировка"
+
+msgid "Default sorting"
+msgstr "По умолчанию"
+
+msgid "Sort by popularity"
+msgstr "По популярности"
+
+msgid "Sort by average rating"
+msgstr "По рейтингу"
+
+msgid "Sort by latest"
+msgstr "По новизне"
+
+msgid "Sort by price: low to high"
+msgstr "По цене: от низкой к высокой"
+
+msgid "Sort by price: high to low"
+msgstr "По цене: от высокой к низкой"
+
+#: Pagination
+msgid "Products per page"
+msgstr "Товаров на странице"
+
+msgid "12 per page"
+msgstr "12 на странице"
+
+msgid "24 per page"
+msgstr "24 на странице"
+
+msgid "48 per page"
+msgstr "48 на странице"
+
+msgid "96 per page"
+msgstr "96 на странице"
+
+msgid "Showing %1$d–%2$d of %3$d results"
+msgstr "Показано %1$d–%2$d из %3$d результатов"
+
+#: Single Product
+msgid "Description"
+msgstr "Описание"
+
+msgid "Additional Information"
+msgstr "Дополнительная информация"
+
+msgid "Reviews"
+msgstr "Отзывы"
+
+msgid "SKU:"
+msgstr "Артикул:"
+
+msgid "Category:"
+msgstr "Категория:"
+
+msgid "Tags:"
+msgstr "Метки:"
+
+msgid "Choose an option"
+msgstr "Выберите вариант"
+
+msgid "Select options"
+msgstr "Выберите опции"
+
+msgid "Related Products"
+msgstr "Похожие товары"
+
+msgid "You may also like"
+msgstr "Вам также понравится"
+
+#: Cart
+msgid "Cart"
+msgstr "Корзина"
+
+msgid "Your cart"
+msgstr "Ваша корзина"
+
+msgid "Your cart is empty"
+msgstr "Ваша корзина пуста"
+
+msgid "Your cart is currently empty."
+msgstr "Ваша корзина пока пуста."
+
+msgid "Browse Shop"
+msgstr "Перейти в магазин"
+
+msgid "Continue Shopping"
+msgstr "Продолжить покупки"
+
+msgid "Continue shopping"
+msgstr "Продолжить покупки"
+
+msgid "Product"
+msgstr "Товар"
+
+msgid "Quantity"
+msgstr "Количество"
+
+msgid "Subtotal"
+msgstr "Подытог"
+
+msgid "Total"
+msgstr "Итого"
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Update Cart"
+msgstr "Обновить корзину"
+
+msgid "Proceed to Checkout"
+msgstr "Оформить заказ"
+
+msgid "Order Summary"
+msgstr "Сводка заказа"
+
+msgid "Coupon"
+msgstr "Купон"
+
+msgid "Apply"
+msgstr "Применить"
+
+msgid "Apply coupon"
+msgstr "Применить купон"
+
+msgid "Coupon code"
+msgstr "Код купона"
+
+#: Checkout
+msgid "Checkout"
+msgstr "Оформление заказа"
+
+msgid "Billing Details"
+msgstr "Платежные данные"
+
+msgid "Billing Address"
+msgstr "Платежный адрес"
+
+msgid "Shipping Address"
+msgstr "Адрес доставки"
+
+msgid "Ship to a different address?"
+msgstr "Доставить на другой адрес?"
+
+msgid "First Name"
+msgstr "Имя"
+
+msgid "Last Name"
+msgstr "Фамилия"
+
+msgid "Company"
+msgstr "Компания"
+
+msgid "Company name"
+msgstr "Название компании"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Street Address"
+msgstr "Адрес"
+
+msgid "City"
+msgstr "Город"
+
+msgid "State"
+msgstr "Регион"
+
+msgid "Postcode"
+msgstr "Почтовый индекс"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Email Address"
+msgstr "Email адрес"
+
+msgid "Order Notes"
+msgstr "Примечания к заказу"
+
+msgid "Payment"
+msgstr "Оплата"
+
+msgid "Payment Method"
+msgstr "Способ оплаты"
+
+msgid "Place Order"
+msgstr "Оформить заказ"
+
+msgid "Order Review"
+msgstr "Обзор заказа"
+
+msgid "Your Order"
+msgstr "Ваш заказ"
+
+#: Thank You Page
+msgid "Thank you!"
+msgstr "Спасибо!"
+
+msgid "Thank you. Your order has been received."
+msgstr "Спасибо. Ваш заказ получен."
+
+msgid "Order Number"
+msgstr "Номер заказа"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Order Details"
+msgstr "Детали заказа"
+
+msgid "Order Received"
+msgstr "Заказ получен"
+
+msgid "Order not found"
+msgstr "Заказ не найден"
+
+msgid "A confirmation email has been sent to"
+msgstr "Письмо с подтверждением отправлено на"
+
+msgid "What's next?"
+msgstr "Что дальше?"
+
+msgid "You will receive an order confirmation email shortly."
+msgstr "Вскоре вы получите письмо с подтверждением заказа."
+
+msgid "We will notify you once your order has shipped."
+msgstr "Мы уведомим вас, когда ваш заказ будет отправлен."
+
+msgid "Track your order in"
+msgstr "Отслеживайте свой заказ в"
+
+msgid "View all orders"
+msgstr "Смотреть все заказы"
+
+msgid "Qty:"
+msgstr "Кол-во:"
+
+msgid "Phone:"
+msgstr "Тел:"
+
+msgid "Email:"
+msgstr "Email:"
+
+#: My Account
+msgid "My Account"
+msgstr "Мой аккаунт"
+
+msgid "Dashboard"
+msgstr "Панель управления"
+
+msgid "Orders"
+msgstr "Заказы"
+
+msgid "Downloads"
+msgstr "Загрузки"
+
+msgid "Addresses"
+msgstr "Адреса"
+
+msgid "Account Details"
+msgstr "Данные аккаунта"
+
+msgid "Logout"
+msgstr "Выход"
+
+msgid "Log out"
+msgstr "Выйти"
+
+msgid "Login"
+msgstr "Вход"
+
+msgid "Log in"
+msgstr "Войти"
+
+msgid "Register"
+msgstr "Регистрация"
+
+msgid "Username or email"
+msgstr "Имя пользователя или email"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Toggle password visibility"
+msgstr "Показать/скрыть пароль"
+
+msgid "Remember me"
+msgstr "Запомнить меня"
+
+msgid "Lost your password?"
+msgstr "Забыли пароль?"
+
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: Search
+msgid "Search products..."
+msgstr "Поиск товаров..."
+
+msgid "Search Products"
+msgstr "Поиск товаров"
+
+msgid "No products found"
+msgstr "Товары не найдены"
+
+msgid "No results found"
+msgstr "Результаты не найдены"
+
+msgid "Close search"
+msgstr "Закрыть поиск"
+
+#: Homepage
+msgid "New Products"
+msgstr "Новинки"
+
+msgid "New Arrivals"
+msgstr "Новинки"
+
+msgid "Fresh products just added to our store"
+msgstr "Свежие товары, только что добавленные в наш магазин"
+
+msgid "Best Sellers"
+msgstr "Бестселлеры"
+
+msgid "Bestsellers"
+msgstr "Бестселлеры"
+
+msgid "Most popular products this month"
+msgstr "Самые популярные товары в этом месяце"
+
+msgid "Top Rated"
+msgstr "Топ рейтинг"
+
+msgid "Featured Products"
+msgstr "Рекомендуемые товары"
+
+msgid "Featured"
+msgstr "Рекомендуем"
+
+msgid "Don't miss these amazing deals"
+msgstr "Не пропустите эти выгодные предложения"
+
+msgid "Hot Deals"
+msgstr "Горячие предложения"
+
+msgid "Shop by Category"
+msgstr "По категориям"
+
+msgid "View All"
+msgstr "Смотреть все"
+
+msgid "View all"
+msgstr "Смотреть все"
+
+#: Footer
+msgid "All rights reserved."
+msgstr "Все права защищены."
+
+msgid "Privacy Policy"
+msgstr "Политика конфиденциальности"
+
+msgid "Terms & Conditions"
+msgstr "Условия использования"
+
+#: 404 Page
+msgid "Page Not Found"
+msgstr "Страница не найдена"
+
+msgid "Not Found"
+msgstr "Не найдено"
+
+msgid "Sorry, but the page you are trying to view does not exist."
+msgstr "Извините, но страница, которую вы ищете, не существует."
+
+msgid "Go back home"
+msgstr "Вернуться на главную"
+
+msgid "Go to homepage"
+msgstr "На главную страницу"
+
+msgid "Popular Categories"
+msgstr "Популярные категории"
+
+#: Common
+msgid "Home"
+msgstr "Главная"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "View"
+msgstr "Просмотр"
+
+msgid "Loading..."
+msgstr "Загрузка..."
+
+msgid "Error"
+msgstr "Ошибка"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Required"
+msgstr "Обязательно"
+
+msgid "Optional"
+msgstr "Необязательно"
+
+#: Breadcrumbs
+msgid "Breadcrumb"
+msgstr "Навигация"
+
+msgid "You are here:"
+msgstr "Вы здесь:"
+
+#: Attributes
+msgid "Color"
+msgstr "Цвет"
+
+msgid "Size"
+msgstr "Размер"
+
+msgid "Select"
+msgstr "Выбрать"
+
+msgid "Color Swatch"
+msgstr "Цветовой образец"
+
+msgid "Button/Label"
+msgstr "Кнопка/Метка"
+
+msgid "Dropdown Select"
+msgstr "Выпадающий список"
+
+#: Stock Status
+msgid "%d in stock"
+msgstr "%d в наличии"
+
+msgid "Available on backorder"
+msgstr "Доступно под заказ"
+
+#: Reviews & Ratings
+msgid "%s out of 5 stars"
+msgstr "%s из 5 звёзд"
+
+msgid "Be the first to review"
+msgstr "Будьте первым, кто оставит отзыв"
+
+msgid "Write a review"
+msgstr "Написать отзыв"
+
+msgid "Your rating"
+msgstr "Ваша оценка"
+
+msgid "Your review"
+msgstr "Ваш отзыв"
+
+msgid "Submit"
+msgstr "Отправить"
+
+#: Mini Cart
+msgid "items"
+msgstr "товаров"
+
+msgid "item"
+msgstr "товар"
+
+msgid "View cart"
+msgstr "Корзина"
+
+#: Hero Slider
+msgid "Slide"
+msgstr "Слайд"
+
+msgid "Add slides in Customizer"
+msgstr "Добавьте слайды в настройках темы"
+
+msgid "Previous slide"
+msgstr "Предыдущий слайд"
+
+msgid "Next slide"
+msgstr "Следующий слайд"
+
+#: Swiper accessibility
+msgid "Go to slide {{index}}"
+msgstr "Перейти к слайду {{index}}"
+
+msgid "Go to products {{index}}"
+msgstr "Перейти к товарам {{index}}"
+
+#: Mega Menu
+msgid "All in"
+msgstr "Всё в"
+
+msgid "products"
+msgstr "товаров"
+
+msgid "No items found"
+msgstr "Ничего не найдено"
+
+msgid "Browse all products"
+msgstr "Смотреть все товары"
+
+#: Category Carousel
+msgid "%d product"
+msgid_plural "%d products"
+msgstr[0] "%d товар"
+msgstr[1] "%d товара"
+msgstr[2] "%d товаров"
+
+msgid "Previous categories"
+msgstr "Предыдущие категории"
+
+msgid "Next categories"
+msgstr "Следующие категории"
+
+msgid "Swipe to see more categories"
+msgstr "Проведите для просмотра категорий"
+
+#: Product Carousel
+msgid "Previous products"
+msgstr "Предыдущие товары"
+
+msgid "Next products"
+msgstr "Следующие товары"
+
+msgid "Swipe to see more products"
+msgstr "Проведите для просмотра товаров"
+
+#: Product Card
+msgid "Sold out"
+msgstr "Продано"
+
+msgid "Add %s to cart"
+msgstr "Добавить %s в корзину"
+
+msgid "View %s options"
+msgstr "Посмотреть варианты %s"
+
+#: Language Switcher
+msgid "GE"
+msgstr "GE"
+
+msgid "RU"
+msgstr "RU"
+
+msgid "EN"
+msgstr "EN"
+
+msgid "Georgian"
+msgstr "Грузинский"
+
+msgid "Russian"
+msgstr "Русский"
+
+msgid "English"
+msgstr "Английский"
+
+#: Shop Page - Missing Translations
+msgid "Filters:"
+msgstr "Фильтры:"
+
+msgid "Remove filter"
+msgstr "Удалить фильтр"
+
+msgid "Minimum price"
+msgstr "Минимальная цена"
+
+msgid "Maximum price"
+msgstr "Максимальная цена"
+
+msgid "Range:"
+msgstr "Диапазон:"
+
+msgid "Subcategories"
+msgstr "Подкатегории"
+
+msgid "selected"
+msgstr "выбрано"
+
+msgid "All in %s"
+msgstr "Все в %s"
+
+msgid "View all categories"
+msgstr "Смотреть все категории"
+
+msgid "No subcategories in this category"
+msgstr "В этой категории нет подкатегорий"
+
+msgid "You have unapplied changes"
+msgstr "У вас есть непримененные изменения"
+
+msgid "Product pagination"
+msgstr "Пагинация товаров"
+
+msgid "Previous page"
+msgstr "Предыдущая страница"
+
+msgid "Next page"
+msgstr "Следующая страница"
+
+msgid "Product sorting"
+msgstr "Сортировка товаров"
+
+msgid "Shop order"
+msgstr "Порядок сортировки"
+
+msgid "Browse Subcategories"
+msgstr "Просмотр подкатегорий"
+
+msgid "Previous"
+msgstr "Предыдущий"
+
+msgid "Next"
+msgstr "Следующий"
+
+msgid "No products matched your search. Try using different keywords or browse our categories."
+msgstr "Товары не найдены. Попробуйте другие ключевые слова или просмотрите категории."
+
+msgid "No products match your selected filters. Try adjusting your filter criteria."
+msgstr "Нет товаров, соответствующих выбранным фильтрам. Попробуйте изменить параметры фильтра."
+
+msgid "There are no products available at the moment. Please check back later."
+msgstr "В данный момент товары недоступны. Пожалуйста, проверьте позже."
+
+msgid "View all products"
+msgstr "Смотреть все товары"
+
+msgid "Return to homepage"
+msgstr "Вернуться на главную"
+
+msgid "Out of stock"
+msgstr "Нет в наличии"
+
+msgid "Search results: \"%s\""
+msgstr "Результаты поиска: \"%s\""
+
+msgid "%d per page"
+msgstr "%d на странице"
+
+msgid "From %s"
+msgstr "От %s"
+
+msgid "Up to %s"
+msgstr "До %s"
+
+msgid "Search: \"%s\""
+msgstr "Поиск: \"%s\""
+
+msgid "Tag: %s"
+msgstr "Метка: %s"
+
+msgid "Showing the single result"
+msgstr "Показан единственный результат"
+
+msgid "Showing all %d results"
+msgstr "Показаны все %d результатов"
+
+#: Admin
+msgid "Primary Navigation"
+msgstr "Главное меню"
+
+msgid "Footer Navigation"
+msgstr "Меню футера"
+
+msgid "Mega Menu (Homepage)"
+msgstr "Мега-меню (Главная)"
+
+msgid "Primary"
+msgstr "Основной"
+
+msgid "Footer"
+msgstr "Футер"
+
+msgid "Shop Sidebar"
+msgstr "Боковая панель магазина"
+
+msgid "Sidebar displayed on WooCommerce shop and archive pages."
+msgstr "Боковая панель на страницах магазина и архива WooCommerce."
+
+#: My Account - Orders
+msgid "Your Orders"
+msgstr "Ваши заказы"
+
+msgid "View and manage your order history"
+msgstr "Просмотр и управление историей заказов"
+
+msgid "order"
+msgid_plural "orders"
+msgstr[0] "заказ"
+msgstr[1] "заказа"
+msgstr[2] "заказов"
+
+msgid "for %s item"
+msgid_plural "for %s items"
+msgstr[0] "за %s товар"
+msgstr[1] "за %s товара"
+msgstr[2] "за %s товаров"
+
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s товар"
+msgstr[1] "%s товара"
+msgstr[2] "%s товаров"
+
+msgid "No orders yet"
+msgstr "Заказов пока нет"
+
+msgid "You haven't placed any orders yet. Browse our products and find something you'll love!"
+msgstr "У вас пока нет заказов. Просмотрите наши товары и найдите то, что вам понравится!"
+
+msgid "Browse products"
+msgstr "Просмотреть товары"
+
+msgid "Page %1$d of %2$d"
+msgstr "Страница %1$d из %2$d"
+
+msgid "Order"
+msgstr "Заказ"
+
+msgctxt "hash before order number"
+msgid "#"
+msgstr "№"
+
+msgid "View order number %s"
+msgstr "Посмотреть заказ №%s"
+
+msgid "Back to Orders"
+msgstr "Назад к заказам"
+
+msgid "Placed on %1$s at %2$s"
+msgstr "Оформлен %1$s в %2$s"
+
+msgid "Order Items"
+msgstr "Товары в заказе"
+
+msgid "No billing address provided."
+msgstr "Платежный адрес не указан."
+
+msgid "No shipping address provided."
+msgstr "Адрес доставки не указан."
+
+msgid "Order Updates"
+msgstr "Обновления заказа"
+
+msgid "F j, Y \\a\\t g:i a"
+msgstr "j F Y, G:i"
+
+#: My Account - Addresses
+msgid "Your Addresses"
+msgstr "Ваши адреса"
+
+msgid "The following addresses will be used on the checkout page by default."
+msgstr "Следующие адреса будут использоваться по умолчанию при оформлении заказа."
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "You have not set up this address yet."
+msgstr "Этот адрес еще не настроен."
+
+msgid "Add address"
+msgstr "Добавить адрес"
+
+msgid "Add Address"
+msgstr "Добавить адрес"
+
+msgid "Back to Addresses"
+msgstr "Назад к адресам"
+
+msgid "Billing address"
+msgstr "Платежный адрес"
+
+msgid "Shipping address"
+msgstr "Адрес доставки"
+
+msgid "This address will be used on the checkout page by default."
+msgstr "Этот адрес будет использоваться по умолчанию при оформлении заказа."
+
+msgid "This address will be used as the default shipping address."
+msgstr "Этот адрес будет использоваться как адрес доставки по умолчанию."
+
+msgid "Select a country / region&hellip;"
+msgstr "Выберите страну / регион…"
+
+msgid "Invalid address type."
+msgstr "Неверный тип адреса."
+
+msgid "Return to addresses"
+msgstr "Вернуться к адресам"
+
+msgid "Save address"
+msgstr "Сохранить адрес"
+
+#: My Account - Account Details
+msgid "Update your personal information and password."
+msgstr "Обновите личную информацию и пароль."
+
+msgid "Personal Information"
+msgstr "Личная информация"
+
+msgid "First name"
+msgstr "Имя"
+
+msgid "Last name"
+msgstr "Фамилия"
+
+msgid "Display name"
+msgstr "Отображаемое имя"
+
+msgid "This will be how your name will be displayed in the account section and in reviews."
+msgstr "Так ваше имя будет отображаться в разделе аккаунта и в отзывах."
+
+msgid "Email address"
+msgstr "Email адрес"
+
+msgid "Password Change"
+msgstr "Изменение пароля"
+
+msgid "Leave blank to keep your current password."
+msgstr "Оставьте пустым, чтобы сохранить текущий пароль."
+
+msgid "Current password"
+msgstr "Текущий пароль"
+
+msgid "Hide password"
+msgstr "Скрыть пароль"
+
+msgid "Show password"
+msgstr "Показать пароль"
+
+msgid "New password"
+msgstr "Новый пароль"
+
+msgid "Confirm new password"
+msgstr "Подтвердите новый пароль"
+
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: My Account - Downloads
+msgid "Your Downloads"
+msgstr "Ваши загрузки"
+
+msgid "Access your purchased digital products here."
+msgstr "Здесь вы можете скачать приобретенные цифровые товары."
+
+msgid "remaining"
+msgstr "осталось"
+
+msgid "Unlimited"
+msgstr "Неограниченно"
+
+msgid "Never"
+msgstr "Бессрочно"
+
+msgid "Download"
+msgstr "Скачать"
+
+msgid "No downloads yet"
+msgstr "Загрузок пока нет"
+
+msgid "You haven't purchased any downloadable products yet. Browse our products to find digital items."
+msgstr "У вас пока нет приобретенных цифровых товаров. Просмотрите товары, чтобы найти цифровые продукты."
+
+msgid "Remaining:"
+msgstr "Осталось:"
+
+msgid "Expires:"
+msgstr "Истекает:"
+
+#: My Account - Payment Methods
+msgid "Payment Methods"
+msgstr "Способы оплаты"
+
+msgid "Manage your saved payment methods for faster checkout."
+msgstr "Управляйте сохраненными способами оплаты для быстрого оформления заказа."
+
+msgid "%s ending in %s"
+msgstr "%s, заканчивающаяся на %s"
+
+msgid "Default"
+msgstr "По умолчанию"
+
+msgid "N/A"
+msgstr "Н/Д"
+
+msgid "No saved payment methods"
+msgstr "Сохраненных способов оплаты нет"
+
+msgid "No saved methods found. Add a payment method during checkout and it will appear here."
+msgstr "Сохраненные способы оплаты не найдены. Добавьте способ оплаты при оформлении заказа, и он появится здесь."
+
+msgid "Add payment method"
+msgstr "Добавить способ оплаты"
+
+#: My Account - Login/Register
+msgid "Welcome back! Please enter your details."
+msgstr "С возвращением! Пожалуйста, введите свои данные."
+
+msgid "Username or email address"
+msgstr "Имя пользователя или email"
+
+msgid "Create an account to track orders and more."
+msgstr "Создайте аккаунт для отслеживания заказов и многого другого."
+
+msgid "A link to set a new password will be sent to your email address."
+msgstr "Ссылка для установки нового пароля будет отправлена на ваш email."
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: My Account - Password Reset
+msgid "Enter your email address or username below and we'll send you a link to reset your password."
+msgstr "Введите email или имя пользователя, и мы отправим вам ссылку для сброса пароля."
+
+msgid "Reset password"
+msgstr "Сбросить пароль"
+
+msgid "Back to login"
+msgstr "Назад к входу"
+
+msgid "Create new password"
+msgstr "Создать новый пароль"
+
+msgid "Enter your new password below to complete the reset process."
+msgstr "Введите новый пароль ниже, чтобы завершить процесс сброса."
+
+msgid "Save new password"
+msgstr "Сохранить новый пароль"
+
+msgid "Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters."
+msgstr "Выберите надежный пароль длиной не менее 8 символов, включая заглавные и строчные буквы, цифры и специальные символы."
+
+#: My Account - Dashboard
+msgid "Hello, %s!"
+msgstr "Привет, %s!"
+
+msgid "Welcome back, %s"
+msgstr "С возвращением, %s"
+
+msgid "Member since"
+msgstr "Участник с"
+
+msgid "Total Orders"
+msgstr "Всего заказов"
+
+msgid "Total Spent"
+msgstr "Всего потрачено"
+
+msgid "Active Orders"
+msgstr "Активные заказы"
+
+msgid "Recent Orders"
+msgstr "Последние заказы"
+
+msgid "Complete your profile"
+msgstr "Заполните профиль"
+
+msgid "View your orders"
+msgstr "Посмотреть заказы"
+
+msgid "Manage billing & shipping"
+msgstr "Управление адресами"
+
+msgid "Edit your profile and password"
+msgstr "Редактировать профиль и пароль"
+
+msgid "Account Settings"
+msgstr "Настройки аккаунта"
+
+msgid "No billing address set."
+msgstr "Платежный адрес не установлен."
+
+msgid "No shipping address set."
+msgstr "Адрес доставки не установлен."
+
+msgid "Start shopping to see your orders here."
+msgstr "Начните покупки, чтобы увидеть здесь свои заказы."
+
+#: My Account Navigation
+msgid "Account navigation"
+msgstr "Навигация по аккаунту"
+
+#: General UI
+msgid "Welcome back"
+msgstr "С возвращением"
+
+msgid "Please enter your details to sign in."
+msgstr "Пожалуйста, введите данные для входа."
+
+msgid "%1$s order number %2$s"
+msgstr "%1$s заказ №%2$s"
+
+#: Search Results - Product Count
+msgid "%d product found"
+msgid_plural "%d products found"
+msgstr[0] "%d товар найден"
+msgstr[1] "%d товара найдено"
+msgstr[2] "%d товаров найдено"
+
+msgid "No products matched your search for \"%s\". Try using different keywords or browse our categories."
+msgstr "По запросу \"%s\" ничего не найдено. Попробуйте другие ключевые слова или просмотрите категории."
+
+msgid "Search results pagination"
+msgstr "Пагинация результатов поиска"
+
+#: Category Page - Empty State
+msgid "There are no products in this category yet. Please check back later."
+msgstr "В этой категории пока нет товаров. Пожалуйста, загляните позже."

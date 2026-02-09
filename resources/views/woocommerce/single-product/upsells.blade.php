@@ -9,7 +9,7 @@
 @php
   // Default values for variables passed via @include
   $products = $products ?? [];
-  $title = $title ?? __('You may also like', 'sage');
+  $title = $title ?? __('You may also like', 'sega-woo-theme');
   $columns = $columns ?? 4;
 @endphp
 
@@ -17,7 +17,7 @@
   <section class="upsell-products mt-16 pt-16">
     {{-- Section Header --}}
     <div class="mb-8">
-      <p class="text-sm font-medium uppercase tracking-wider text-primary-600">{{ __('Recommended', 'sage') }}</p>
+      <p class="text-sm font-medium uppercase tracking-wider text-primary-600">{{ __('Recommended', 'sega-woo-theme') }}</p>
       <h2 class="mt-1 text-2xl font-bold tracking-tight text-secondary-900 sm:text-3xl">
         {{ $title }}
       </h2>

@@ -15,10 +15,10 @@
 {{-- Header --}}
 <div class="mb-6">
   <h2 class="text-xl font-semibold text-secondary-900">
-    {{ __('Payment Methods', 'sage') }}
+    {{ __('Payment Methods', 'sega-woo-theme') }}
   </h2>
   <p class="mt-1 text-sm text-secondary-600">
-    {{ __('Manage your saved payment methods for faster checkout.', 'sage') }}
+    {{ __('Manage your saved payment methods for faster checkout.', 'sega-woo-theme') }}
   </p>
 </div>
 
@@ -78,7 +78,7 @@
                       <div>
                         @if (!empty($method['method']['last4']))
                           <span class="font-medium text-secondary-900">
-                            {{ esc_html(sprintf(__('%s ending in %s', 'sage'), wc_get_credit_card_type_label($method['method']['brand'] ?? ''), $method['method']['last4'])) }}
+                            {{ esc_html(sprintf(__('%s ending in %s', 'sega-woo-theme'), wc_get_credit_card_type_label($method['method']['brand'] ?? ''), $method['method']['last4'])) }}
                           </span>
                         @else
                           <span class="font-medium text-secondary-900">
@@ -88,7 +88,7 @@
 
                         @if (!empty($method['is_default']))
                           <span class="ml-2 inline-flex items-center rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
-                            {{ __('Default', 'sage') }}
+                            {{ __('Default', 'sega-woo-theme') }}
                           </span>
                         @endif
                       </div>
@@ -98,7 +98,7 @@
                     @if (!empty($method['expires']))
                       <span class="text-sm text-secondary-600">{{ esc_html($method['expires']) }}</span>
                     @else
-                      <span class="text-sm text-secondary-400">{{ __('N/A', 'sage') }}</span>
+                      <span class="text-sm text-secondary-400">{{ __('N/A', 'sega-woo-theme') }}</span>
                     @endif
 
                   @elseif ('method-actions' === $column_id)
@@ -148,7 +148,7 @@
               <div>
                 @if (!empty($method['method']['last4']))
                   <span class="font-medium text-secondary-900">
-                    {{ esc_html(sprintf(__('%s ending in %s', 'sage'), wc_get_credit_card_type_label($method['method']['brand'] ?? ''), $method['method']['last4'])) }}
+                    {{ esc_html(sprintf(__('%s ending in %s', 'sega-woo-theme'), wc_get_credit_card_type_label($method['method']['brand'] ?? ''), $method['method']['last4'])) }}
                   </span>
                 @else
                   <span class="font-medium text-secondary-900">
@@ -158,7 +158,7 @@
 
                 @if (!empty($method['expires']))
                   <p class="mt-0.5 text-sm text-secondary-500">
-                    {{ __('Expires:', 'sage') }} {{ esc_html($method['expires']) }}
+                    {{ __('Expires:', 'sega-woo-theme') }} {{ esc_html($method['expires']) }}
                   </p>
                 @endif
               </div>
@@ -166,7 +166,7 @@
 
             @if (!empty($method['is_default']))
               <span class="inline-flex items-center rounded-full bg-primary-100 px-2.5 py-1 text-xs font-medium text-primary-700">
-                {{ __('Default', 'sage') }}
+                {{ __('Default', 'sega-woo-theme') }}
               </span>
             @endif
           </div>
@@ -202,10 +202,10 @@
       </svg>
     </div>
     <h3 class="mb-2 text-lg font-semibold text-secondary-900">
-      {{ __('No saved payment methods', 'sage') }}
+      {{ __('No saved payment methods', 'sega-woo-theme') }}
     </h3>
     <p class="mb-6 max-w-sm text-secondary-600">
-      {!! wp_kses_post(apply_filters('woocommerce_no_available_payment_methods_message', __('No saved methods found. Add a payment method during checkout and it will appear here.', 'sage'))) !!}
+      {!! wp_kses_post(apply_filters('woocommerce_no_available_payment_methods_message', __('No saved methods found. Add a payment method during checkout and it will appear here.', 'sega-woo-theme'))) !!}
     </p>
   </div>
 @endif
@@ -233,7 +233,7 @@
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
-        {{ esc_html__('Add payment method', 'sage') }}
+        {{ esc_html__('Add payment method', 'sega-woo-theme') }}
       </a>
     </div>
   @endif

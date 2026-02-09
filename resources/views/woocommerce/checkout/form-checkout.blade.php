@@ -8,10 +8,10 @@
 
 @section('breadcrumbs')
   <x-breadcrumbs :items="[
-    ['label' => __('Home', 'sage'), 'url' => home_url('/')],
-    ['label' => __('Shop', 'sage'), 'url' => wc_get_page_permalink('shop')],
-    ['label' => __('Cart', 'sage'), 'url' => wc_get_cart_url()],
-    ['label' => __('Checkout', 'sage'), 'url' => null],
+    ['label' => __('Home', 'sega-woo-theme'), 'url' => home_url('/')],
+    ['label' => __('Shop', 'sega-woo-theme'), 'url' => wc_get_page_permalink('shop')],
+    ['label' => __('Cart', 'sega-woo-theme'), 'url' => wc_get_cart_url()],
+    ['label' => __('Checkout', 'sega-woo-theme'), 'url' => null],
   ]" />
 @endsection
 
@@ -34,7 +34,7 @@
         </div>
 
         <h1 class="mb-3 text-2xl font-bold text-secondary-900">
-          {{ __('Login Required', 'sage') }}
+          {{ __('Login Required', 'sega-woo-theme') }}
         </h1>
 
         <p class="mb-8 text-secondary-500">
@@ -48,7 +48,7 @@
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
           </svg>
-          {{ __('Login / Register', 'sage') }}
+          {{ __('Login / Register', 'sega-woo-theme') }}
         </a>
       </div>
     </div>
@@ -60,10 +60,10 @@
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 class="text-2xl font-bold text-secondary-900 lg:text-3xl">
-            {{ __('Checkout', 'sage') }}
+            {{ __('Checkout', 'sega-woo-theme') }}
           </h1>
           <p class="mt-1 text-sm text-secondary-500">
-            {{ sprintf(_n('%d item in your order', '%d items in your order', $cartCount, 'sage'), $cartCount) }}
+            {{ sprintf(_n('%d item in your order', '%d items in your order', $cartCount, 'sega-woo-theme'), $cartCount) }}
           </p>
         </div>
         <a
@@ -73,7 +73,7 @@
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          {{ __('Back to Cart', 'sage') }}
+          {{ __('Back to Cart', 'sega-woo-theme') }}
         </a>
       </div>
     </div>
@@ -88,7 +88,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <span class="ml-3 hidden text-sm font-semibold text-green-600 sm:block">{{ __('Cart', 'sage') }}</span>
+          <span class="ml-3 hidden text-sm font-semibold text-green-600 sm:block">{{ __('Cart', 'sega-woo-theme') }}</span>
         </div>
 
         {{-- Connector (Completed) --}}
@@ -101,7 +101,7 @@
             {{-- Pulse animation for current step --}}
             <span class="absolute inset-0 animate-ping rounded-full bg-primary-400 opacity-30"></span>
           </div>
-          <span class="ml-3 hidden text-sm font-bold text-primary-600 sm:block">{{ __('Checkout', 'sage') }}</span>
+          <span class="ml-3 hidden text-sm font-bold text-primary-600 sm:block">{{ __('Checkout', 'sega-woo-theme') }}</span>
         </div>
 
         {{-- Connector (Pending) --}}
@@ -112,7 +112,7 @@
           <div class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-secondary-300 bg-white text-secondary-400">
             <span class="text-sm font-bold">3</span>
           </div>
-          <span class="ml-3 hidden text-sm font-medium text-secondary-400 sm:block">{{ __('Payment', 'sage') }}</span>
+          <span class="ml-3 hidden text-sm font-medium text-secondary-400 sm:block">{{ __('Payment', 'sega-woo-theme') }}</span>
         </div>
 
         {{-- Connector (Pending) --}}
@@ -125,7 +125,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <span class="ml-3 hidden text-sm font-medium text-secondary-400 sm:block">{{ __('Complete', 'sage') }}</span>
+          <span class="ml-3 hidden text-sm font-medium text-secondary-400 sm:block">{{ __('Complete', 'sega-woo-theme') }}</span>
         </div>
       </div>
     </div>
@@ -163,7 +163,7 @@
                   <svg class="h-5 w-5 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  {{ __('Express Checkout', 'sage') }}
+                  {{ __('Express Checkout', 'sega-woo-theme') }}
                 </h2>
               </div>
               <div class="p-6">
@@ -182,15 +182,15 @@
                       <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white shadow-md shadow-primary-600/25">
                         1
                       </span>
-                      {{ __('Contact Information', 'sage') }}
+                      {{ __('Contact Information', 'sega-woo-theme') }}
                     </h2>
-                    <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('We\'ll use this for order updates', 'sage') }}</p>
+                    <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('We\'ll use this for order updates', 'sega-woo-theme') }}</p>
                   </div>
                   <a href="{{ wc_get_page_permalink('myaccount') }}" class="flex items-center gap-1.5 rounded-full bg-secondary-100 px-4 py-2 text-xs font-medium text-secondary-700 transition-colors hover:bg-secondary-200">
                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    {{ __('Log in', 'sage') }}
+                    {{ __('Log in', 'sega-woo-theme') }}
                   </a>
                 </div>
               </div>
@@ -214,9 +214,9 @@
                 <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white shadow-md shadow-primary-600/25">
                   {{ is_user_logged_in() ? '1' : '2' }}
                 </span>
-                {{ __('Billing Address', 'sage') }}
+                {{ __('Billing Address', 'sega-woo-theme') }}
               </h2>
-              <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('Enter your billing details', 'sage') }}</p>
+              <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('Enter your billing details', 'sega-woo-theme') }}</p>
             </div>
             <div class="p-6">
               @include('woocommerce.checkout.form-billing')
@@ -231,9 +231,9 @@
                   <span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-sm font-bold text-white shadow-md shadow-primary-600/25">
                     {{ is_user_logged_in() ? '2' : '3' }}
                   </span>
-                  {{ __('Shipping Address', 'sage') }}
+                  {{ __('Shipping Address', 'sega-woo-theme') }}
                 </h2>
-                <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('Where should we deliver your order?', 'sage') }}</p>
+                <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('Where should we deliver your order?', 'sega-woo-theme') }}</p>
               </div>
               <div class="p-6">
                 @include('woocommerce.checkout.form-shipping')
@@ -251,10 +251,10 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                     </svg>
                   </span>
-                  {{ __('Additional Information', 'sage') }}
-                  <span class="rounded-full bg-secondary-200 px-2 py-0.5 text-xs font-medium text-secondary-500">{{ __('Optional', 'sage') }}</span>
+                  {{ __('Additional Information', 'sega-woo-theme') }}
+                  <span class="rounded-full bg-secondary-200 px-2 py-0.5 text-xs font-medium text-secondary-500">{{ __('Optional', 'sega-woo-theme') }}</span>
                 </h2>
-                <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('Add special instructions for your order', 'sage') }}</p>
+                <p class="mt-1 ml-11 text-xs text-secondary-500">{{ __('Add special instructions for your order', 'sega-woo-theme') }}</p>
               </div>
               <div class="p-6">
                 @php do_action('woocommerce_before_order_notes', $checkout); @endphp
@@ -290,13 +290,13 @@
                     <svg class="h-5 w-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                     </svg>
-                    {{ __('Order Summary', 'sage') }}
+                    {{ __('Order Summary', 'sega-woo-theme') }}
                   </span>
                   <a href="{{ wc_get_cart_url() }}" class="flex items-center gap-1 text-xs font-medium text-primary-600 transition-colors hover:text-primary-700">
                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
-                    {{ __('Edit', 'sage') }}
+                    {{ __('Edit', 'sega-woo-theme') }}
                   </a>
                 </h2>
               </div>
@@ -322,7 +322,7 @@
                       <svg class="h-4 w-4 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                       </svg>
-                      {{ __('Have a coupon?', 'sage') }}
+                      {{ __('Have a coupon?', 'sega-woo-theme') }}
                     </span>
                     <svg
                       class="h-5 w-5 text-secondary-400 transition-transform duration-200"
@@ -347,14 +347,14 @@
                         name="coupon_code"
                         id="coupon_code"
                         class="h-10 w-full rounded-lg border border-secondary-300 bg-white px-3 text-sm text-secondary-900 placeholder-secondary-400 shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        placeholder="{{ __('Enter code', 'sage') }}"
+                        placeholder="{{ __('Enter code', 'sega-woo-theme') }}"
                       />
                       <button
                         type="submit"
                         name="apply_coupon"
                         class="h-10 flex-shrink-0 rounded-lg bg-secondary-900 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-secondary-800 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2"
                       >
-                        {{ __('Apply', 'sage') }}
+                        {{ __('Apply', 'sega-woo-theme') }}
                       </button>
                     </div>
                   </div>
@@ -371,7 +371,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3-3v8a3 3 0 003 3z" />
                     </svg>
                   </span>
-                  {{ __('Payment Method', 'sage') }}
+                  {{ __('Payment Method', 'sega-woo-theme') }}
                 </h2>
               </div>
 
@@ -390,6 +390,11 @@
 
     {{-- Checkout JavaScript --}}
     <script>
+      // Translatable strings for JavaScript
+      const checkoutI18n = {
+        togglePasswordVisibility: '{{ esc_js(__('Toggle password visibility', 'sega-woo-theme')) }}'
+      };
+
       document.addEventListener('DOMContentLoaded', function() {
         const checkoutForm = document.getElementById('checkout-form');
         if (!checkoutForm) return;
@@ -617,7 +622,7 @@
           const toggleBtn = document.createElement('button');
           toggleBtn.type = 'button';
           toggleBtn.className = 'password-toggle-btn';
-          toggleBtn.setAttribute('aria-label', 'Toggle password visibility');
+          toggleBtn.setAttribute('aria-label', checkoutI18n.togglePasswordVisibility);
           toggleBtn.innerHTML = `
             <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />

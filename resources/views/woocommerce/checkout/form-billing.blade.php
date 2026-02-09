@@ -77,10 +77,10 @@
           />
           <div class="flex-1">
             <span class="block text-sm font-medium text-secondary-900">
-              {{ __('Create an account?', 'sage') }}
+              {{ __('Create an account?', 'sega-woo-theme') }}
             </span>
             <p class="mt-1 text-xs text-secondary-500">
-              {{ __('Create an account for faster checkout, order tracking, and exclusive offers.', 'sage') }}
+              {{ __('Create an account for faster checkout, order tracking, and exclusive offers.', 'sega-woo-theme') }}
             </p>
           </div>
           <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-secondary-100 text-secondary-400"
@@ -106,7 +106,7 @@
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                {{ __('Create your secure password below:', 'sage') }}
+                {{ __('Create your secure password below:', 'sega-woo-theme') }}
               </div>
 
               @foreach ($checkout->get_checkout_fields('account') as $key => $field)

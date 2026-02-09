@@ -14,6 +14,6 @@
   </div>
 @else
   <p class="text-secondary-500 italic">
-    {{ __('No description available for this product.', 'sage') }}
+    {{ __('No description available for this product.', 'sega-woo-theme') }}
   </p>
 @endif

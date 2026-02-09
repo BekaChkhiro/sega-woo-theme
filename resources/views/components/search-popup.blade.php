@@ -68,7 +68,7 @@
               x-ref="searchInput"
               x-model="query"
               @input="handleInput()"
-              placeholder="{{ __('Search products...', 'sage') }}"
+              placeholder="{{ __('Search products...', 'sega-woo-theme') }}"
               class="w-full text-base sm:text-lg text-secondary-900 placeholder-secondary-400 bg-transparent border-none outline-none focus:ring-0 p-0"
               autocomplete="off"
               autocapitalize="off"
@@ -91,7 +91,7 @@
             x-cloak
             @click="query = ''; results = { categories: [], products: [] }; hasSearched = false; $refs.searchInput.focus()"
             class="flex-shrink-0 p-1.5 text-secondary-400 hover:text-secondary-600 transition-colors rounded-full hover:bg-secondary-100"
-            aria-label="{{ __('Clear search', 'sage') }}"
+            aria-label="{{ __('Clear search', 'sega-woo-theme') }}"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -103,7 +103,7 @@
             type="button"
             @click="close()"
             class="search-popup-close flex-shrink-0 p-2 -mr-1 text-secondary-400 hover:text-secondary-600 transition-all duration-200 rounded-lg hover:bg-secondary-100"
-            aria-label="{{ __('Close search', 'sage') }}"
+            aria-label="{{ __('Close search', 'sega-woo-theme') }}"
           >
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -116,7 +116,7 @@
           <svg class="w-4 h-4 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          {{ __('Type at least 2 characters to search', 'sage') }}
+          {{ __('Type at least 2 characters to search', 'sega-woo-theme') }}
         </p>
       </div>
 
@@ -128,7 +128,7 @@
             <svg class="w-4 h-4 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
             </svg>
-            {{ __('Popular Categories', 'sage') }}
+            {{ __('Popular Categories', 'sega-woo-theme') }}
           </h3>
 
           {{-- Category quick links --}}
@@ -203,9 +203,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 10l4 4m0-4l-4 4" />
               </svg>
             </div>
-            <h4 class="text-lg font-semibold text-secondary-900 mb-2">{{ __('No results found', 'sage') }}</h4>
+            <h4 class="text-lg font-semibold text-secondary-900 mb-2">{{ __('No results found', 'sega-woo-theme') }}</h4>
             <p class="text-sm text-secondary-500 max-w-xs">
-              {{ __('We couldn\'t find any products matching your search. Try different keywords or browse our categories.', 'sage') }}
+              {{ __('We couldn\'t find any products matching your search. Try different keywords or browse our categories.', 'sega-woo-theme') }}
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@
               <svg class="w-4 h-4 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
-              {{ __('Categories', 'sage') }}
+              {{ __('Categories', 'sega-woo-theme') }}
               <span class="text-secondary-400 font-normal normal-case" x-text="'(' + results.categories.length + ')'"></span>
             </h3>
 
@@ -235,7 +235,7 @@
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-secondary-900 truncate group-hover:text-primary-700 transition-colors" x-text="category.name"></p>
-                    <p class="text-xs text-secondary-500" x-text="category.count + ' {{ __('products', 'sage') }}'"></p>
+                    <p class="text-xs text-secondary-500" x-text="category.count + ' {{ __('products', 'sega-woo-theme') }}'"></p>
                   </div>
                   <svg class="w-4 h-4 text-secondary-300 flex-shrink-0 group-hover:text-primary-500 group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -253,7 +253,7 @@
               <svg class="w-4 h-4 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
-              {{ __('Products', 'sage') }}
+              {{ __('Products', 'sega-woo-theme') }}
               <span class="text-secondary-400 font-normal normal-case" x-text="'(' + results.products.length + ')'"></span>
             </h3>
 
@@ -308,7 +308,7 @@
                         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
-                        {{ __('In Stock', 'sage') }}
+                        {{ __('In Stock', 'sega-woo-theme') }}
                       </span>
                       <span
                         x-show="!product.in_stock"
@@ -318,7 +318,7 @@
                         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                        {{ __('Out of Stock', 'sage') }}
+                        {{ __('Out of Stock', 'sega-woo-theme') }}
                       </span>
                     </div>
                   </div>
@@ -326,7 +326,7 @@
                   {{-- Sale badge --}}
                   <div x-show="product.on_sale" x-cloak class="flex-shrink-0">
                     <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-gradient-to-r from-red-500 to-rose-500 text-white shadow-sm">
-                      {{ __('Sale', 'sage') }}
+                      {{ __('Sale', 'sega-woo-theme') }}
                     </span>
                   </div>
 
@@ -349,7 +349,7 @@
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span>{{ __('View all results for', 'sage') }} "<span x-text="query" class="font-bold"></span>"</span>
+            <span>{{ __('View all results for', 'sega-woo-theme') }} "<span x-text="query" class="font-bold"></span>"</span>
             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
@@ -362,18 +362,18 @@
         <div class="flex items-center gap-6">
           <span class="flex items-center gap-2">
             <kbd class="inline-flex items-center justify-center min-w-[2rem] px-2 py-1 bg-secondary-100 border border-secondary-200 rounded-md text-secondary-600 font-mono text-[10px] font-medium shadow-sm">ESC</kbd>
-            <span class="text-secondary-500">{{ __('to close', 'sage') }}</span>
+            <span class="text-secondary-500">{{ __('to close', 'sega-woo-theme') }}</span>
           </span>
           <span class="flex items-center gap-2">
             <kbd class="inline-flex items-center justify-center min-w-[2rem] px-2 py-1 bg-secondary-100 border border-secondary-200 rounded-md text-secondary-600 font-mono text-[10px] font-medium shadow-sm">↵</kbd>
-            <span class="text-secondary-500">{{ __('to search', 'sage') }}</span>
+            <span class="text-secondary-500">{{ __('to search', 'sega-woo-theme') }}</span>
           </span>
         </div>
         <div class="flex items-center gap-1.5 text-secondary-400">
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <span>{{ __('Powered by SEGA', 'sage') }}</span>
+          <span>{{ __('Powered by SEGA', 'sega-woo-theme') }}</span>
         </div>
       </div>
     </div>

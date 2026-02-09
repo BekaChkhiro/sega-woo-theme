@@ -41,7 +41,7 @@
                   @endif
                 @endforeach
               @else
-                <span class="text-secondary-400">{{ __('N/A', 'sage') }}</span>
+                <span class="text-secondary-400">{{ __('N/A', 'sega-woo-theme') }}</span>
               @endif
             </td>
           </tr>
@@ -54,7 +54,7 @@
               scope="row"
               class="woocommerce-product-attributes-item__label w-1/3 py-4 pr-4 align-top font-medium text-secondary-900"
             >
-              {{ __('Weight', 'sage') }}
+              {{ __('Weight', 'sega-woo-theme') }}
             </th>
             <td class="woocommerce-product-attributes-item__value py-4 text-secondary-600">
               {{ $weight }}
@@ -69,7 +69,7 @@
               scope="row"
               class="woocommerce-product-attributes-item__label w-1/3 py-4 pr-4 align-top font-medium text-secondary-900"
             >
-              {{ __('Dimensions', 'sage') }}
+              {{ __('Dimensions', 'sega-woo-theme') }}
             </th>
             <td class="woocommerce-product-attributes-item__value py-4 text-secondary-600">
               {{ $dimensions }}
@@ -80,7 +80,7 @@
     </table>
   @else
     <p class="text-secondary-500 italic">
-      {{ __('No additional information available for this product.', 'sage') }}
+      {{ __('No additional information available for this product.', 'sega-woo-theme') }}
     </p>
   @endif
 </div>

@@ -17,10 +17,10 @@
   {{-- Header --}}
   <div class="mb-6">
     <h2 class="text-xl font-semibold text-secondary-900">
-      {{ __('Your Downloads', 'sage') }}
+      {{ __('Your Downloads', 'sega-woo-theme') }}
     </h2>
     <p class="mt-1 text-sm text-secondary-600">
-      {{ __('Access your purchased digital products here.', 'sage') }}
+      {{ __('Access your purchased digital products here.', 'sega-woo-theme') }}
     </p>
   </div>
 
@@ -95,11 +95,11 @@
                 @elseif ('download-remaining' === $column_id)
                   @if (is_numeric($download['downloads_remaining']))
                     <span class="inline-flex items-center rounded-full bg-secondary-100 px-2.5 py-1 text-xs font-medium text-secondary-700">
-                      {{ esc_html($download['downloads_remaining']) }} {{ __('remaining', 'sage') }}
+                      {{ esc_html($download['downloads_remaining']) }} {{ __('remaining', 'sega-woo-theme') }}
                     </span>
                   @else
                     <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
-                      {{ __('Unlimited', 'sage') }}
+                      {{ __('Unlimited', 'sega-woo-theme') }}
                     </span>
                   @endif
 
@@ -112,7 +112,7 @@
                       {{ esc_html(date_i18n(get_option('date_format'), strtotime($download['access_expires']))) }}
                     </time>
                   @else
-                    <span class="text-sm text-secondary-500">{{ __('Never', 'sage') }}</span>
+                    <span class="text-sm text-secondary-500">{{ __('Never', 'sega-woo-theme') }}</span>
                   @endif
 
                 @elseif ('download-actions' === $column_id)
@@ -176,22 +176,22 @@
         {{-- Download Info --}}
         <div class="mb-4 grid grid-cols-2 gap-4 border-t border-secondary-100 pt-4 text-sm">
           <div>
-            <span class="text-secondary-500">{{ __('Remaining:', 'sage') }}</span>
+            <span class="text-secondary-500">{{ __('Remaining:', 'sega-woo-theme') }}</span>
             @if (is_numeric($download['downloads_remaining']))
               <span class="ml-1 font-medium text-secondary-900">{{ esc_html($download['downloads_remaining']) }}</span>
             @else
-              <span class="ml-1 font-medium text-green-600">{{ __('Unlimited', 'sage') }}</span>
+              <span class="ml-1 font-medium text-green-600">{{ __('Unlimited', 'sega-woo-theme') }}</span>
             @endif
           </div>
 
           <div>
-            <span class="text-secondary-500">{{ __('Expires:', 'sage') }}</span>
+            <span class="text-secondary-500">{{ __('Expires:', 'sega-woo-theme') }}</span>
             @if (!empty($download['access_expires']))
               <span class="ml-1 font-medium text-secondary-900">
                 {{ esc_html(date_i18n(get_option('date_format'), strtotime($download['access_expires']))) }}
               </span>
             @else
-              <span class="ml-1 font-medium text-secondary-900">{{ __('Never', 'sage') }}</span>
+              <span class="ml-1 font-medium text-secondary-900">{{ __('Never', 'sega-woo-theme') }}</span>
             @endif
           </div>
         </div>
@@ -204,7 +204,7 @@
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
-          {{ __('Download', 'sage') }}
+          {{ __('Download', 'sega-woo-theme') }}
         </a>
       </div>
     @endforeach
@@ -221,10 +221,10 @@
       </svg>
     </div>
     <h3 class="mb-2 text-lg font-semibold text-secondary-900">
-      {{ __('No downloads yet', 'sage') }}
+      {{ __('No downloads yet', 'sega-woo-theme') }}
     </h3>
     <p class="mb-6 max-w-sm text-secondary-600">
-      {{ __("You haven't purchased any downloadable products yet. Browse our products to find digital items.", 'sage') }}
+      {{ __("You haven't purchased any downloadable products yet. Browse our products to find digital items.", 'sega-woo-theme') }}
     </p>
     <a
       href="{{ esc_url(apply_filters('woocommerce_return_to_shop_redirect', wc_get_page_permalink('shop'))) }}"
@@ -233,7 +233,7 @@
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-      {{ __('Browse products', 'sage') }}
+      {{ __('Browse products', 'sega-woo-theme') }}
     </a>
   </div>
 @endif

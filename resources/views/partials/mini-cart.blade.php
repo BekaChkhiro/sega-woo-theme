@@ -18,7 +18,7 @@
         type="button"
         class="relative flex h-10 w-10 items-center justify-center rounded-full text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         :aria-expanded="open"
-        aria-label="{{ __('Shopping cart', 'sage') }}"
+        aria-label="{{ __('Shopping cart', 'sega-woo-theme') }}"
     >
         {{-- Cart Icon --}}
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -64,10 +64,10 @@
         <div class="border-b border-secondary-100 bg-secondary-50/50 px-5 py-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-base font-bold text-secondary-900">
-                    {{ __('Shopping Cart', 'sage') }}
+                    {{ __('Shopping Cart', 'sega-woo-theme') }}
                 </h3>
                 <span class="mini-cart-count-text text-sm text-secondary-500" x-show="itemCount > 0">
-                    {{ sprintf(_n('%d item', '%d items', $itemCount, 'sage'), $itemCount) }}
+                    {{ sprintf(_n('%d item', '%d items', $itemCount, 'sega-woo-theme'), $itemCount) }}
                 </span>
             </div>
         </div>
@@ -82,8 +82,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                         </svg>
                     </div>
-                    <p class="mb-1 text-sm font-medium text-secondary-900">{{ __('Your cart is empty', 'sage') }}</p>
-                    <p class="mb-4 text-xs text-secondary-500">{{ __('Add items to get started', 'sage') }}</p>
+                    <p class="mb-1 text-sm font-medium text-secondary-900">{{ __('Your cart is empty', 'sega-woo-theme') }}</p>
+                    <p class="mb-4 text-xs text-secondary-500">{{ __('Add items to get started', 'sega-woo-theme') }}</p>
                     <a
                         href="{{ wc_get_page_permalink('shop') }}"
                         class="inline-flex items-center gap-1.5 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/30"
@@ -91,7 +91,7 @@
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                         </svg>
-                        {{ __('Start Shopping', 'sage') }}
+                        {{ __('Start Shopping', 'sega-woo-theme') }}
                     </a>
                 </div>
             @else
@@ -125,7 +125,7 @@
                                             type="button"
                                             class="remove-from-cart flex-shrink-0 rounded-full p-1 text-secondary-400 transition-colors hover:bg-red-50 hover:text-red-500"
                                             data-cart-item-key="{{ $cart_item_key }}"
-                                            aria-label="{{ __('Remove item', 'sage') }}"
+                                            aria-label="{{ __('Remove item', 'sega-woo-theme') }}"
                                         >
                                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -165,7 +165,7 @@
             <div class="border-t border-secondary-200 bg-white p-5">
                 {{-- Subtotal --}}
                 <div class="mb-4 flex items-center justify-between">
-                    <span class="text-sm text-secondary-600">{{ __('Subtotal', 'sage') }}</span>
+                    <span class="text-sm text-secondary-600">{{ __('Subtotal', 'sega-woo-theme') }}</span>
                     <span class="mini-cart-subtotal text-base font-bold text-secondary-900">{!! $subtotal !!}</span>
                 </div>
 
@@ -178,13 +178,13 @@
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                         </svg>
-                        {{ __('View Cart', 'sage') }}
+                        {{ __('View Cart', 'sega-woo-theme') }}
                     </a>
                     <a
                         href="{{ $checkoutUrl }}"
                         class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                     >
-                        {{ __('Checkout', 'sage') }}
+                        {{ __('Checkout', 'sega-woo-theme') }}
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>

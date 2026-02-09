@@ -64,6 +64,16 @@ add_filter('theme_file_path', function ($path, $file) {
  */
 add_action('after_setup_theme', function () {
     /**
+     * Load theme textdomain for translations.
+     *
+     * Loads the theme's translated strings from the languages directory.
+     * This enables WPML and other translation plugins to translate theme strings.
+     *
+     * @link https://developer.wordpress.org/reference/functions/load_theme_textdomain/
+     */
+    load_theme_textdomain('sega-woo-theme', get_template_directory() . '/languages');
+
+    /**
      * Disable full-site editing support.
      *
      * @link https://wptavern.com/gutenberg-10-5-embeds-pdfs-adds-verse-block-color-options-and-introduces-new-patterns
@@ -76,9 +86,9 @@ add_action('after_setup_theme', function () {
      * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
      */
     register_nav_menus([
-        'primary_navigation' => __('Primary Navigation', 'sage'),
-        'footer_navigation' => __('Footer Navigation', 'sage'),
-        'mega_menu' => __('Mega Menu (Homepage)', 'sage'),
+        'primary_navigation' => __('Primary Navigation', 'sega-woo-theme'),
+        'footer_navigation' => __('Footer Navigation', 'sega-woo-theme'),
+        'mega_menu' => __('Mega Menu (Homepage)', 'sega-woo-theme'),
     ]);
 
     /**
@@ -568,12 +578,12 @@ add_action('widgets_init', function () {
     ];
 
     register_sidebar([
-        'name' => __('Primary', 'sage'),
+        'name' => __('Primary', 'sega-woo-theme'),
         'id' => 'sidebar-primary',
     ] + $config);
 
     register_sidebar([
-        'name' => __('Footer', 'sage'),
+        'name' => __('Footer', 'sega-woo-theme'),
         'id' => 'sidebar-footer',
     ] + $config);
 
@@ -581,9 +591,9 @@ add_action('widgets_init', function () {
      * Shop Sidebar for WooCommerce product filtering.
      */
     register_sidebar([
-        'name' => __('Shop Sidebar', 'sage'),
+        'name' => __('Shop Sidebar', 'sega-woo-theme'),
         'id' => 'sidebar-shop',
-        'description' => __('Sidebar displayed on WooCommerce shop and archive pages.', 'sage'),
+        'description' => __('Sidebar displayed on WooCommerce shop and archive pages.', 'sega-woo-theme'),
         'before_widget' => '<div class="widget mb-6 p-4 bg-white rounded-lg shadow-sm %1$s %2$s">',
         'after_widget' => '</div>',
         'before_title' => '<h3 class="text-lg font-semibold text-gray-900 mb-3 pb-2 border-b border-gray-200">',
@@ -634,3 +644,41 @@ add_action('init', function () {
     $admin = new \App\Admin\AttributeSwatchesAdmin();
     $admin->init();
 }, 20);
+
+/**
+ * Localize JavaScript strings for WPML translation support.
+ *
+ * Outputs translated strings as a global JavaScript object that can be
+ * accessed by Alpine.js components (mini-cart, search popup, etc.)
+ *
+ * @return void
+ */
+add_action('wp_head', function () {
+    // Only output if WooCommerce is active
+    if (! function_exists('WC')) {
+        return;
+    }
+
+    $translations = [
+        // Mini-cart messages
+        'productAddedToCart' => __('Product added to cart', 'sega-woo-theme'),
+        'couldNotAddToCart' => __('Could not add to cart. Please try again.', 'sega-woo-theme'),
+        'itemRemovedFromCart' => __('Item removed from cart', 'sega-woo-theme'),
+        'couldNotRemoveItem' => __('Could not remove item. Please try again.', 'sega-woo-theme'),
+
+        // General messages
+        'loading' => __('Loading...', 'sega-woo-theme'),
+        'error' => __('An error occurred', 'sega-woo-theme'),
+        'success' => __('Success', 'sega-woo-theme'),
+
+        // Swiper/Carousel accessibility messages
+        'prevSlide' => __('Previous slide', 'sega-woo-theme'),
+        'nextSlide' => __('Next slide', 'sega-woo-theme'),
+        'goToSlide' => __('Go to slide {{index}}', 'sega-woo-theme'),
+        'prevProducts' => __('Previous products', 'sega-woo-theme'),
+        'nextProducts' => __('Next products', 'sega-woo-theme'),
+        'goToProducts' => __('Go to products {{index}}', 'sega-woo-theme'),
+    ];
+
+    echo '<script id="sega-theme-i18n">window.segaThemeI18n = ' . wp_json_encode($translations) . ';</script>' . "\n";
+}, 5);

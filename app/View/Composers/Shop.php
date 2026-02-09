@@ -14,6 +14,7 @@ class Shop extends Composer
     protected static $views = [
         'woocommerce.archive-product',
         'woocommerce.taxonomy-product_cat',
+        'woocommerce.search-product',
         'woocommerce.loop.*',
         'partials.woocommerce.*',
         'partials.sidebar-shop',
@@ -56,7 +57,7 @@ class Shop extends Composer
     {
         if (is_search()) {
             return sprintf(
-                __('Search results: "%s"', 'sage'),
+                __('Search results: "%s"', 'sega-woo-theme'),
                 get_search_query()
             );
         }
@@ -169,7 +170,7 @@ class Shop extends Composer
         return array_map(function ($value) use ($current) {
             return [
                 'value'    => $value,
-                'label'    => sprintf(__('%d per page', 'sage'), $value),
+                'label'    => sprintf(__('%d per page', 'sega-woo-theme'), $value),
                 'selected' => $current === $value,
                 'url'      => $this->getPerPageUrl($value),
             ];
@@ -207,7 +208,18 @@ class Shop extends Composer
      */
     public function currentPage(): int
     {
-        return max(1, get_query_var('paged', 1));
+        // Check query string first (for search URLs with ?paged=X)
+        if (isset($_GET['paged'])) {
+            return max(1, absint($_GET['paged']));
+        }
+
+        // Fall back to WordPress query var
+        $paged = get_query_var('paged', 1);
+        if ($paged < 1) {
+            $paged = get_query_var('page', 1);
+        }
+
+        return max(1, (int) $paged);
     }
 
     /**
@@ -231,7 +243,7 @@ class Shop extends Composer
      */
     public function firstProduct(): int
     {
-        $per_page = $this->productsPerPage();
+        $per_page = $this->currentPerPage();
         $current = $this->currentPage();
 
         return (($current - 1) * $per_page) + 1;
@@ -242,7 +254,7 @@ class Shop extends Composer
      */
     public function lastProduct(): int
     {
-        $per_page = $this->productsPerPage();
+        $per_page = $this->currentPerPage();
         $current = $this->currentPage();
         $total = $this->totalProducts();
 
@@ -258,15 +270,15 @@ class Shop extends Composer
         $first = $this->firstProduct();
         $last = $this->lastProduct();
 
-        if ($total <= $this->productsPerPage() || $this->totalPages() === 1) {
+        if ($total <= $this->currentPerPage() || $this->totalPages() === 1) {
             return sprintf(
-                _n('Showing the single result', 'Showing all %d results', $total, 'sage'),
+                _n('Showing the single result', 'Showing all %d results', $total, 'sega-woo-theme'),
                 $total
             );
         }
 
         return sprintf(
-            __('Showing %1$d–%2$d of %3$d results', 'sage'),
+            __('Showing %1$d–%2$d of %3$d results', 'sega-woo-theme'),
             $first,
             $last,
             $total
@@ -758,9 +770,9 @@ class Shop extends Composer
             if ($price['min'] !== null && $price['max'] !== null) {
                 $label = sprintf('%s - %s', wc_price($price['min']), wc_price($price['max']));
             } elseif ($price['min'] !== null) {
-                $label = sprintf(__('From %s', 'sage'), wc_price($price['min']));
+                $label = sprintf(__('From %s', 'sega-woo-theme'), wc_price($price['min']));
             } else {
-                $label = sprintf(__('Up to %s', 'sage'), wc_price($price['max']));
+                $label = sprintf(__('Up to %s', 'sega-woo-theme'), wc_price($price['max']));
             }
 
             $filters[] = [
@@ -774,7 +786,7 @@ class Shop extends Composer
         if (is_search()) {
             $filters[] = [
                 'type'       => 'search',
-                'label'      => sprintf(__('Search: "%s"', 'sage'), get_search_query()),
+                'label'      => sprintf(__('Search: "%s"', 'sega-woo-theme'), get_search_query()),
                 'remove_url' => get_permalink(wc_get_page_id('shop')),
             ];
         }
@@ -783,7 +795,7 @@ class Shop extends Composer
         if (isset($_GET['on_sale']) && $_GET['on_sale'] === '1') {
             $filters[] = [
                 'type'       => 'on_sale',
-                'label'      => __('On Sale', 'sage'),
+                'label'      => __('On Sale', 'sega-woo-theme'),
                 'remove_url' => remove_query_arg('on_sale'),
             ];
         }
@@ -792,7 +804,7 @@ class Shop extends Composer
         if (isset($_GET['in_stock']) && $_GET['in_stock'] === '1') {
             $filters[] = [
                 'type'       => 'in_stock',
-                'label'      => __('In Stock', 'sage'),
+                'label'      => __('In Stock', 'sega-woo-theme'),
                 'remove_url' => remove_query_arg('in_stock'),
             ];
         }
@@ -809,7 +821,7 @@ class Shop extends Composer
 
         // Home
         $breadcrumbs[] = [
-            'label' => __('Home', 'sage'),
+            'label' => __('Home', 'sega-woo-theme'),
             'url'   => home_url('/'),
         ];
 
@@ -846,7 +858,7 @@ class Shop extends Composer
         if (is_product_tag()) {
             $current_term = get_queried_object();
             $breadcrumbs[] = [
-                'label' => sprintf(__('Tag: %s', 'sage'), $current_term->name),
+                'label' => sprintf(__('Tag: %s', 'sega-woo-theme'), $current_term->name),
                 'url'   => '',
             ];
         }
@@ -854,7 +866,7 @@ class Shop extends Composer
         // Search
         if (is_search()) {
             $breadcrumbs[] = [
-                'label' => sprintf(__('Search: "%s"', 'sage'), get_search_query()),
+                'label' => sprintf(__('Search: "%s"', 'sega-woo-theme'), get_search_query()),
                 'url'   => '',
             ];
         }

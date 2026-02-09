@@ -31,17 +31,17 @@
   <div class="mb-6 flex items-center justify-between">
     <div>
       <h2 class="text-xl font-semibold text-secondary-900">
-        {{ __('Your Orders', 'sage') }}
+        {{ __('Your Orders', 'sega-woo-theme') }}
       </h2>
       <p class="mt-1 text-sm text-secondary-600">
-        {{ __('View and manage your order history', 'sage') }}
+        {{ __('View and manage your order history', 'sega-woo-theme') }}
       </p>
     </div>
     <div class="hidden items-center gap-2 text-sm text-secondary-500 sm:flex">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
       </svg>
-      <span>{{ count($customer_orders->orders) }} {{ _n('order', 'orders', count($customer_orders->orders), 'sage') }}</span>
+      <span>{{ count($customer_orders->orders) }} {{ _n('order', 'orders', count($customer_orders->orders), 'sega-woo-theme') }}</span>
     </div>
   </div>
 
@@ -83,9 +83,9 @@
                   <a
                     href="{{ esc_url($order->get_view_order_url()) }}"
                     class="font-semibold text-primary-600 transition-colors hover:text-primary-700"
-                    aria-label="{{ esc_attr(sprintf(__('View order number %s', 'sage'), $order->get_order_number())) }}"
+                    aria-label="{{ esc_attr(sprintf(__('View order number %s', 'sega-woo-theme'), $order->get_order_number())) }}"
                   >
-                    {{ esc_html(_x('#', 'hash before order number', 'sage') . $order->get_order_number()) }}
+                    {{ esc_html(_x('#', 'hash before order number', 'sega-woo-theme') . $order->get_order_number()) }}
                   </a>
                 </th>
               @else
@@ -114,7 +114,7 @@
                     <div class="text-sm">
                       <span class="font-semibold text-secondary-900">{!! $order->get_formatted_order_total() !!}</span>
                       <span class="text-secondary-500">
-                        {{ sprintf(_n('for %s item', 'for %s items', $item_count, 'sage'), $item_count) }}
+                        {{ sprintf(_n('for %s item', 'for %s items', $item_count, 'sega-woo-theme'), $item_count) }}
                       </span>
                     </div>
 
@@ -127,7 +127,7 @@
                           @php
                             $action_aria_label = !empty($action['aria-label'])
                               ? $action['aria-label']
-                              : sprintf(__('%1$s order number %2$s', 'sage'), $action['name'], $order->get_order_number());
+                              : sprintf(__('%1$s order number %2$s', 'sega-woo-theme'), $action['name'], $order->get_order_number());
                           @endphp
 
                           <a
@@ -183,7 +183,7 @@
               href="{{ esc_url($order->get_view_order_url()) }}"
               class="text-base font-semibold text-primary-600"
             >
-              {{ __('Order', 'sage') }} {{ esc_html(_x('#', 'hash before order number', 'sage') . $order->get_order_number()) }}
+              {{ __('Order', 'sega-woo-theme') }} {{ esc_html(_x('#', 'hash before order number', 'sega-woo-theme') . $order->get_order_number()) }}
             </a>
             <p class="mt-0.5 text-sm text-secondary-500">
               <time datetime="{{ esc_attr($order->get_date_created()->date('c')) }}">
@@ -199,11 +199,11 @@
 
         {{-- Card Body --}}
         <div class="mb-4 flex items-center justify-between border-t border-secondary-100 pt-3">
-          <span class="text-sm text-secondary-600">{{ __('Total', 'sage') }}</span>
+          <span class="text-sm text-secondary-600">{{ __('Total', 'sega-woo-theme') }}</span>
           <div class="text-right">
             <span class="font-semibold text-secondary-900">{!! $order->get_formatted_order_total() !!}</span>
             <span class="text-sm text-secondary-500">
-              ({{ sprintf(_n('%s item', '%s items', $item_count, 'sage'), $item_count) }})
+              ({{ sprintf(_n('%s item', '%s items', $item_count, 'sega-woo-theme'), $item_count) }})
             </span>
           </div>
         </div>
@@ -215,7 +215,7 @@
               @php
                 $action_aria_label = !empty($action['aria-label'])
                   ? $action['aria-label']
-                  : sprintf(__('%1$s order number %2$s', 'sage'), $action['name'], $order->get_order_number());
+                  : sprintf(__('%1$s order number %2$s', 'sega-woo-theme'), $action['name'], $order->get_order_number());
 
                 $button_class = $key === 'view'
                   ? 'flex-1 justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-primary-700'
@@ -250,13 +250,13 @@
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
-            {{ __('Previous', 'sage') }}
+            {{ __('Previous', 'sega-woo-theme') }}
           </a>
         @endif
       </div>
 
       <div class="hidden text-sm text-secondary-600 sm:block">
-        {{ sprintf(__('Page %1$d of %2$d', 'sage'), $current_page, $customer_orders->max_num_pages) }}
+        {{ sprintf(__('Page %1$d of %2$d', 'sega-woo-theme'), $current_page, $customer_orders->max_num_pages) }}
       </div>
 
       <div class="flex flex-1 justify-end">
@@ -265,7 +265,7 @@
             href="{{ esc_url(wc_get_endpoint_url('orders', $current_page + 1)) }}"
             class="woocommerce-button woocommerce-button--next woocommerce-Button woocommerce-Button--next button inline-flex items-center gap-2 rounded-lg border border-secondary-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 shadow-sm transition-all hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
           >
-            {{ __('Next', 'sage') }}
+            {{ __('Next', 'sega-woo-theme') }}
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
@@ -284,10 +284,10 @@
       </svg>
     </div>
     <h3 class="mb-2 text-lg font-semibold text-secondary-900">
-      {{ __('No orders yet', 'sage') }}
+      {{ __('No orders yet', 'sega-woo-theme') }}
     </h3>
     <p class="mb-6 max-w-sm text-secondary-600">
-      {{ __("You haven't placed any orders yet. Browse our products and find something you'll love!", 'sage') }}
+      {{ __("You haven't placed any orders yet. Browse our products and find something you'll love!", 'sega-woo-theme') }}
     </p>
     <a
       href="{{ esc_url(apply_filters('woocommerce_return_to_shop_redirect', wc_get_page_permalink('shop'))) }}"
@@ -296,7 +296,7 @@
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-      {{ __('Browse products', 'sage') }}
+      {{ __('Browse products', 'sega-woo-theme') }}
     </a>
   </div>
 @endif

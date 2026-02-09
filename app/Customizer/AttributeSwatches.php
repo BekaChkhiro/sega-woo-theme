@@ -62,12 +62,12 @@ class Attribute_Swatches_Manager_Control extends WP_Customize_Control
         ?>
         <div class="attribute-swatches-manager">
             <div class="attributes-intro">
-                <p><?php _e('Configure how product attributes are displayed on the product page. Choose from dropdown, buttons, or color swatches.', 'sage'); ?></p>
+                <p><?php _e('Configure how product attributes are displayed on the product page. Choose from dropdown, buttons, or color swatches.', 'sega-woo-theme'); ?></p>
             </div>
 
             <?php if (empty($this->attributes)): ?>
                 <div class="no-attributes-notice">
-                    <p><?php _e('No product attributes found. Create attributes in Products > Attributes first.', 'sage'); ?></p>
+                    <p><?php _e('No product attributes found. Create attributes in Products > Attributes first.', 'sega-woo-theme'); ?></p>
                 </div>
             <?php else: ?>
                 <div class="attributes-list">
@@ -79,34 +79,34 @@ class Attribute_Swatches_Manager_Control extends WP_Customize_Control
                             </div>
                             <div class="attribute-controls">
                                 <label class="display-type-label">
-                                    <?php _e('Display Type', 'sage'); ?>
+                                    <?php _e('Display Type', 'sega-woo-theme'); ?>
                                 </label>
                                 <div class="display-type-buttons" data-attribute="<?php echo esc_attr($attribute['slug']); ?>">
-                                    <button type="button" class="type-btn" data-type="select" title="<?php esc_attr_e('Dropdown Select', 'sage'); ?>">
+                                    <button type="button" class="type-btn" data-type="select" title="<?php esc_attr_e('Dropdown Select', 'sega-woo-theme'); ?>">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <rect x="3" y="5" width="18" height="14" rx="2"/>
                                             <polyline points="8 12 12 16 16 12"/>
                                         </svg>
-                                        <span><?php _e('Select', 'sage'); ?></span>
+                                        <span><?php _e('Select', 'sega-woo-theme'); ?></span>
                                     </button>
-                                    <button type="button" class="type-btn" data-type="button" title="<?php esc_attr_e('Button Style', 'sage'); ?>">
+                                    <button type="button" class="type-btn" data-type="button" title="<?php esc_attr_e('Button Style', 'sega-woo-theme'); ?>">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <rect x="3" y="8" width="18" height="8" rx="2"/>
                                             <line x1="8" y1="12" x2="16" y2="12"/>
                                         </svg>
-                                        <span><?php _e('Button', 'sage'); ?></span>
+                                        <span><?php _e('Button', 'sega-woo-theme'); ?></span>
                                     </button>
-                                    <button type="button" class="type-btn" data-type="color" title="<?php esc_attr_e('Color Swatch', 'sage'); ?>">
+                                    <button type="button" class="type-btn" data-type="color" title="<?php esc_attr_e('Color Swatch', 'sega-woo-theme'); ?>">
                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <circle cx="12" cy="12" r="8"/>
                                             <circle cx="12" cy="12" r="3" fill="currentColor"/>
                                         </svg>
-                                        <span><?php _e('Color', 'sage'); ?></span>
+                                        <span><?php _e('Color', 'sega-woo-theme'); ?></span>
                                     </button>
                                 </div>
                             </div>
                             <div class="color-terms-section" style="display: none;">
-                                <label class="terms-label"><?php _e('Term Colors', 'sage'); ?></label>
+                                <label class="terms-label"><?php _e('Term Colors', 'sega-woo-theme'); ?></label>
                                 <div class="color-terms-list">
                                     <?php foreach ($attribute['terms'] as $term): ?>
                                         <div class="term-color-row" data-term="<?php echo esc_attr($term['slug']); ?>">
@@ -158,8 +158,8 @@ class AttributeSwatches
         // Ensure WooCommerce panel exists
         if (!$wp_customize->get_panel('woocommerce_panel')) {
             $wp_customize->add_panel('woocommerce_panel', [
-                'title'       => __('WooCommerce', 'sage'),
-                'description' => __('Customize your store settings.', 'sage'),
+                'title'       => __('WooCommerce', 'sega-woo-theme'),
+                'description' => __('Customize your store settings.', 'sega-woo-theme'),
                 'priority'    => 150,
             ]);
         }
@@ -173,7 +173,7 @@ class AttributeSwatches
     protected function register_swatches_section(WP_Customize_Manager $wp_customize): void
     {
         $wp_customize->add_section('attribute_swatches', [
-            'title'       => __('Product Attribute Swatches', 'sage'),
+            'title'       => __('Product Attribute Swatches', 'sega-woo-theme'),
             'description' => $this->get_section_intro(),
             'panel'       => 'woocommerce_panel',
             'priority'    => 40,
@@ -235,7 +235,7 @@ class AttributeSwatches
     protected function get_section_intro(): string
     {
         return '<div class="swatches-section-intro">' .
-            __('Configure display types for product variation attributes.', 'sage') .
+            __('Configure display types for product variation attributes.', 'sega-woo-theme') .
             '</div>';
     }
 

@@ -20,7 +20,7 @@
 @if (($hasProducts ?? true) && $paginationTotalPages > 1)
   <nav
     class="mt-10 flex items-center justify-center"
-    aria-label="{{ __('Product pagination', 'sage') }}"
+    aria-label="{{ __('Product pagination', 'sega-woo-theme') }}"
     role="navigation"
     x-data="{ currentPage: {{ $paginationCurrentPage }}, totalPages: {{ $paginationTotalPages }}, isLoading: false }"
     @shop-filters-updated.window="currentPage = $event.detail.currentPage; totalPages = $event.detail.totalPages"
@@ -34,7 +34,7 @@
           :class="currentPage > 1 ? 'text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900' : 'text-secondary-300 cursor-not-allowed'"
           :disabled="currentPage <= 1 || isLoading"
           @click="if (window.shopFiltersAPI) window.shopFiltersAPI.goToPage(currentPage - 1)"
-          aria-label="{{ __('Previous page', 'sage') }}"
+          aria-label="{{ __('Previous page', 'sega-woo-theme') }}"
         >
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -81,7 +81,7 @@
           :class="currentPage < totalPages ? 'text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900' : 'text-secondary-300 cursor-not-allowed'"
           :disabled="currentPage >= totalPages || isLoading"
           @click="if (window.shopFiltersAPI) window.shopFiltersAPI.goToPage(currentPage + 1)"
-          aria-label="{{ __('Next page', 'sage') }}"
+          aria-label="{{ __('Next page', 'sega-woo-theme') }}"
         >
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

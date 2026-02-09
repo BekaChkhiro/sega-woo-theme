@@ -18,14 +18,14 @@
   {{-- Items Header --}}
   <div class="mb-4 flex items-center justify-between">
     <span class="text-sm font-medium text-secondary-600">
-      {{ sprintf(_n('%d item', '%d items', $cart_count, 'sage'), $cart_count) }}
+      {{ sprintf(_n('%d item', '%d items', $cart_count, 'sega-woo-theme'), $cart_count) }}
     </span>
     @if ($has_discount)
       <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        {{ __('Discount Applied', 'sage') }}
+        {{ __('Discount Applied', 'sega-woo-theme') }}
       </span>
     @endif
   </div>
@@ -70,7 +70,7 @@
               {{-- Sale Badge --}}
               @if ($is_on_sale)
                 <span class="absolute bottom-1 left-1 rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-bold uppercase text-white shadow">
-                  {{ __('Sale', 'sage') }}
+                  {{ __('Sale', 'sega-woo-theme') }}
                 </span>
               @endif
             </div>
@@ -100,7 +100,7 @@
                   {{-- SKU (optional) --}}
                   @if ($_product->get_sku())
                     <p class="mt-1 text-[10px] uppercase tracking-wide text-secondary-400">
-                      {{ __('SKU:', 'sage') }} {{ $_product->get_sku() }}
+                      {{ __('SKU:', 'sega-woo-theme') }} {{ $_product->get_sku() }}
                     </p>
                   @endif
                 </div>
@@ -155,7 +155,7 @@
               <a
                 href="{{ esc_url(add_query_arg('remove_coupon', rawurlencode($coupon->get_code()), wc_get_checkout_url())) }}"
                 class="rounded-full bg-green-200/50 p-1 text-green-600 transition-colors hover:bg-red-100 hover:text-red-600"
-                title="{{ __('Remove coupon', 'sage') }}"
+                title="{{ __('Remove coupon', 'sega-woo-theme') }}"
                 data-coupon="{{ esc_attr($coupon->get_code()) }}"
               >
                 <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -253,7 +253,7 @@
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          {{ __('You\'re saving', 'sage') }}
+          {{ __('You\'re saving', 'sega-woo-theme') }}
         </span>
         <span class="text-sm font-bold text-green-600">
           {!! wc_price($discount_total) !!}

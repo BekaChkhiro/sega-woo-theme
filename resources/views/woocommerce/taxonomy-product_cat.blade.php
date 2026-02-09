@@ -62,7 +62,7 @@
       <div class="mt-6" x-data="subcategoryCarousel()">
         <div class="mb-3 flex items-center justify-between">
           <h3 class="text-sm font-semibold uppercase tracking-wide text-secondary-500">
-            {{ __('Browse Subcategories', 'sage') }}
+            {{ __('Browse Subcategories', 'sega-woo-theme') }}
           </h3>
           {{-- Navigation Arrows --}}
           <div class="flex items-center gap-1">
@@ -70,7 +70,7 @@
               type="button"
               x-ref="prevBtn"
               class="flex h-8 w-8 items-center justify-center rounded-full border border-secondary-200 bg-white text-secondary-500 transition-all hover:border-primary-300 hover:bg-primary-50 hover:text-primary-600 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label="{{ __('Previous', 'sage') }}"
+              aria-label="{{ __('Previous', 'sega-woo-theme') }}"
             >
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -80,7 +80,7 @@
               type="button"
               x-ref="nextBtn"
               class="flex h-8 w-8 items-center justify-center rounded-full border border-secondary-200 bg-white text-secondary-500 transition-all hover:border-primary-300 hover:bg-primary-50 hover:text-primary-600 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label="{{ __('Next', 'sage') }}"
+              aria-label="{{ __('Next', 'sega-woo-theme') }}"
             >
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -149,7 +149,7 @@
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
-            <span>{{ __('Filters:', 'sage') }}</span>
+            <span>{{ __('Filters:', 'sega-woo-theme') }}</span>
           </div>
 
           <div class="flex flex-wrap items-center gap-2">
@@ -157,7 +157,7 @@
               <a
                 href="{{ $filter['remove_url'] }}"
                 class="group inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-medium text-secondary-700 shadow-sm ring-1 ring-secondary-200 transition-all hover:bg-red-50 hover:text-red-700 hover:ring-red-200"
-                title="{{ __('Remove filter', 'sage') }}"
+                title="{{ __('Remove filter', 'sega-woo-theme') }}"
               >
                 @if ($filter['type'] === 'category')
                   <svg class="h-3.5 w-3.5 text-primary-500 group-hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -192,7 +192,7 @@
               <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
-              {{ __('Clear all', 'sage') }}
+              {{ __('Clear all', 'sega-woo-theme') }}
             </a>
           @endif
         </div>
@@ -229,7 +229,7 @@
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
-      <span class="text-sm font-medium text-secondary-600">{{ __('Loading...', 'sage') }}</span>
+      <span class="text-sm font-medium text-secondary-600">{{ __('Loading...', 'sega-woo-theme') }}</span>
     </div>
   </div>
 
@@ -359,14 +359,14 @@
       </svg>
 
       <h2 class="mb-2 text-xl font-semibold text-secondary-900">
-        {{ __('No products found', 'sage') }}
+        {{ __('No products found', 'sega-woo-theme') }}
       </h2>
 
       <p class="mb-6 max-w-sm text-secondary-600">
         @if ($isFiltered)
-          {{ __('No products match your selected filters. Try adjusting your filter criteria.', 'sage') }}
+          {{ __('No products match your selected filters. Try adjusting your filter criteria.', 'sega-woo-theme') }}
         @else
-          {{ __('There are no products in this category yet. Please check back later.', 'sage') }}
+          {{ __('There are no products in this category yet. Please check back later.', 'sega-woo-theme') }}
         @endif
       </p>
 
@@ -376,7 +376,7 @@
             href="{{ get_term_link($currentCat) }}"
             class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
           >
-            {{ __('Clear filters', 'sage') }}
+            {{ __('Clear filters', 'sega-woo-theme') }}
           </a>
         @endif
 
@@ -384,7 +384,7 @@
           href="{{ $shopUrl }}"
           class="inline-flex items-center gap-2 rounded-lg border border-secondary-300 bg-white px-5 py-2.5 text-sm font-medium text-secondary-700 transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
-          {{ __('View all products', 'sage') }}
+          {{ __('View all products', 'sega-woo-theme') }}
         </a>
       </div>
     </div>

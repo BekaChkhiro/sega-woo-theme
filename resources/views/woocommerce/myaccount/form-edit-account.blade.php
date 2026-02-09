@@ -14,10 +14,10 @@
 
 <div class="mb-6">
   <h2 class="text-xl font-semibold text-secondary-900">
-    {{ __('Account Details', 'sage') }}
+    {{ __('Account Details', 'sega-woo-theme') }}
   </h2>
   <p class="mt-1 text-sm text-secondary-600">
-    {{ __('Update your personal information and password.', 'sage') }}
+    {{ __('Update your personal information and password.', 'sega-woo-theme') }}
   </p>
 </div>
 
@@ -35,14 +35,14 @@
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
-      {{ __('Personal Information', 'sage') }}
+      {{ __('Personal Information', 'sega-woo-theme') }}
     </h3>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {{-- First Name --}}
       <div class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
         <label for="account_first_name" class="mb-1.5 block text-sm font-medium text-secondary-700">
-          {{ __('First name', 'sage') }}
+          {{ __('First name', 'sega-woo-theme') }}
           <span class="required text-red-500" aria-hidden="true">*</span>
         </label>
         <input
@@ -60,7 +60,7 @@
       {{-- Last Name --}}
       <div class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
         <label for="account_last_name" class="mb-1.5 block text-sm font-medium text-secondary-700">
-          {{ __('Last name', 'sage') }}
+          {{ __('Last name', 'sega-woo-theme') }}
           <span class="required text-red-500" aria-hidden="true">*</span>
         </label>
         <input
@@ -79,7 +79,7 @@
     {{-- Display Name --}}
     <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mt-4">
       <label for="account_display_name" class="mb-1.5 block text-sm font-medium text-secondary-700">
-        {{ __('Display name', 'sage') }}
+        {{ __('Display name', 'sega-woo-theme') }}
         <span class="required text-red-500" aria-hidden="true">*</span>
       </label>
       <input
@@ -92,14 +92,14 @@
         aria-required="true"
       />
       <p class="mt-1.5 text-xs text-secondary-500">
-        <em>{{ __('This will be how your name will be displayed in the account section and in reviews.', 'sage') }}</em>
+        <em>{{ __('This will be how your name will be displayed in the account section and in reviews.', 'sega-woo-theme') }}</em>
       </p>
     </div>
 
     {{-- Email --}}
     <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mt-4">
       <label for="account_email" class="mb-1.5 block text-sm font-medium text-secondary-700">
-        {{ __('Email address', 'sage') }}
+        {{ __('Email address', 'sega-woo-theme') }}
         <span class="required text-red-500" aria-hidden="true">*</span>
       </label>
       <input
@@ -121,17 +121,17 @@
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
       </svg>
-      {{ __('Password Change', 'sage') }}
+      {{ __('Password Change', 'sega-woo-theme') }}
     </legend>
 
     <p class="mb-4 text-sm text-secondary-600">
-      {{ __('Leave blank to keep your current password.', 'sage') }}
+      {{ __('Leave blank to keep your current password.', 'sega-woo-theme') }}
     </p>
 
     {{-- Current Password --}}
     <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-4">
       <label for="password_current" class="mb-1.5 block text-sm font-medium text-secondary-700">
-        {{ __('Current password', 'sage') }}
+        {{ __('Current password', 'sega-woo-theme') }}
       </label>
       <div class="relative" x-data="{ show: false }">
         <input
@@ -145,7 +145,7 @@
           type="button"
           @click="show = !show"
           class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 transition-colors hover:text-secondary-600"
-          :aria-label="show ? '{{ __('Hide password', 'sage') }}' : '{{ __('Show password', 'sage') }}'"
+          :aria-label="show ? '{{ __('Hide password', 'sega-woo-theme') }}' : '{{ __('Show password', 'sega-woo-theme') }}'"
         >
           <svg x-show="!show" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -161,7 +161,7 @@
     {{-- New Password --}}
     <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-4">
       <label for="password_1" class="mb-1.5 block text-sm font-medium text-secondary-700">
-        {{ __('New password', 'sage') }}
+        {{ __('New password', 'sega-woo-theme') }}
       </label>
       <div class="relative" x-data="{ show: false }">
         <input
@@ -190,7 +190,7 @@
     {{-- Confirm New Password --}}
     <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
       <label for="password_2" class="mb-1.5 block text-sm font-medium text-secondary-700">
-        {{ __('Confirm new password', 'sage') }}
+        {{ __('Confirm new password', 'sega-woo-theme') }}
       </label>
       <div class="relative" x-data="{ show: false }">
         <input
@@ -226,13 +226,13 @@
     <button
       type="submit"
       name="save_account_details"
-      value="{{ __('Save changes', 'sage') }}"
+      value="{{ __('Save changes', 'sega-woo-theme') }}"
       class="woocommerce-Button button inline-flex items-center gap-2 rounded-xl bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
     >
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
       </svg>
-      {{ __('Save changes', 'sage') }}
+      {{ __('Save changes', 'sega-woo-theme') }}
     </button>
 
     <input type="hidden" name="action" value="save_account_details" />

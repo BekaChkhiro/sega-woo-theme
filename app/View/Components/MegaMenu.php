@@ -32,7 +32,7 @@ class MegaMenu extends Component
         $this->showProductCount = $showProductCount;
         $this->showThumbnails = $showThumbnails;
         $this->showViewAll = $showViewAll;
-        $this->title = $title ?: __('Categories', 'sage');
+        $this->title = $title ?: __('Categories', 'sega-woo-theme');
 
         // Get items based on mode
         if ($mode === 'menu') {
@@ -286,7 +286,7 @@ class MegaMenu extends Component
     public static function getAvailableMenuLocations(): array
     {
         return [
-            'mega_menu' => __('Mega Menu', 'sage'),
+            'mega_menu' => __('Mega Menu', 'sega-woo-theme'),
         ];
     }
 

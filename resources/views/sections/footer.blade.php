@@ -5,19 +5,19 @@
       <div class="flex flex-col items-center justify-between gap-6 lg:flex-row">
         <div class="text-center lg:text-left">
           <h3 class="text-lg font-semibold text-white lg:text-xl">
-            {{ __('Subscribe to our newsletter', 'sage') }}
+            {{ __('Subscribe to our newsletter', 'sega-woo-theme') }}
           </h3>
           <p class="mt-1 text-sm text-primary-100">
-            {{ __('Get the latest updates on new products and upcoming sales.', 'sage') }}
+            {{ __('Get the latest updates on new products and upcoming sales.', 'sega-woo-theme') }}
           </p>
         </div>
         <form class="flex w-full max-w-md gap-2" action="#" method="post">
-          <label for="footer-email" class="sr-only">{{ __('Email address', 'sage') }}</label>
+          <label for="footer-email" class="sr-only">{{ __('Email address', 'sega-woo-theme') }}</label>
           <input
             type="email"
             id="footer-email"
             name="email"
-            placeholder="{{ __('Enter your email', 'sage') }}"
+            placeholder="{{ __('Enter your email', 'sega-woo-theme') }}"
             required
             class="flex-1 rounded-md border-0 bg-white/10 px-4 py-3 text-sm text-white placeholder-primary-200 ring-1 ring-inset ring-white/20 transition focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
           >
@@ -25,7 +25,7 @@
             type="submit"
             class="rounded-md bg-white px-5 py-3 text-sm font-semibold text-primary-600 transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600"
           >
-            {{ __('Subscribe', 'sage') }}
+            {{ __('Subscribe', 'sega-woo-theme') }}
           </button>
         </form>
       </div>
@@ -45,7 +45,7 @@
           @endif
         </a>
         <p class="mt-4 text-sm leading-relaxed text-secondary-600">
-          {{ __('Your trusted marketplace for quality products. We offer a curated selection with fast shipping and exceptional customer service.', 'sage') }}
+          {{ __('Your trusted marketplace for quality products. We offer a curated selection with fast shipping and exceptional customer service.', 'sega-woo-theme') }}
         </p>
 
         {{-- Social Links --}}
@@ -53,7 +53,7 @@
           <a
             href="#"
             class="flex h-9 w-9 items-center justify-center rounded-full bg-secondary-200 text-secondary-600 transition hover:bg-primary-600 hover:text-white"
-            aria-label="{{ __('Facebook', 'sage') }}"
+            aria-label="{{ __('Facebook', 'sega-woo-theme') }}"
           >
             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
@@ -62,7 +62,7 @@
           <a
             href="#"
             class="flex h-9 w-9 items-center justify-center rounded-full bg-secondary-200 text-secondary-600 transition hover:bg-primary-600 hover:text-white"
-            aria-label="{{ __('Instagram', 'sage') }}"
+            aria-label="{{ __('Instagram', 'sega-woo-theme') }}"
           >
             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
@@ -71,7 +71,7 @@
           <a
             href="#"
             class="flex h-9 w-9 items-center justify-center rounded-full bg-secondary-200 text-secondary-600 transition hover:bg-primary-600 hover:text-white"
-            aria-label="{{ __('Twitter / X', 'sage') }}"
+            aria-label="{{ __('Twitter / X', 'sega-woo-theme') }}"
           >
             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -80,7 +80,7 @@
           <a
             href="#"
             class="flex h-9 w-9 items-center justify-center rounded-full bg-secondary-200 text-secondary-600 transition hover:bg-primary-600 hover:text-white"
-            aria-label="{{ __('Pinterest', 'sage') }}"
+            aria-label="{{ __('Pinterest', 'sega-woo-theme') }}"
           >
             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
@@ -92,34 +92,34 @@
       {{-- Column 2: Shop Links --}}
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-secondary-900">
-          {{ __('Shop', 'sage') }}
+          {{ __('Shop', 'sega-woo-theme') }}
         </h4>
         <ul class="mt-4 space-y-3">
           @if (function_exists('wc_get_page_permalink'))
             <li>
               <a href="{{ wc_get_page_permalink('shop') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-                {{ __('All Products', 'sage') }}
+                {{ __('All Products', 'sega-woo-theme') }}
               </a>
             </li>
           @endif
           <li>
             <a href="{{ home_url('/product-category/new-arrivals') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('New Arrivals', 'sage') }}
+              {{ __('New Arrivals', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/product-category/featured') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Featured', 'sage') }}
+              {{ __('Featured', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/shop/?on_sale=1') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('On Sale', 'sage') }}
+              {{ __('On Sale', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/product-category/best-sellers') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Best Sellers', 'sage') }}
+              {{ __('Best Sellers', 'sega-woo-theme') }}
             </a>
           </li>
         </ul>
@@ -128,32 +128,32 @@
       {{-- Column 3: Customer Service --}}
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-secondary-900">
-          {{ __('Customer Service', 'sage') }}
+          {{ __('Customer Service', 'sega-woo-theme') }}
         </h4>
         <ul class="mt-4 space-y-3">
           <li>
             <a href="{{ home_url('/contact') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Contact Us', 'sage') }}
+              {{ __('Contact Us', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/faq') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('FAQ', 'sage') }}
+              {{ __('FAQ', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/shipping-info') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Shipping Information', 'sage') }}
+              {{ __('Shipping Information', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/returns') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Returns & Exchanges', 'sage') }}
+              {{ __('Returns & Exchanges', 'sega-woo-theme') }}
             </a>
           </li>
           <li>
             <a href="{{ home_url('/track-order') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Track Your Order', 'sage') }}
+              {{ __('Track Your Order', 'sega-woo-theme') }}
             </a>
           </li>
         </ul>
@@ -162,34 +162,34 @@
       {{-- Column 4: My Account --}}
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-secondary-900">
-          {{ __('My Account', 'sage') }}
+          {{ __('My Account', 'sega-woo-theme') }}
         </h4>
         <ul class="mt-4 space-y-3">
           @if (function_exists('wc_get_page_permalink'))
             <li>
               <a href="{{ wc_get_page_permalink('myaccount') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-                {{ is_user_logged_in() ? __('My Dashboard', 'sage') : __('Sign In / Register', 'sage') }}
+                {{ is_user_logged_in() ? __('My Dashboard', 'sega-woo-theme') : __('Sign In / Register', 'sega-woo-theme') }}
               </a>
             </li>
             <li>
               <a href="{{ wc_get_endpoint_url('orders', '', wc_get_page_permalink('myaccount')) }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-                {{ __('Order History', 'sage') }}
+                {{ __('Order History', 'sega-woo-theme') }}
               </a>
             </li>
             <li>
               <a href="{{ wc_get_page_permalink('cart') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-                {{ __('Shopping Cart', 'sage') }}
+                {{ __('Shopping Cart', 'sega-woo-theme') }}
               </a>
             </li>
             <li>
               <a href="{{ wc_get_endpoint_url('edit-account', '', wc_get_page_permalink('myaccount')) }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-                {{ __('Account Settings', 'sage') }}
+                {{ __('Account Settings', 'sega-woo-theme') }}
               </a>
             </li>
           @endif
           <li>
             <a href="{{ home_url('/wishlist') }}" class="text-sm text-secondary-600 transition hover:text-primary-600">
-              {{ __('Wishlist', 'sage') }}
+              {{ __('Wishlist', 'sega-woo-theme') }}
             </a>
           </li>
         </ul>
@@ -212,12 +212,12 @@
       <div class="flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
         {{-- Copyright --}}
         <p class="text-sm text-secondary-600">
-          &copy; {{ date('Y') }} {!! $siteName !!}. {{ __('All rights reserved.', 'sage') }}
+          &copy; {{ date('Y') }} {!! $siteName !!}. {{ __('All rights reserved.', 'sega-woo-theme') }}
         </p>
 
         {{-- Footer Navigation --}}
         @if (has_nav_menu('footer_navigation'))
-          <nav aria-label="{{ __('Footer Navigation', 'sage') }}">
+          <nav aria-label="{{ __('Footer Navigation', 'sega-woo-theme') }}">
             {!! wp_nav_menu([
               'theme_location' => 'footer_navigation',
               'menu_class' => 'flex flex-wrap items-center justify-center gap-x-6 gap-y-2',
@@ -232,7 +232,7 @@
 
         {{-- Payment Icons --}}
         <div class="flex items-center gap-3">
-          <span class="sr-only">{{ __('Accepted payment methods', 'sage') }}</span>
+          <span class="sr-only">{{ __('Accepted payment methods', 'sega-woo-theme') }}</span>
           {{-- Visa --}}
           <svg class="h-8 w-auto text-secondary-400" viewBox="0 0 38 24" fill="none" aria-hidden="true">
             <rect width="38" height="24" rx="3" fill="currentColor" fill-opacity="0.1"/>

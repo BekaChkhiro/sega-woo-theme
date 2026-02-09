@@ -75,12 +75,12 @@ export default function productCarousel(config = {}) {
           },
         },
 
-        // Accessibility
+        // Accessibility (use translated strings if available)
         a11y: {
           enabled: true,
-          prevSlideMessage: 'Previous products',
-          nextSlideMessage: 'Next products',
-          paginationBulletMessage: 'Go to product {{index}}',
+          prevSlideMessage: window.segaThemeI18n?.prevProducts || 'Previous products',
+          nextSlideMessage: window.segaThemeI18n?.nextProducts || 'Next products',
+          paginationBulletMessage: window.segaThemeI18n?.goToProducts || 'Go to product {{index}}',
         },
 
         // Keyboard

@@ -22,7 +22,7 @@
   // Only show Description tab - Reviews and Additional Info are removed
   if ($hasDescription) {
     $productTabs['description'] = [
-      'title' => __('Description', 'sage'),
+      'title' => __('Description', 'sega-woo-theme'),
       'priority' => 10,
     ];
   }
@@ -36,11 +36,11 @@
 @if (!empty($productTabs))
   <div class="product-tabs mt-16 pt-16" id="product-tabs">
     {{-- Section Title --}}
-    <h2 class="sr-only">{{ __('Product Details', 'sage') }}</h2>
+    <h2 class="sr-only">{{ __('Product Details', 'sega-woo-theme') }}</h2>
 
     {{-- Tab Navigation --}}
     <div class="border-b border-secondary-200">
-      <nav class="-mb-px flex gap-1 overflow-x-auto scrollbar-hide sm:gap-2" aria-label="{{ __('Product information tabs', 'sage') }}">
+      <nav class="-mb-px flex gap-1 overflow-x-auto scrollbar-hide sm:gap-2" aria-label="{{ __('Product information tabs', 'sega-woo-theme') }}">
         @foreach ($productTabs as $key => $tab)
           <button
             type="button"

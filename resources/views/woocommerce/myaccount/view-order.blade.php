@@ -42,7 +42,7 @@
     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
     </svg>
-    {{ __('Back to Orders', 'sage') }}
+    {{ __('Back to Orders', 'sega-woo-theme') }}
   </a>
 </div>
 
@@ -51,7 +51,7 @@
   <div>
     <div class="flex items-center gap-3">
       <h2 class="text-xl font-semibold text-secondary-900">
-        {{ __('Order', 'sage') }} {{ esc_html(_x('#', 'hash before order number', 'sage') . $order->get_order_number()) }}
+        {{ __('Order', 'sega-woo-theme') }} {{ esc_html(_x('#', 'hash before order number', 'sega-woo-theme') . $order->get_order_number()) }}
       </h2>
       <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium {{ $colors['bg'] }} {{ $colors['text'] }}">
         <span class="h-1.5 w-1.5 rounded-full {{ $colors['dot'] }}"></span>
@@ -61,7 +61,7 @@
     <p class="mt-2 text-sm text-secondary-600">
       {!! wp_kses_post(
         sprintf(
-          __('Placed on %1$s at %2$s', 'sage'),
+          __('Placed on %1$s at %2$s', 'sega-woo-theme'),
           '<time datetime="' . esc_attr($order->get_date_created()->date('c')) . '">' . esc_html(wc_format_datetime($order->get_date_created(), wc_date_format())) . '</time>',
           esc_html(wc_format_datetime($order->get_date_created(), wc_time_format()))
         )
@@ -108,7 +108,7 @@
         </svg>
       </div>
       <div>
-        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Order Number', 'sage') }}</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Order Number', 'sega-woo-theme') }}</p>
         <p class="font-semibold text-secondary-900">#{{ esc_html($order->get_order_number()) }}</p>
       </div>
     </div>
@@ -123,7 +123,7 @@
         </svg>
       </div>
       <div>
-        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Date', 'sage') }}</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Date', 'sega-woo-theme') }}</p>
         <p class="font-semibold text-secondary-900">{{ esc_html(wc_format_datetime($order->get_date_created())) }}</p>
       </div>
     </div>
@@ -138,7 +138,7 @@
         </svg>
       </div>
       <div>
-        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Total', 'sage') }}</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Total', 'sega-woo-theme') }}</p>
         <p class="font-semibold text-secondary-900">{!! $order->get_formatted_order_total() !!}</p>
       </div>
     </div>
@@ -153,8 +153,8 @@
         </svg>
       </div>
       <div>
-        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Payment', 'sage') }}</p>
-        <p class="font-semibold text-secondary-900">{{ esc_html($order->get_payment_method_title() ?: __('N/A', 'sage')) }}</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-secondary-500">{{ __('Payment', 'sega-woo-theme') }}</p>
+        <p class="font-semibold text-secondary-900">{{ esc_html($order->get_payment_method_title() ?: __('N/A', 'sega-woo-theme')) }}</p>
       </div>
     </div>
   </div>
@@ -167,9 +167,9 @@
       <svg class="h-5 w-5 text-secondary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-      {{ __('Order Items', 'sage') }}
+      {{ __('Order Items', 'sega-woo-theme') }}
       <span class="ml-auto rounded-full bg-secondary-200 px-2.5 py-0.5 text-xs font-medium text-secondary-700">
-        {{ sprintf(_n('%s item', '%s items', $item_count, 'sage'), $item_count) }}
+        {{ sprintf(_n('%s item', '%s items', $item_count, 'sega-woo-theme'), $item_count) }}
       </span>
     </h3>
   </div>
@@ -180,13 +180,13 @@
       <thead class="border-b border-secondary-100 bg-secondary-50/50">
         <tr>
           <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-secondary-600">
-            {{ __('Product', 'sage') }}
+            {{ __('Product', 'sega-woo-theme') }}
           </th>
           <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-secondary-600">
-            {{ __('Quantity', 'sage') }}
+            {{ __('Quantity', 'sega-woo-theme') }}
           </th>
           <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-secondary-600">
-            {{ __('Total', 'sage') }}
+            {{ __('Total', 'sega-woo-theme') }}
           </th>
         </tr>
       </thead>
@@ -234,7 +234,7 @@
                   {{-- SKU --}}
                   @if ($product && $product->get_sku())
                     <p class="mt-1 text-xs text-secondary-400">
-                      {{ __('SKU:', 'sage') }} {{ esc_html($product->get_sku()) }}
+                      {{ __('SKU:', 'sega-woo-theme') }} {{ esc_html($product->get_sku()) }}
                     </p>
                   @endif
                 </div>
@@ -288,7 +288,7 @@
 
           <div class="mt-1 flex items-center justify-between">
             <span class="text-sm text-secondary-500">
-              {{ __('Qty:', 'sage') }} {{ esc_html($item->get_quantity()) }}
+              {{ __('Qty:', 'sega-woo-theme') }} {{ esc_html($item->get_quantity()) }}
             </span>
             <span class="font-semibold text-secondary-900">{!! $order->get_formatted_line_subtotal($item) !!}</span>
           </div>
@@ -323,7 +323,7 @@
         <svg class="h-5 w-5 text-secondary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
         </svg>
-        {{ __('Billing Address', 'sage') }}
+        {{ __('Billing Address', 'sega-woo-theme') }}
       </h3>
     </div>
     <div class="p-6">
@@ -350,7 +350,7 @@
           </p>
         @endif
       @else
-        <p class="text-secondary-500">{{ __('No billing address provided.', 'sage') }}</p>
+        <p class="text-secondary-500">{{ __('No billing address provided.', 'sega-woo-theme') }}</p>
       @endif
     </div>
   </div>
@@ -363,7 +363,7 @@
           <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
         </svg>
-        {{ __('Shipping Address', 'sage') }}
+        {{ __('Shipping Address', 'sega-woo-theme') }}
       </h3>
     </div>
     <div class="p-6">
@@ -381,7 +381,7 @@
           </p>
         @endif
       @else
-        <p class="text-secondary-500">{{ __('No shipping address provided.', 'sage') }}</p>
+        <p class="text-secondary-500">{{ __('No shipping address provided.', 'sega-woo-theme') }}</p>
       @endif
     </div>
   </div>
@@ -395,7 +395,7 @@
         <svg class="h-5 w-5 text-secondary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
         </svg>
-        {{ __('Order Updates', 'sage') }}
+        {{ __('Order Updates', 'sega-woo-theme') }}
         <span class="ml-auto rounded-full bg-secondary-200 px-2.5 py-0.5 text-xs font-medium text-secondary-700">
           {{ count($notes) }}
         </span>
@@ -413,7 +413,7 @@
             <div class="min-w-0 flex-1">
               <p class="text-xs font-medium text-secondary-500">
                 <time datetime="{{ esc_attr($note->comment_date) }}">
-                  {{ esc_html(date_i18n(__('F j, Y \a\t g:i a', 'sage'), strtotime($note->comment_date))) }}
+                  {{ esc_html(date_i18n(__('F j, Y \a\t g:i a', 'sega-woo-theme'), strtotime($note->comment_date))) }}
                 </time>
               </p>
               <div class="woocommerce-OrderUpdate-description mt-2 text-sm text-secondary-700">

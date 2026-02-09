@@ -22,10 +22,10 @@
         </svg>
       </div>
       <h2 class="text-xl font-semibold text-secondary-900">
-        {{ __('Create new password', 'sage') }}
+        {{ __('Create new password', 'sega-woo-theme') }}
       </h2>
       <p class="mt-2 text-sm text-secondary-600">
-        {{ __('Enter your new password below to complete the reset process.', 'sage') }}
+        {{ __('Enter your new password below to complete the reset process.', 'sega-woo-theme') }}
       </p>
     </div>
 
@@ -36,7 +36,7 @@
       {{-- New Password --}}
       <div class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
         <label for="password_1" class="mb-1.5 block text-sm font-medium text-secondary-700">
-          {{ __('New password', 'sage') }}
+          {{ __('New password', 'sega-woo-theme') }}
           <span class="required text-red-500" aria-hidden="true">*</span>
         </label>
         <div class="relative" x-data="{ show: false }">
@@ -53,7 +53,7 @@
             type="button"
             @click="show = !show"
             class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 transition-colors hover:text-secondary-600"
-            :aria-label="show ? '{{ __('Hide password', 'sage') }}' : '{{ __('Show password', 'sage') }}'"
+            :aria-label="show ? '{{ __('Hide password', 'sega-woo-theme') }}' : '{{ __('Show password', 'sega-woo-theme') }}'"
           >
             <svg x-show="!show" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -69,7 +69,7 @@
       {{-- Confirm Password --}}
       <div class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
         <label for="password_2" class="mb-1.5 block text-sm font-medium text-secondary-700">
-          {{ __('Confirm new password', 'sage') }}
+          {{ __('Confirm new password', 'sega-woo-theme') }}
           <span class="required text-red-500" aria-hidden="true">*</span>
         </label>
         <div class="relative" x-data="{ show: false }">
@@ -107,10 +107,10 @@
 
         <button
           type="submit"
-          value="{{ __('Save', 'sage') }}"
+          value="{{ __('Save', 'sega-woo-theme') }}"
           class="woocommerce-Button button w-full rounded-xl bg-green-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-green-600/25 transition-all hover:bg-green-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
         >
-          {{ __('Save new password', 'sage') }}
+          {{ __('Save new password', 'sega-woo-theme') }}
         </button>
 
         @php wp_nonce_field('reset_password', 'woocommerce-reset-password-nonce'); @endphp
@@ -125,7 +125,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <p class="text-sm text-secondary-600">
-        {{ __('Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters.', 'sage') }}
+        {{ __('Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters.', 'sega-woo-theme') }}
       </p>
     </div>
   </div>

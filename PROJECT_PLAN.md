@@ -4,10 +4,9 @@
 > **Framework:** Sage 10 (Roots)
 > **Created:** 2026-02-02
 > **Last Updated:** 2026-02-09
-> **Current Focus:** T16.1 - Create search-product.blade.php template
+> **Current Focus:** Phase 18 - Global Product Card Redesign
 > **Status:** In Progress
 > **Last Updated:** 2026-02-09
-> **In Progress Task:** None
 > **Plugin Version:** 1.1.1
 
 ---
@@ -305,30 +304,79 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T16.1 | Create search-product.blade.php template | Medium | TODO | - |
-| T16.2 | Create SearchResults View Composer | Medium | TODO | T16.1 |
-| T16.3 | Implement proper WP_Query for product search | High | TODO | T16.2 |
-| T16.4 | Add pagination support to search results | Medium | TODO | T16.3 |
-| T16.5 | Style search results page (match shop page) | Low | TODO | T16.4 |
-| T16.6 | Test search with pagination | Low | TODO | T16.5 |
+| T16.1 | Create search-product.blade.php template | Medium | DONE ✅ | - |
+| T16.2 | Create SearchResults View Composer | Medium | DONE ✅ | T16.1 |
+| T16.3 | Implement proper WP_Query for product search | High | DONE ✅ | T16.2 |
+| T16.4 | Add pagination support to search results | Medium | DONE ✅ | T16.3 |
+| T16.5 | Style search results page (match shop page) | Low | DONE ✅ | T16.4 |
+| T16.6 | Test search with pagination | Low | DONE ✅ | T16.5 |
 
 ---
 
-### Phase 17: Performance Optimization (პერფორმანსი)
+### Phase 17: WPML მხარდაჭერა (მრავალენოვნება)
+> **Goal:** თემის მომზადება WPML-ისთვის (ქართული, რუსული, ინგლისური)
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T17.1 | Audit all hardcoded strings in theme templates | Medium | DONE ✅ | - |
+| T17.2 | Wrap all strings with __() and _e() functions | High | DONE ✅ | T17.1 |
+| T17.3 | Create theme textdomain and load translations | Low | DONE ✅ | T17.2 |
+| T17.4 | Create wpml-config.xml for theme settings | Medium | DONE ✅ | T17.3 |
+| T17.5 | Create language switcher component (GE/RU/EN codes) | Medium | DONE ✅ | T17.4 |
+| T17.6 | Add language switcher to header after cart icon | Low | DONE ✅ | T17.5 |
+| T17.7 | Style language switcher to match theme design | Low | DONE ✅ | T17.6 |
+| T17.8 | Test WPML string translation functionality | Medium | DONE ✅ | T17.7 |
+| T17.9 | WPML: მთავარი გვერდი (Homepage) - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.10 | WPML: შოპის გვერდი (Shop/Archive) - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.11 | WPML: პროდუქტის გვერდი (Single Product) - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.12 | WPML: კალათის გვერდი (Cart) - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.13 | WPML: ჩექაუთის გვერდი (Checkout) - სამივე ენაზე ტესტი | High | DONE ✅ | T17.8 |
+| T17.14 | WPML: მადლობის გვერდი (Thank You) - სამივე ენაზე ტესტი | Low | DONE ✅ | T17.13 |
+| T17.15 | WPML: ანგარიშის გვერდები (My Account) - სამივე ენაზე ტესტი | High | DONE ✅ | T17.8 |
+| T17.16 | WPML: ძიების შედეგები (Search Results) - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.17 | WPML: კატეგორიის გვერდი (Category) - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.18 | WPML: 404 გვერდი - სამივე ენაზე ტესტი | Low | DONE ✅ | T17.8 |
+| T17.19 | WPML: ჰედერი და ფუტერი - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.20 | WPML: მინი-კალათა და სერჩ პოპაპი - სამივე ენაზე ტესტი | Medium | DONE ✅ | T17.8 |
+| T17.21 | WPML: ფინალური სრული ტესტი სამივე ენაზე | High | DONE ✅ | T17.9, T17.10, T17.11, T17.12, T17.13, T17.14, T17.15, T17.16, T17.17, T17.18, T17.19, T17.20 |
+
+---
+
+### Phase 18: გლობალური პროდუქტის ქარდი (Product Card Redesign)
+> **Goal:** ერთიანი პროდუქტის ქარდის კომპონენტი ცვლადი პროდუქტების მხარდაჭერით
+
+| ID | Task | Complexity | Status | Dependencies |
+|----|------|------------|--------|--------------|
+| T18.1 | Redesign product card layout (image 1:1, name, category, SKU, price) | Medium | TODO | - |
+| T18.2 | Create "+" icon button for simple product add-to-cart | Low | TODO | T18.1 |
+| T18.3 | Display price range (min-max) for variable products on card | Medium | TODO | T18.1 |
+| T18.4 | Create attribute selection modal/popup component | High | TODO | T18.1 |
+| T18.5 | Implement color swatches in popup (like product page) | Medium | TODO | T18.4 |
+| T18.6 | Implement button-style attributes in popup | Medium | TODO | T18.4 |
+| T18.7 | Implement dropdown selects in popup | Low | TODO | T18.4 |
+| T18.8 | Add AJAX add-to-cart from popup for variable products | High | TODO | T18.7 |
+| T18.9 | Update price display in popup when variation selected | Medium | TODO | T18.8 |
+| T18.10 | Handle out-of-stock variations in popup | Medium | TODO | T18.8 |
+| T18.11 | Replace all product card usages across theme (shop, search, carousels, related) | Medium | TODO | T18.10 |
+| T18.12 | Test product card across all pages and scenarios | Medium | TODO | T18.11 |
+
+---
+
+### Phase 19: Performance Optimization (პერფორმანსი)
 > **Goal:** Maximize site speed and optimize for Core Web Vitals
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T17.1 | Audit current performance (Lighthouse, GTmetrix) | Medium | TODO | - |
-| T17.2 | Implement critical CSS inlining | High | TODO | T17.1 |
-| T17.3 | Optimize image loading (WebP, lazy load, srcset) | Medium | TODO | T17.1 |
-| T17.4 | Minimize JavaScript bundle size | Medium | TODO | T17.1 |
-| T17.5 | Add preconnect/prefetch for external resources | Low | TODO | T17.1 |
-| T17.6 | Implement object caching recommendations | Medium | TODO | T17.1 |
-| T17.7 | Optimize database queries in View Composers | High | TODO | T17.1 |
-| T17.8 | Configure CDN recommendations | Medium | TODO | T17.1 |
-| T17.9 | Add service worker for caching (optional) | High | TODO | T17.8 |
-| T17.10 | Final performance audit and report | Medium | TODO | T17.9 |
+| T19.1 | Audit current performance (Lighthouse, GTmetrix) | Medium | TODO | - |
+| T19.2 | Implement critical CSS inlining | High | TODO | T19.1 |
+| T19.3 | Optimize image loading (WebP, lazy load, srcset) | Medium | TODO | T19.1 |
+| T19.4 | Minimize JavaScript bundle size | Medium | TODO | T19.1 |
+| T19.5 | Add preconnect/prefetch for external resources | Low | TODO | T19.1 |
+| T19.6 | Implement object caching recommendations | Medium | TODO | T19.1 |
+| T19.7 | Optimize database queries in View Composers | High | TODO | T19.1 |
+| T19.8 | Configure CDN recommendations | Medium | TODO | T19.1 |
+| T19.9 | Add service worker for caching (optional) | High | TODO | T19.8 |
+| T19.10 | Final performance audit and report | Medium | TODO | T19.9 |
 
 ---
 
@@ -434,9 +482,11 @@ sega-woo-theme/
 | Phase 13: Homepage Improvements | 7 | 7 | 100% |
 | Phase 14: Header Improvements | 6 | 6 | 100% |
 | Phase 15: Shop Page Improvements | 10 | 10 | 100% |
-| Phase 16: Search Functionality | 6 | 0 | 0% |
-| Phase 17: Performance Optimization | 10 | 0 | 0% |
-| **TOTAL** | **150** | **134** | **89%** |
+| Phase 16: Search Functionality | 6 | 6 | 100% |
+| Phase 17: WPML Support | 21 | 21 | 100% ✅ |
+| Phase 18: Global Product Card | 12 | 0 | 0% |
+| Phase 19: Performance Optimization | 10 | 0 | 0% |
+| **TOTAL** | **193** | **159** | **82%** |
 
 ---
 

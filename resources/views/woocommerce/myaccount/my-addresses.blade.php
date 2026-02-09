@@ -13,18 +13,18 @@
   $customer = new WC_Customer($customer_id);
 
   $get_addresses = apply_filters('woocommerce_my_account_get_addresses', [
-    'billing' => __('Billing address', 'sage'),
-    'shipping' => __('Shipping address', 'sage'),
+    'billing' => __('Billing address', 'sega-woo-theme'),
+    'shipping' => __('Shipping address', 'sega-woo-theme'),
   ], $customer_id);
 @endphp
 
 {{-- Header --}}
 <div class="mb-6">
   <h2 class="text-xl font-semibold text-secondary-900">
-    {{ __('Your Addresses', 'sage') }}
+    {{ __('Your Addresses', 'sega-woo-theme') }}
   </h2>
   <p class="mt-1 text-sm text-secondary-600">
-    {{ __('The following addresses will be used on the checkout page by default.', 'sage') }}
+    {{ __('The following addresses will be used on the checkout page by default.', 'sega-woo-theme') }}
   </p>
 </div>
 
@@ -66,7 +66,7 @@
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
-          {{ $address ? __('Edit', 'sage') : __('Add', 'sage') }}
+          {{ $address ? __('Edit', 'sega-woo-theme') : __('Add', 'sega-woo-theme') }}
         </a>
       </div>
 
@@ -86,7 +86,7 @@
               </svg>
             </div>
             <p class="text-sm text-secondary-500">
-              {{ __('You have not set up this address yet.', 'sage') }}
+              {{ __('You have not set up this address yet.', 'sega-woo-theme') }}
             </p>
             <a
               href="{{ esc_url(wc_get_endpoint_url('edit-address', $name)) }}"
@@ -95,7 +95,7 @@
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
-              {{ __('Add address', 'sage') }}
+              {{ __('Add address', 'sega-woo-theme') }}
             </a>
           </div>
         @endif

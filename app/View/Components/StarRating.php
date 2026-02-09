@@ -165,10 +165,10 @@ class StarRating extends Component
         }
 
         if ($this->hasRating()) {
-            return __('Read reviews', 'sage');
+            return __('Read reviews', 'sega-woo-theme');
         }
 
-        return __('Be the first to review', 'sage');
+        return __('Be the first to review', 'sega-woo-theme');
     }
 
     /**

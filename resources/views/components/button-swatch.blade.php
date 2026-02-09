@@ -28,7 +28,7 @@
     data-show_option_none="yes"
     aria-required="true"
   >
-    <option value="">{{ sprintf(__('Choose %s', 'sage'), $attributeLabel) }}</option>
+    <option value="">{{ sprintf(__('Choose %s', 'sega-woo-theme'), $attributeLabel) }}</option>
     @foreach ($options as $option)
       <option
         value="{{ esc_attr($option['slug']) }}"
@@ -47,7 +47,7 @@
         class="button-swatch-option group relative min-w-[3.25rem] rounded-xl border-2 px-4 py-3 text-sm font-semibold shadow-sm transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-95 {{ !empty($option['selected']) ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-md shadow-primary-500/10' : 'border-secondary-200 bg-white text-secondary-700 hover:border-primary-300 hover:bg-primary-50/50 hover:text-primary-600 hover:shadow-md' }}"
         data-value="{{ $option['slug'] }}"
         title="{{ $option['name'] }}"
-        aria-label="{{ sprintf(__('Select %s', 'sage'), $option['name']) }}"
+        aria-label="{{ sprintf(__('Select %s', 'sega-woo-theme'), $option['name']) }}"
       >
         <span class="option-text relative z-10">{{ $option['name'] }}</span>
 

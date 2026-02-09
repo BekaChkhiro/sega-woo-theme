@@ -10,7 +10,7 @@
 
 <nav
   class="woocommerce-per-page flex items-center gap-1 text-sm text-secondary-600"
-  aria-label="{{ __('Products per page', 'sage') }}"
+  aria-label="{{ __('Products per page', 'sega-woo-theme') }}"
   x-data="{ currentPerPage: {{ $currentPerPage ?? 12 }}, isLoading: false }"
   @shop-filters-updated.window="currentPerPage = $event.detail.perPage"
 >

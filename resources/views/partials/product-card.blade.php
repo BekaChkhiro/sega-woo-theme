@@ -41,14 +41,14 @@
       </span>
     @elseif ($isOnSale)
       <span class="rounded-full bg-red-500 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-bold text-white shadow-sm">
-        {{ __('Sale', 'sage') }}
+        {{ __('Sale', 'sega-woo-theme') }}
       </span>
     @endif
 
     {{-- Out of Stock Badge --}}
     @if (!$isInStock)
       <span class="rounded-full bg-secondary-800 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-white shadow-sm">
-        {{ __('Out of Stock', 'sage') }}
+        {{ __('Out of Stock', 'sega-woo-theme') }}
       </span>
     @endif
   </div>
@@ -91,7 +91,7 @@
           $product) !!}
       @else
         <button disabled class="inline-flex w-full items-center justify-center rounded-md bg-secondary-300 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-secondary-700 cursor-not-allowed">
-          {{ __('Out of Stock', 'sage') }}
+          {{ __('Out of Stock', 'sega-woo-theme') }}
         </button>
       @endif
     </div>

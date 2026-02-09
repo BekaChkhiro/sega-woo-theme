@@ -11,14 +11,14 @@
       </span>
     @elseif ($isOnSale())
       <span class="rounded-full bg-red-500 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-bold text-white shadow-sm">
-        {{ __('Sale', 'sage') }}
+        {{ __('Sale', 'sega-woo-theme') }}
       </span>
     @endif
 
     {{-- Out of Stock Badge --}}
     @if (!$isInStock())
       <span class="rounded-full bg-secondary-800 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-white shadow-sm">
-        {{ __('Sold out', 'sage') }}
+        {{ __('Sold out', 'sega-woo-theme') }}
       </span>
     @endif
   </div>
@@ -29,7 +29,7 @@
       <svg class="h-2.5 w-2.5 sm:h-3 sm:w-3" fill="currentColor" viewBox="0 0 20 20">
         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
       </svg>
-      <span class="hidden xs:inline">{{ __('Featured', 'sage') }}</span>
+      <span class="hidden xs:inline">{{ __('Featured', 'sega-woo-theme') }}</span>
       <span class="xs:hidden">★</span>
     </span>
   @endif
@@ -79,7 +79,7 @@
           <button
             type="button"
             class="ajax_add_to_cart add_to_cart_button flex-shrink-0 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-primary-600 text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-            aria-label="{{ sprintf(__('Add %s to cart', 'sage'), $title()) }}"
+            aria-label="{{ sprintf(__('Add %s to cart', 'sega-woo-theme'), $title()) }}"
             data-product_id="{{ $product->get_id() }}"
             data-product_sku="{{ $product->get_sku() }}"
             data-quantity="1"
@@ -92,7 +92,7 @@
           <a
             href="{{ $permalink() }}"
             class="flex-shrink-0 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-primary-600 text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-            aria-label="{{ sprintf(__('View %s options', 'sage'), $title()) }}"
+            aria-label="{{ sprintf(__('View %s options', 'sega-woo-theme'), $title()) }}"
           >
             <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -102,7 +102,7 @@
         @endif
       @else
         <span class="flex-shrink-0 text-[10px] sm:text-xs font-medium text-red-600">
-          {{ __('Out of stock', 'sage') }}
+          {{ __('Out of stock', 'sega-woo-theme') }}
         </span>
       @endif
     </div>

@@ -28,7 +28,7 @@
       data-show_option_none="yes"
       aria-required="true"
     >
-      <option value="">{{ sprintf(__('Choose %s', 'sage'), $attributeLabel) }}</option>
+      <option value="">{{ sprintf(__('Choose %s', 'sega-woo-theme'), $attributeLabel) }}</option>
       @foreach ($options as $option)
         <option
           value="{{ esc_attr($option['slug']) }}"

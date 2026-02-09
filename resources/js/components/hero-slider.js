@@ -80,11 +80,11 @@ export default function heroSlider(config = {}) {
           prevEl: this.$refs.prev,
         },
 
-        // Accessibility
+        // Accessibility (use translated strings if available)
         a11y: {
-          prevSlideMessage: 'Previous slide',
-          nextSlideMessage: 'Next slide',
-          paginationBulletMessage: 'Go to slide {{index}}',
+          prevSlideMessage: window.segaThemeI18n?.prevSlide || 'Previous slide',
+          nextSlideMessage: window.segaThemeI18n?.nextSlide || 'Next slide',
+          paginationBulletMessage: window.segaThemeI18n?.goToSlide || 'Go to slide {{index}}',
         },
 
         // Events

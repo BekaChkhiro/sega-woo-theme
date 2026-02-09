@@ -15,7 +15,7 @@
           :show-product-count="false"
           :show-thumbnails="true"
           :show-view-all="false"
-          :title="__('Categories', 'sage')"
+          :title="__('Categories', 'sega-woo-theme')"
           class="h-full"
         />
       </div>
@@ -46,11 +46,11 @@
             </svg>
           </span>
           <h2 class="text-xl font-bold text-secondary-900 lg:text-2xl">
-            {{ __('Shop by Category', 'sage') }}
+            {{ __('Shop by Category', 'sega-woo-theme') }}
           </h2>
         </div>
         <a href="{{ $shopUrl }}" class="view-all-link">
-          {{ __('View All', 'sage') }}
+          {{ __('View All', 'sega-woo-theme') }}
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
@@ -83,15 +83,15 @@
             </span>
             <div>
               <h2 class="text-xl font-bold text-secondary-900 lg:text-2xl">
-                {{ __('New Arrivals', 'sage') }}
+                {{ __('New Arrivals', 'sega-woo-theme') }}
               </h2>
               <p class="mt-0.5 hidden text-sm text-secondary-600 sm:block">
-                {{ __('Fresh products just added to our store', 'sage') }}
+                {{ __('Fresh products just added to our store', 'sega-woo-theme') }}
               </p>
             </div>
           </div>
           <a href="{{ $newArrivalsUrl }}" class="view-all-link">
-            {{ __('View All', 'sage') }}
+            {{ __('View All', 'sega-woo-theme') }}
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
@@ -129,20 +129,20 @@
             </span>
             <div>
               <h2 class="text-xl font-bold text-secondary-900 lg:text-2xl">
-                {{ __('On Sale', 'sage') }}
+                {{ __('On Sale', 'sega-woo-theme') }}
               </h2>
               <p class="mt-0.5 hidden text-sm text-secondary-600 sm:block">
-                {{ __("Don't miss these amazing deals", 'sage') }}
+                {{ __("Don't miss these amazing deals", 'sega-woo-theme') }}
               </p>
             </div>
             {{-- Sale pulse indicator --}}
             <span class="sale-countdown ml-2 hidden sm:inline-flex">
               <span class="sale-countdown-pulse"></span>
-              {{ __('Hot Deals', 'sage') }}
+              {{ __('Hot Deals', 'sega-woo-theme') }}
             </span>
           </div>
           <a href="{{ $onSaleUrl }}" class="view-all-link">
-            {{ __('View All', 'sage') }}
+            {{ __('View All', 'sega-woo-theme') }}
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
@@ -180,10 +180,10 @@
             </span>
             <div>
               <h2 class="text-xl font-bold text-secondary-900 lg:text-2xl">
-                {{ __('Bestsellers', 'sage') }}
+                {{ __('Bestsellers', 'sega-woo-theme') }}
               </h2>
               <p class="mt-0.5 hidden text-sm text-secondary-600 sm:block">
-                {{ __('Most popular products this month', 'sage') }}
+                {{ __('Most popular products this month', 'sega-woo-theme') }}
               </p>
             </div>
             {{-- Bestseller badge --}}
@@ -191,11 +191,11 @@
               <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd" />
               </svg>
-              {{ __('Top Rated', 'sage') }}
+              {{ __('Top Rated', 'sega-woo-theme') }}
             </span>
           </div>
           <a href="{{ $bestsellersUrl }}" class="view-all-link">
-            {{ __('View All', 'sage') }}
+            {{ __('View All', 'sega-woo-theme') }}
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>

@@ -1,0 +1,1117 @@
+# Georgian Translation for Sega WooCommerce Theme
+# Copyright (C) 2026 Sega WooCommerce Theme
+# This file is distributed under the same license as the sega-woo-theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sega WooCommerce Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-09 14:00+0000\n"
+"PO-Revision-Date: 2026-02-09 14:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Georgian\n"
+"Language: ka_GE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Claude Code\n"
+"X-Domain: sega-woo-theme\n"
+
+#: Header Navigation
+msgid "Categories"
+msgstr "კატეგორიები"
+
+msgid "Search"
+msgstr "ძიება"
+
+msgid "Menu"
+msgstr "მენიუ"
+
+msgid "Select language"
+msgstr "აირჩიეთ ენა"
+
+#: Shop Page
+msgid "Shop"
+msgstr "მაღაზია"
+
+msgid "All Products"
+msgstr "ყველა პროდუქტი"
+
+msgid "Add to Cart"
+msgstr "კალათაში დამატება"
+
+msgid "Add to cart"
+msgstr "კალათაში დამატება"
+
+msgid "Added!"
+msgstr "დამატებულია!"
+
+msgid "Adding..."
+msgstr "ემატება..."
+
+msgid "View Cart"
+msgstr "კალათის ნახვა"
+
+msgid "Out of Stock"
+msgstr "არ არის მარაგში"
+
+msgid "In Stock"
+msgstr "მარაგშია"
+
+msgid "On Sale"
+msgstr "ფასდაკლება"
+
+msgid "Sale"
+msgstr "ფასდაკლება"
+
+msgid "New"
+msgstr "ახალი"
+
+#: Filters
+msgid "Filters"
+msgstr "ფილტრები"
+
+msgid "Filter by Price"
+msgstr "ფასით ფილტრაცია"
+
+msgid "Price"
+msgstr "ფასი"
+
+msgid "Apply Filters"
+msgstr "ფილტრების გამოყენება"
+
+msgid "Clear All"
+msgstr "გასუფთავება"
+
+msgid "Clear all"
+msgstr "ყველას გასუფთავება"
+
+msgid "Clear filters"
+msgstr "ფილტრების გასუფთავება"
+
+#: Sorting
+msgid "Sort by"
+msgstr "დალაგება"
+
+msgid "Default sorting"
+msgstr "სტანდარტული"
+
+msgid "Sort by popularity"
+msgstr "პოპულარობით"
+
+msgid "Sort by average rating"
+msgstr "რეიტინგით"
+
+msgid "Sort by latest"
+msgstr "უახლესით"
+
+msgid "Sort by price: low to high"
+msgstr "ფასით: დაბალიდან მაღლამდე"
+
+msgid "Sort by price: high to low"
+msgstr "ფასით: მაღლიდან დაბლამდე"
+
+#: Pagination
+msgid "Products per page"
+msgstr "პროდუქტი გვერდზე"
+
+msgid "12 per page"
+msgstr "12 გვერდზე"
+
+msgid "24 per page"
+msgstr "24 გვერდზე"
+
+msgid "48 per page"
+msgstr "48 გვერდზე"
+
+msgid "96 per page"
+msgstr "96 გვერდზე"
+
+msgid "Showing %1$d–%2$d of %3$d results"
+msgstr "ნაჩვენებია %1$d–%2$d, სულ %3$d შედეგი"
+
+#: Single Product
+msgid "Description"
+msgstr "აღწერა"
+
+msgid "Additional Information"
+msgstr "დამატებითი ინფორმაცია"
+
+msgid "Reviews"
+msgstr "შეფასებები"
+
+msgid "SKU:"
+msgstr "SKU:"
+
+msgid "Category:"
+msgstr "კატეგორია:"
+
+msgid "Tags:"
+msgstr "თეგები:"
+
+msgid "Choose an option"
+msgstr "აირჩიეთ ვარიანტი"
+
+msgid "Select options"
+msgstr "აირჩიეთ ოფციები"
+
+msgid "Related Products"
+msgstr "მსგავსი პროდუქტები"
+
+msgid "You may also like"
+msgstr "ასევე მოგეწონებათ"
+
+#: Cart
+msgid "Cart"
+msgstr "კალათა"
+
+msgid "Your cart"
+msgstr "თქვენი კალათა"
+
+msgid "Your cart is empty"
+msgstr "თქვენი კალათა ცარიელია"
+
+msgid "Your cart is currently empty."
+msgstr "თქვენი კალათა ამჟამად ცარიელია."
+
+msgid "Browse Shop"
+msgstr "მაღაზიის დათვალიერება"
+
+msgid "Continue Shopping"
+msgstr "შოპინგის გაგრძელება"
+
+msgid "Continue shopping"
+msgstr "შოპინგის გაგრძელება"
+
+msgid "Product"
+msgstr "პროდუქტი"
+
+msgid "Quantity"
+msgstr "რაოდენობა"
+
+msgid "Subtotal"
+msgstr "ჯამი"
+
+msgid "Total"
+msgstr "სულ"
+
+msgid "Remove"
+msgstr "წაშლა"
+
+msgid "Update Cart"
+msgstr "კალათის განახლება"
+
+msgid "Proceed to Checkout"
+msgstr "შეკვეთის გაფორმება"
+
+msgid "Order Summary"
+msgstr "შეკვეთის შეჯამება"
+
+msgid "Coupon"
+msgstr "კუპონი"
+
+msgid "Apply"
+msgstr "გამოყენება"
+
+msgid "Apply coupon"
+msgstr "კუპონის გამოყენება"
+
+msgid "Coupon code"
+msgstr "კუპონის კოდი"
+
+#: Checkout
+msgid "Checkout"
+msgstr "შეკვეთის გაფორმება"
+
+msgid "Billing Details"
+msgstr "გადახდის დეტალები"
+
+msgid "Billing Address"
+msgstr "გადახდის მისამართი"
+
+msgid "Shipping Address"
+msgstr "მიწოდების მისამართი"
+
+msgid "Ship to a different address?"
+msgstr "სხვა მისამართზე მიწოდება?"
+
+msgid "First Name"
+msgstr "სახელი"
+
+msgid "Last Name"
+msgstr "გვარი"
+
+msgid "Company"
+msgstr "კომპანია"
+
+msgid "Company name"
+msgstr "კომპანიის სახელი"
+
+msgid "Country"
+msgstr "ქვეყანა"
+
+msgid "Street Address"
+msgstr "მისამართი"
+
+msgid "City"
+msgstr "ქალაქი"
+
+msgid "State"
+msgstr "რეგიონი"
+
+msgid "Postcode"
+msgstr "საფოსტო კოდი"
+
+msgid "Phone"
+msgstr "ტელეფონი"
+
+msgid "Email"
+msgstr "ელ-ფოსტა"
+
+msgid "Email Address"
+msgstr "ელ-ფოსტის მისამართი"
+
+msgid "Order Notes"
+msgstr "შეკვეთის შენიშვნები"
+
+msgid "Payment"
+msgstr "გადახდა"
+
+msgid "Payment Method"
+msgstr "გადახდის მეთოდი"
+
+msgid "Place Order"
+msgstr "შეკვეთის გაფორმება"
+
+msgid "Order Review"
+msgstr "შეკვეთის მიმოხილვა"
+
+msgid "Your Order"
+msgstr "თქვენი შეკვეთა"
+
+#: Thank You Page
+msgid "Thank you!"
+msgstr "მადლობა!"
+
+msgid "Thank you. Your order has been received."
+msgstr "მადლობა. თქვენი შეკვეთა მიღებულია."
+
+msgid "Order Number"
+msgstr "შეკვეთის ნომერი"
+
+msgid "Date"
+msgstr "თარიღი"
+
+msgid "Order Details"
+msgstr "შეკვეთის დეტალები"
+
+msgid "Order Received"
+msgstr "შეკვეთა მიღებულია"
+
+msgid "Order not found"
+msgstr "შეკვეთა ვერ მოიძებნა"
+
+msgid "A confirmation email has been sent to"
+msgstr "დადასტურების წერილი გაიგზავნა"
+
+msgid "What's next?"
+msgstr "რა არის შემდეგი?"
+
+msgid "You will receive an order confirmation email shortly."
+msgstr "მალე მიიღებთ შეკვეთის დადასტურების წერილს."
+
+msgid "We will notify you once your order has shipped."
+msgstr "შეგატყობინებთ, როცა თქვენი შეკვეთა გაიგზავნება."
+
+msgid "Track your order in"
+msgstr "თვალყური ადევნეთ შეკვეთას"
+
+msgid "View all orders"
+msgstr "ყველა შეკვეთის ნახვა"
+
+msgid "Qty:"
+msgstr "რაოდ:"
+
+msgid "Phone:"
+msgstr "ტელ:"
+
+msgid "Email:"
+msgstr "ელ-ფოსტა:"
+
+#: My Account
+msgid "My Account"
+msgstr "ჩემი ანგარიში"
+
+msgid "Dashboard"
+msgstr "მთავარი"
+
+msgid "Orders"
+msgstr "შეკვეთები"
+
+msgid "Downloads"
+msgstr "ჩამოტვირთვები"
+
+msgid "Addresses"
+msgstr "მისამართები"
+
+msgid "Account Details"
+msgstr "ანგარიშის დეტალები"
+
+msgid "Logout"
+msgstr "გასვლა"
+
+msgid "Log out"
+msgstr "გასვლა"
+
+msgid "Login"
+msgstr "შესვლა"
+
+msgid "Log in"
+msgstr "შესვლა"
+
+msgid "Register"
+msgstr "რეგისტრაცია"
+
+msgid "Username or email"
+msgstr "მომხმარებელი ან ელ-ფოსტა"
+
+msgid "Password"
+msgstr "პაროლი"
+
+msgid "Toggle password visibility"
+msgstr "პაროლის ხილვადობის გადართვა"
+
+msgid "Remember me"
+msgstr "დამიმახსოვრე"
+
+msgid "Lost your password?"
+msgstr "დაგავიწყდათ პაროლი?"
+
+msgid "Forgot password?"
+msgstr "დაგავიწყდათ პაროლი?"
+
+#: Search
+msgid "Search products..."
+msgstr "პროდუქტების ძიება..."
+
+msgid "Search Products"
+msgstr "პროდუქტების ძიება"
+
+msgid "No products found"
+msgstr "პროდუქტები ვერ მოიძებნა"
+
+msgid "No results found"
+msgstr "შედეგები ვერ მოიძებნა"
+
+msgid "Close search"
+msgstr "ძიების დახურვა"
+
+#: Homepage
+msgid "New Products"
+msgstr "ახალი პროდუქტები"
+
+msgid "New Arrivals"
+msgstr "ახალი პროდუქტები"
+
+msgid "Fresh products just added to our store"
+msgstr "ახალი პროდუქტები ჩვენს მაღაზიაში"
+
+msgid "Best Sellers"
+msgstr "ყველაზე გაყიდვადი"
+
+msgid "Bestsellers"
+msgstr "ყველაზე გაყიდვადი"
+
+msgid "Most popular products this month"
+msgstr "თვის ყველაზე პოპულარული პროდუქტები"
+
+msgid "Top Rated"
+msgstr "ტოპ რეიტინგი"
+
+msgid "Featured Products"
+msgstr "რჩეული პროდუქტები"
+
+msgid "Featured"
+msgstr "რჩეული"
+
+msgid "Don't miss these amazing deals"
+msgstr "ნუ გამოტოვებთ ამ შესანიშნავ შეთავაზებებს"
+
+msgid "Hot Deals"
+msgstr "შეთავაზებები"
+
+msgid "Shop by Category"
+msgstr "კატეგორიების მიხედვით"
+
+msgid "View All"
+msgstr "ყველას ნახვა"
+
+msgid "View all"
+msgstr "ყველას ნახვა"
+
+#: Footer
+msgid "All rights reserved."
+msgstr "ყველა უფლება დაცულია."
+
+msgid "Privacy Policy"
+msgstr "კონფიდენციალურობის პოლიტიკა"
+
+msgid "Terms & Conditions"
+msgstr "წესები და პირობები"
+
+#: 404 Page
+msgid "Page Not Found"
+msgstr "გვერდი ვერ მოიძებნა"
+
+msgid "Not Found"
+msgstr "ვერ მოიძებნა"
+
+msgid "Sorry, but the page you are trying to view does not exist."
+msgstr "სამწუხაროდ, გვერდი რომელსაც ეძებთ არ არსებობს."
+
+msgid "Go back home"
+msgstr "მთავარზე დაბრუნება"
+
+msgid "Go to homepage"
+msgstr "მთავარ გვერდზე გადასვლა"
+
+msgid "Popular Categories"
+msgstr "პოპულარული კატეგორიები"
+
+#: Common
+msgid "Home"
+msgstr "მთავარი"
+
+msgid "Back"
+msgstr "უკან"
+
+msgid "Close"
+msgstr "დახურვა"
+
+msgid "Save"
+msgstr "შენახვა"
+
+msgid "Cancel"
+msgstr "გაუქმება"
+
+msgid "Edit"
+msgstr "რედაქტირება"
+
+msgid "Delete"
+msgstr "წაშლა"
+
+msgid "View"
+msgstr "ნახვა"
+
+msgid "Loading..."
+msgstr "იტვირთება..."
+
+msgid "Error"
+msgstr "შეცდომა"
+
+msgid "Success"
+msgstr "წარმატება"
+
+msgid "Required"
+msgstr "სავალდებულო"
+
+msgid "Optional"
+msgstr "არასავალდებულო"
+
+#: Breadcrumbs
+msgid "Breadcrumb"
+msgstr "ნავიგაცია"
+
+msgid "You are here:"
+msgstr "თქვენ იმყოფებით:"
+
+#: Attributes
+msgid "Color"
+msgstr "ფერი"
+
+msgid "Size"
+msgstr "ზომა"
+
+msgid "Select"
+msgstr "არჩევა"
+
+msgid "Color Swatch"
+msgstr "ფერის ნიმუში"
+
+msgid "Button/Label"
+msgstr "ღილაკი/ლეიბლი"
+
+msgid "Dropdown Select"
+msgstr "ჩამოსაშლელი სია"
+
+#: Stock Status
+msgid "%d in stock"
+msgstr "%d მარაგშია"
+
+msgid "Available on backorder"
+msgstr "წინასწარი შეკვეთით ხელმისაწვდომი"
+
+#: Reviews & Ratings
+msgid "%s out of 5 stars"
+msgstr "%s ვარსკვლავი 5-დან"
+
+msgid "Be the first to review"
+msgstr "იყავი პირველი შემფასებელი"
+
+msgid "Write a review"
+msgstr "დაწერე შეფასება"
+
+msgid "Your rating"
+msgstr "თქვენი შეფასება"
+
+msgid "Your review"
+msgstr "თქვენი მიმოხილვა"
+
+msgid "Submit"
+msgstr "გაგზავნა"
+
+#: Mini Cart
+msgid "items"
+msgstr "ნივთი"
+
+msgid "item"
+msgstr "ნივთი"
+
+msgid "View cart"
+msgstr "კალათის ნახვა"
+
+#: Hero Slider
+msgid "Slide"
+msgstr "სლაიდი"
+
+msgid "Add slides in Customizer"
+msgstr "დაამატეთ სლაიდები კასტომაიზერში"
+
+msgid "Previous slide"
+msgstr "წინა სლაიდი"
+
+msgid "Next slide"
+msgstr "შემდეგი სლაიდი"
+
+#: Swiper accessibility
+msgid "Go to slide {{index}}"
+msgstr "გადასვლა სლაიდზე {{index}}"
+
+msgid "Go to products {{index}}"
+msgstr "გადასვლა პროდუქტებზე {{index}}"
+
+#: Mega Menu
+msgid "All in"
+msgstr "ყველა"
+
+msgid "products"
+msgstr "პროდუქტი"
+
+msgid "No items found"
+msgstr "ნივთები ვერ მოიძებნა"
+
+msgid "Browse all products"
+msgstr "ყველა პროდუქტის დათვალიერება"
+
+#: Category Carousel
+msgid "%d product"
+msgid_plural "%d products"
+msgstr[0] "%d პროდუქტი"
+msgstr[1] "%d პროდუქტი"
+
+msgid "Previous categories"
+msgstr "წინა კატეგორიები"
+
+msgid "Next categories"
+msgstr "შემდეგი კატეგორიები"
+
+msgid "Swipe to see more categories"
+msgstr "გადაფურცლეთ მეტი კატეგორიის სანახავად"
+
+#: Product Carousel
+msgid "Previous products"
+msgstr "წინა პროდუქტები"
+
+msgid "Next products"
+msgstr "შემდეგი პროდუქტები"
+
+msgid "Swipe to see more products"
+msgstr "გადაფურცლეთ მეტი პროდუქტის სანახავად"
+
+#: Product Card
+msgid "Sold out"
+msgstr "გაყიდულია"
+
+msgid "Add %s to cart"
+msgstr "%s-ის კალათაში დამატება"
+
+msgid "View %s options"
+msgstr "%s-ის ოფციების ნახვა"
+
+#: Language Switcher
+msgid "GE"
+msgstr "GE"
+
+msgid "RU"
+msgstr "RU"
+
+msgid "EN"
+msgstr "EN"
+
+msgid "Georgian"
+msgstr "ქართული"
+
+msgid "Russian"
+msgstr "რუსული"
+
+msgid "English"
+msgstr "ინგლისური"
+
+#: Shop Page - Missing Translations
+msgid "Filters:"
+msgstr "ფილტრები:"
+
+msgid "Remove filter"
+msgstr "ფილტრის წაშლა"
+
+msgid "Minimum price"
+msgstr "მინიმალური ფასი"
+
+msgid "Maximum price"
+msgstr "მაქსიმალური ფასი"
+
+msgid "Range:"
+msgstr "დიაპაზონი:"
+
+msgid "Subcategories"
+msgstr "ქვეკატეგორიები"
+
+msgid "selected"
+msgstr "არჩეული"
+
+msgid "All in %s"
+msgstr "ყველა %s-ში"
+
+msgid "View all categories"
+msgstr "ყველა კატეგორიის ნახვა"
+
+msgid "No subcategories in this category"
+msgstr "ამ კატეგორიას ქვეკატეგორიები არ აქვს"
+
+msgid "You have unapplied changes"
+msgstr "გაქვთ გამოუყენებელი ცვლილებები"
+
+msgid "Product pagination"
+msgstr "პროდუქტების პაგინაცია"
+
+msgid "Previous page"
+msgstr "წინა გვერდი"
+
+msgid "Next page"
+msgstr "შემდეგი გვერდი"
+
+msgid "Product sorting"
+msgstr "პროდუქტების დალაგება"
+
+msgid "Shop order"
+msgstr "მაღაზიის თანმიმდევრობა"
+
+msgid "Browse Subcategories"
+msgstr "ქვეკატეგორიების დათვალიერება"
+
+msgid "Previous"
+msgstr "წინა"
+
+msgid "Next"
+msgstr "შემდეგი"
+
+msgid "No products matched your search. Try using different keywords or browse our categories."
+msgstr "პროდუქტები ვერ მოიძებნა. სცადეთ სხვა საკვანძო სიტყვები ან დაათვალიერეთ კატეგორიები."
+
+msgid "No products match your selected filters. Try adjusting your filter criteria."
+msgstr "არცერთი პროდუქტი არ შეესაბამება თქვენს ფილტრებს. სცადეთ ფილტრების შეცვლა."
+
+msgid "There are no products available at the moment. Please check back later."
+msgstr "ამჟამად პროდუქტები არ არის ხელმისაწვდომი. გთხოვთ, შეამოწმეთ მოგვიანებით."
+
+msgid "View all products"
+msgstr "ყველა პროდუქტის ნახვა"
+
+msgid "Return to homepage"
+msgstr "მთავარ გვერდზე დაბრუნება"
+
+msgid "Out of stock"
+msgstr "არ არის მარაგში"
+
+msgid "Search results: \"%s\""
+msgstr "ძიების შედეგები: \"%s\""
+
+msgid "%d per page"
+msgstr "%d გვერდზე"
+
+msgid "From %s"
+msgstr "%s-დან"
+
+msgid "Up to %s"
+msgstr "%s-მდე"
+
+msgid "Search: \"%s\""
+msgstr "ძიება: \"%s\""
+
+msgid "Tag: %s"
+msgstr "თეგი: %s"
+
+msgid "Showing the single result"
+msgstr "ნაჩვენებია ერთი შედეგი"
+
+msgid "Showing all %d results"
+msgstr "ნაჩვენებია ყველა %d შედეგი"
+
+#: Admin
+msgid "Primary Navigation"
+msgstr "მთავარი მენიუ"
+
+msgid "Footer Navigation"
+msgstr "ფუტერის მენიუ"
+
+msgid "Mega Menu (Homepage)"
+msgstr "მეგა მენიუ (მთავარი)"
+
+msgid "Primary"
+msgstr "მთავარი"
+
+msgid "Footer"
+msgstr "ფუტერი"
+
+msgid "Shop Sidebar"
+msgstr "მაღაზიის გვერდითი პანელი"
+
+msgid "Sidebar displayed on WooCommerce shop and archive pages."
+msgstr "გვერდითი პანელი WooCommerce მაღაზიისა და არქივის გვერდებზე."
+
+#: My Account - Orders
+msgid "Your Orders"
+msgstr "თქვენი შეკვეთები"
+
+msgid "View and manage your order history"
+msgstr "თქვენი შეკვეთების ისტორიის ნახვა და მართვა"
+
+msgid "order"
+msgid_plural "orders"
+msgstr[0] "შეკვეთა"
+msgstr[1] "შეკვეთა"
+
+msgid "for %s item"
+msgid_plural "for %s items"
+msgstr[0] "%s ნივთისთვის"
+msgstr[1] "%s ნივთისთვის"
+
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s ნივთი"
+msgstr[1] "%s ნივთი"
+
+msgid "No orders yet"
+msgstr "შეკვეთები ჯერ არ არის"
+
+msgid "You haven't placed any orders yet. Browse our products and find something you'll love!"
+msgstr "ჯერ არ გაქვთ შეკვეთები. დაათვალიერეთ ჩვენი პროდუქტები და იპოვეთ თქვენთვის სასურველი!"
+
+msgid "Browse products"
+msgstr "პროდუქტების დათვალიერება"
+
+msgid "Page %1$d of %2$d"
+msgstr "გვერდი %1$d / %2$d"
+
+msgid "Order"
+msgstr "შეკვეთა"
+
+msgctxt "hash before order number"
+msgid "#"
+msgstr "#"
+
+msgid "View order number %s"
+msgstr "შეკვეთის #%s ნახვა"
+
+msgid "Back to Orders"
+msgstr "შეკვეთებზე დაბრუნება"
+
+msgid "Placed on %1$s at %2$s"
+msgstr "გაფორმდა %1$s, %2$s"
+
+msgid "Order Items"
+msgstr "შეკვეთის ნივთები"
+
+msgid "No billing address provided."
+msgstr "გადახდის მისამართი არ არის მითითებული."
+
+msgid "No shipping address provided."
+msgstr "მიწოდების მისამართი არ არის მითითებული."
+
+msgid "Order Updates"
+msgstr "შეკვეთის განახლებები"
+
+msgid "F j, Y \\a\\t g:i a"
+msgstr "j F, Y, g:i"
+
+#: My Account - Addresses
+msgid "Your Addresses"
+msgstr "თქვენი მისამართები"
+
+msgid "The following addresses will be used on the checkout page by default."
+msgstr "შემდეგი მისამართები გამოყენებული იქნება შეკვეთის გაფორმებისას."
+
+msgid "Add"
+msgstr "დამატება"
+
+msgid "You have not set up this address yet."
+msgstr "ეს მისამართი ჯერ არ არის მითითებული."
+
+msgid "Add address"
+msgstr "მისამართის დამატება"
+
+msgid "Add Address"
+msgstr "მისამართის დამატება"
+
+msgid "Back to Addresses"
+msgstr "მისამართებზე დაბრუნება"
+
+msgid "Billing address"
+msgstr "გადახდის მისამართი"
+
+msgid "Shipping address"
+msgstr "მიწოდების მისამართი"
+
+msgid "This address will be used on the checkout page by default."
+msgstr "ეს მისამართი გამოყენებული იქნება შეკვეთის გაფორმებისას."
+
+msgid "This address will be used as the default shipping address."
+msgstr "ეს მისამართი გამოყენებული იქნება მიწოდების მისამართად."
+
+msgid "Select a country / region&hellip;"
+msgstr "აირჩიეთ ქვეყანა / რეგიონი…"
+
+msgid "Invalid address type."
+msgstr "არასწორი მისამართის ტიპი."
+
+msgid "Return to addresses"
+msgstr "მისამართებზე დაბრუნება"
+
+msgid "Save address"
+msgstr "მისამართის შენახვა"
+
+#: My Account - Account Details
+msgid "Update your personal information and password."
+msgstr "განაახლეთ თქვენი პირადი ინფორმაცია და პაროლი."
+
+msgid "Personal Information"
+msgstr "პირადი ინფორმაცია"
+
+msgid "First name"
+msgstr "სახელი"
+
+msgid "Last name"
+msgstr "გვარი"
+
+msgid "Display name"
+msgstr "საჩვენებელი სახელი"
+
+msgid "This will be how your name will be displayed in the account section and in reviews."
+msgstr "ასე გამოჩნდება თქვენი სახელი ანგარიშის განყოფილებასა და შეფასებებში."
+
+msgid "Email address"
+msgstr "ელ-ფოსტის მისამართი"
+
+msgid "Password Change"
+msgstr "პაროლის შეცვლა"
+
+msgid "Leave blank to keep your current password."
+msgstr "დატოვეთ ცარიელი მიმდინარე პაროლის შესანარჩუნებლად."
+
+msgid "Current password"
+msgstr "მიმდინარე პაროლი"
+
+msgid "Hide password"
+msgstr "პაროლის დამალვა"
+
+msgid "Show password"
+msgstr "პაროლის ჩვენება"
+
+msgid "New password"
+msgstr "ახალი პაროლი"
+
+msgid "Confirm new password"
+msgstr "ახალი პაროლის დადასტურება"
+
+msgid "Save changes"
+msgstr "ცვლილებების შენახვა"
+
+#: My Account - Downloads
+msgid "Your Downloads"
+msgstr "თქვენი ჩამოტვირთვები"
+
+msgid "Access your purchased digital products here."
+msgstr "აქედან გადმოწერეთ თქვენი შეძენილი ციფრული პროდუქტები."
+
+msgid "remaining"
+msgstr "დარჩენილი"
+
+msgid "Unlimited"
+msgstr "შეუზღუდავი"
+
+msgid "Never"
+msgstr "არასოდეს"
+
+msgid "Download"
+msgstr "ჩამოტვირთვა"
+
+msgid "No downloads yet"
+msgstr "ჩამოტვირთვები ჯერ არ არის"
+
+msgid "You haven't purchased any downloadable products yet. Browse our products to find digital items."
+msgstr "ჯერ არ გაქვთ შეძენილი ჩამოსატვირთი პროდუქტები. დაათვალიერეთ პროდუქტები ციფრული ნივთების საპოვნელად."
+
+msgid "Remaining:"
+msgstr "დარჩენილი:"
+
+msgid "Expires:"
+msgstr "ვადა:"
+
+#: My Account - Payment Methods
+msgid "Payment Methods"
+msgstr "გადახდის მეთოდები"
+
+msgid "Manage your saved payment methods for faster checkout."
+msgstr "მართეთ თქვენი შენახული გადახდის მეთოდები სწრაფი შეკვეთისთვის."
+
+msgid "%s ending in %s"
+msgstr "%s, ბოლო ციფრები %s"
+
+msgid "Default"
+msgstr "ნაგულისხმევი"
+
+msgid "N/A"
+msgstr "არ არის"
+
+msgid "No saved payment methods"
+msgstr "შენახული გადახდის მეთოდები არ არის"
+
+msgid "No saved methods found. Add a payment method during checkout and it will appear here."
+msgstr "შენახული მეთოდები არ მოიძებნა. დაამატეთ გადახდის მეთოდი შეკვეთის დროს და ის აქ გამოჩნდება."
+
+msgid "Add payment method"
+msgstr "გადახდის მეთოდის დამატება"
+
+#: My Account - Login/Register
+msgid "Welcome back! Please enter your details."
+msgstr "კეთილი იყოს თქვენი დაბრუნება! გთხოვთ, შეიყვანეთ თქვენი მონაცემები."
+
+msgid "Username or email address"
+msgstr "მომხმარებლის სახელი ან ელ-ფოსტა"
+
+msgid "Create an account to track orders and more."
+msgstr "შექმენით ანგარიში შეკვეთების თვალყურის დევნებისთვის."
+
+msgid "A link to set a new password will be sent to your email address."
+msgstr "ახალი პაროლის დასაყენებელი ბმული გაიგზავნება თქვენს ელ-ფოსტაზე."
+
+msgid "Username"
+msgstr "მომხმარებელი"
+
+#: My Account - Password Reset
+msgid "Enter your email address or username below and we'll send you a link to reset your password."
+msgstr "შეიყვანეთ თქვენი ელ-ფოსტა ან მომხმარებლის სახელი და გამოგიგზავნით პაროლის აღდგენის ბმულს."
+
+msgid "Reset password"
+msgstr "პაროლის აღდგენა"
+
+msgid "Back to login"
+msgstr "შესვლაზე დაბრუნება"
+
+msgid "Create new password"
+msgstr "ახალი პაროლის შექმნა"
+
+msgid "Enter your new password below to complete the reset process."
+msgstr "შეიყვანეთ ახალი პაროლი აღდგენის პროცესის დასასრულებლად."
+
+msgid "Save new password"
+msgstr "ახალი პაროლის შენახვა"
+
+msgid "Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters."
+msgstr "აირჩიეთ ძლიერი პაროლი მინიმუმ 8 სიმბოლოთი, მათ შორის დიდი და პატარა ასოებით, ციფრებით და სპეციალური სიმბოლოებით."
+
+#: My Account - Dashboard
+msgid "Hello, %s!"
+msgstr "გამარჯობა, %s!"
+
+msgid "Welcome back, %s"
+msgstr "კეთილი იყოს თქვენი დაბრუნება, %s"
+
+msgid "Member since"
+msgstr "წევრია"
+
+msgid "Total Orders"
+msgstr "სულ შეკვეთა"
+
+msgid "Total Spent"
+msgstr "სულ დახარჯული"
+
+msgid "Active Orders"
+msgstr "აქტიური შეკვეთები"
+
+msgid "Recent Orders"
+msgstr "ბოლო შეკვეთები"
+
+msgid "Complete your profile"
+msgstr "შეავსეთ თქვენი პროფილი"
+
+msgid "View your orders"
+msgstr "თქვენი შეკვეთების ნახვა"
+
+msgid "Manage billing & shipping"
+msgstr "გადახდისა და მიწოდების მართვა"
+
+msgid "Edit your profile and password"
+msgstr "თქვენი პროფილისა და პაროლის რედაქტირება"
+
+msgid "Account Settings"
+msgstr "ანგარიშის პარამეტრები"
+
+msgid "No billing address set."
+msgstr "გადახდის მისამართი არ არის მითითებული."
+
+msgid "No shipping address set."
+msgstr "მიწოდების მისამართი არ არის მითითებული."
+
+msgid "Start shopping to see your orders here."
+msgstr "დაიწყეთ შოპინგი თქვენი შეკვეთების სანახავად."
+
+#: My Account Navigation
+msgid "Account navigation"
+msgstr "ანგარიშის ნავიგაცია"
+
+#: General UI
+msgid "Welcome back"
+msgstr "კეთილი იყოს თქვენი დაბრუნება"
+
+msgid "Please enter your details to sign in."
+msgstr "გთხოვთ, შეიყვანეთ თქვენი მონაცემები შესასვლელად."
+
+msgid "%1$s order number %2$s"
+msgstr "%1$s შეკვეთა #%2$s"
+
+#: Search Results - Product Count
+msgid "%d product found"
+msgid_plural "%d products found"
+msgstr[0] "%d პროდუქტი მოიძებნა"
+msgstr[1] "%d პროდუქტი მოიძებნა"
+
+msgid "No products matched your search for \"%s\". Try using different keywords or browse our categories."
+msgstr "პროდუქტები ვერ მოიძებნა \"%s\"-ისთვის. სცადეთ სხვა საკვანძო სიტყვები ან დაათვალიერეთ კატეგორიები."
+
+msgid "Search results pagination"
+msgstr "ძიების შედეგების პაგინაცია"
+
+#: Category Page - Empty State
+msgid "There are no products in this category yet. Please check back later."
+msgstr "ამ კატეგორიაში პროდუქტები ჯერ არ არის. გთხოვთ, შეამოწმეთ მოგვიანებით."

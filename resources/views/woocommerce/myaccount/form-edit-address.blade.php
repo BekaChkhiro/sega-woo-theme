@@ -9,10 +9,10 @@
   // Variables passed by WooCommerce:
   // $load_address - 'billing' or 'shipping'
 
-  $page_title = ('billing' === $load_address) ? __('Billing address', 'sage') : __('Shipping address', 'sage');
+  $page_title = ('billing' === $load_address) ? __('Billing address', 'sega-woo-theme') : __('Shipping address', 'sega-woo-theme');
   $page_description = ('billing' === $load_address)
-    ? __('This address will be used on the checkout page by default.', 'sage')
-    : __('This address will be used as the default shipping address.', 'sage');
+    ? __('This address will be used on the checkout page by default.', 'sega-woo-theme')
+    : __('This address will be used as the default shipping address.', 'sega-woo-theme');
 
   // Get address fields
   $address_fields = WC()->countries->get_address_fields(get_user_meta(get_current_user_id(), $load_address . '_country', true), $load_address . '_');
@@ -29,7 +29,7 @@
     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
     </svg>
-    {{ __('Back to Addresses', 'sage') }}
+    {{ __('Back to Addresses', 'sega-woo-theme') }}
   </a>
 </div>
 
@@ -63,12 +63,12 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
       </svg>
     </div>
-    <p class="text-red-700">{{ __('Invalid address type.', 'sage') }}</p>
+    <p class="text-red-700">{{ __('Invalid address type.', 'sega-woo-theme') }}</p>
     <a
       href="{{ esc_url(wc_get_account_endpoint_url('edit-address')) }}"
       class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-700"
     >
-      {{ __('Return to addresses', 'sage') }}
+      {{ __('Return to addresses', 'sega-woo-theme') }}
     </a>
   </div>
 @else
@@ -102,7 +102,7 @@
               autocomplete="{{ $field['autocomplete'] ?? '' }}"
               @if (!empty($field['required'])) required aria-required="true" @endif
             >
-              <option value="">{{ __('Select a country / region&hellip;', 'sage') }}</option>
+              <option value="">{{ __('Select a country / region&hellip;', 'sega-woo-theme') }}</option>
               @foreach (WC()->countries->get_countries() as $ckey => $cvalue)
                 <option value="{{ esc_attr($ckey) }}" {{ selected($field_value, $ckey, false) }}>
                   {{ esc_html($cvalue) }}
@@ -208,13 +208,13 @@
       <button
         type="submit"
         name="save_address"
-        value="{{ __('Save address', 'sage') }}"
+        value="{{ __('Save address', 'sega-woo-theme') }}"
         class="woocommerce-Button button inline-flex items-center gap-2 rounded-xl bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
-        {{ __('Save address', 'sage') }}
+        {{ __('Save address', 'sega-woo-theme') }}
       </button>
 
       @php wp_nonce_field('woocommerce-edit_address', 'woocommerce-edit-address-nonce'); @endphp

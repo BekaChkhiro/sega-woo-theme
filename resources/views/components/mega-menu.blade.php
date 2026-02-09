@@ -116,7 +116,7 @@
             class="flex items-center justify-between text-sm font-semibold text-secondary-900 transition-colors hover:text-primary-600"
           >
             <span>
-              {{ __('All in', 'sage') }}
+              {{ __('All in', 'sega-woo-theme') }}
               <span x-text="getActiveItem()?.name"></span>
             </span>
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -157,7 +157,7 @@
                     <span class="font-medium truncate" x-text="child.name"></span>
                     @if ($showProductCount)
                       <template x-if="child.count !== null && child.count !== undefined">
-                        <span class="text-xs text-secondary-400" x-text="`${child.count} {{ __('products', 'sage') }}`"></span>
+                        <span class="text-xs text-secondary-400" x-text="`${child.count} {{ __('products', 'sega-woo-theme') }}`"></span>
                       </template>
                     @endif
                   </span>
@@ -180,7 +180,7 @@
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
           </svg>
-          {{ __('View All', 'sage') }}
+          {{ __('View All', 'sega-woo-theme') }}
         </a>
       </div>
     @endif
@@ -191,13 +191,13 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
       </svg>
       <p class="text-sm text-secondary-500">
-        {{ __('No items found', 'sage') }}
+        {{ __('No items found', 'sega-woo-theme') }}
       </p>
       <a
         href="{{ $shopUrl() }}"
         class="mt-3 text-sm font-medium text-primary-600 transition-colors hover:text-primary-700"
       >
-        {{ __('Browse all products', 'sage') }}
+        {{ __('Browse all products', 'sega-woo-theme') }}
       </a>
     </div>
   @endif

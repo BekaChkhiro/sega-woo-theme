@@ -60,7 +60,7 @@ class ProductCarousel extends Component
         $this->navigation = $navigation;
         $this->pagination = $pagination;
         $this->viewAllUrl = $viewAllUrl;
-        $this->viewAllText = $viewAllText ?? __('View All', 'sage');
+        $this->viewAllText = $viewAllText ?? __('View All', 'sega-woo-theme');
     }
 
     /**

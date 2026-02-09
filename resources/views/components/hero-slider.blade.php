@@ -41,7 +41,7 @@
             <a href="{{ $slide['link'] }}" class="block h-full w-full">
               <img
                 src="{{ $slide['image'] }}"
-                alt="{{ __('Slide', 'sage') }} {{ $index + 1 }}"
+                alt="{{ __('Slide', 'sega-woo-theme') }} {{ $index + 1 }}"
                 class="h-full w-full object-cover"
                 loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
               >
@@ -49,7 +49,7 @@
           @else
             <img
               src="{{ $slide['image'] }}"
-              alt="{{ __('Slide', 'sage') }} {{ $index + 1 }}"
+              alt="{{ __('Slide', 'sega-woo-theme') }} {{ $index + 1 }}"
               class="h-full w-full object-cover"
               loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
             >
@@ -65,7 +65,7 @@
                 <circle cx="8.5" cy="8.5" r="1.5"/>
                 <path d="M21 15l-5-5L5 21"/>
               </svg>
-              <p class="text-sm opacity-75">{{ __('Add slides in Customizer', 'sage') }}</p>
+              <p class="text-sm opacity-75">{{ __('Add slides in Customizer', 'sega-woo-theme') }}</p>
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@
     x-ref="prev"
     type="button"
     class="hero-slider-nav hero-slider-prev absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-105 hover:shadow-lg lg:left-5 lg:h-11 lg:w-11 {{ $showNavigation ? '' : 'hidden' }}"
-    aria-label="{{ __('Previous slide', 'sage') }}"
+    aria-label="{{ __('Previous slide', 'sega-woo-theme') }}"
   >
     <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -88,7 +88,7 @@
     x-ref="next"
     type="button"
     class="hero-slider-nav hero-slider-next absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-105 hover:shadow-lg lg:right-5 lg:h-11 lg:w-11 {{ $showNavigation ? '' : 'hidden' }}"
-    aria-label="{{ __('Next slide', 'sage') }}"
+    aria-label="{{ __('Next slide', 'sega-woo-theme') }}"
   >
     <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

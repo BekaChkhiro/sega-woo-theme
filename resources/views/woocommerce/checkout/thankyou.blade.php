@@ -8,10 +8,10 @@
 
 @section('breadcrumbs')
   <x-breadcrumbs :items="[
-    ['label' => __('Home', 'sage'), 'url' => home_url('/')],
-    ['label' => __('Shop', 'sage'), 'url' => wc_get_page_permalink('shop')],
-    ['label' => __('Checkout', 'sage'), 'url' => wc_get_checkout_url()],
-    ['label' => __('Order Received', 'sage'), 'url' => null],
+    ['label' => __('Home', 'sega-woo-theme'), 'url' => home_url('/')],
+    ['label' => __('Shop', 'sega-woo-theme'), 'url' => wc_get_page_permalink('shop')],
+    ['label' => __('Checkout', 'sega-woo-theme'), 'url' => wc_get_checkout_url()],
+    ['label' => __('Order Received', 'sega-woo-theme'), 'url' => null],
   ]" />
 @endsection
 
@@ -66,7 +66,7 @@
             {{ __('Thank you. Your order has been received.', 'woocommerce') }}
           </h1>
           <p class="text-secondary-600">
-            {{ __('A confirmation email has been sent to', 'sage') }}
+            {{ __('A confirmation email has been sent to', 'sega-woo-theme') }}
             <strong class="text-secondary-900">{{ $order->get_billing_email() }}</strong>
           </p>
         @endif
@@ -183,7 +183,7 @@
                             @endif
 
                             <span class="product-quantity mt-1 block text-xs text-secondary-500">
-                              {{ __('Qty:', 'sage') }} {{ $item->get_quantity() }}
+                              {{ __('Qty:', 'sega-woo-theme') }} {{ $item->get_quantity() }}
                             </span>
 
                             @php do_action('woocommerce_order_item_meta_start', $item_id, $item, $order, false); @endphp
@@ -264,14 +264,14 @@
 
                 @if ($order->get_billing_phone())
                   <p class="mt-2">
-                    <span class="font-medium text-secondary-700">{{ __('Phone:', 'sage') }}</span>
+                    <span class="font-medium text-secondary-700">{{ __('Phone:', 'sega-woo-theme') }}</span>
                     {{ $order->get_billing_phone() }}
                   </p>
                 @endif
 
                 @if ($order->get_billing_email())
                   <p class="mt-1">
-                    <span class="font-medium text-secondary-700">{{ __('Email:', 'sage') }}</span>
+                    <span class="font-medium text-secondary-700">{{ __('Email:', 'sega-woo-theme') }}</span>
                     {{ $order->get_billing_email() }}
                   </p>
                 @endif
@@ -296,7 +296,7 @@
 
                   @if ($order->get_shipping_phone())
                     <p class="mt-2">
-                      <span class="font-medium text-secondary-700">{{ __('Phone:', 'sage') }}</span>
+                      <span class="font-medium text-secondary-700">{{ __('Phone:', 'sega-woo-theme') }}</span>
                       {{ $order->get_shipping_phone() }}
                     </p>
                   @endif
@@ -310,20 +310,20 @@
                 <svg class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                {{ __("What's next?", 'sage') }}
+                {{ __("What's next?", 'sega-woo-theme') }}
               </h3>
               <ul class="space-y-2 text-sm text-primary-700">
                 <li class="flex items-start gap-2">
                   <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  {{ __('You will receive an order confirmation email shortly.', 'sage') }}
+                  {{ __('You will receive an order confirmation email shortly.', 'sega-woo-theme') }}
                 </li>
                 <li class="flex items-start gap-2">
                   <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  {{ __('We will notify you once your order has shipped.', 'sage') }}
+                  {{ __('We will notify you once your order has shipped.', 'sega-woo-theme') }}
                 </li>
                 @if (is_user_logged_in())
                   <li class="flex items-start gap-2">
@@ -331,9 +331,9 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                     <span>
-                      {{ __('Track your order in', 'sage') }}
+                      {{ __('Track your order in', 'sega-woo-theme') }}
                       <a href="{{ wc_get_account_endpoint_url('orders') }}" class="font-medium underline hover:no-underline">
-                        {{ __('My Account', 'sage') }}
+                        {{ __('My Account', 'sega-woo-theme') }}
                       </a>
                     </span>
                   </li>
@@ -350,7 +350,7 @@
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                {{ __('Continue Shopping', 'sage') }}
+                {{ __('Continue Shopping', 'sega-woo-theme') }}
               </a>
 
               @if (is_user_logged_in())
@@ -361,7 +361,7 @@
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  {{ __('View all orders', 'sage') }}
+                  {{ __('View all orders', 'sega-woo-theme') }}
                 </a>
               @endif
             </div>
@@ -381,7 +381,7 @@
         </div>
 
         <h2 class="mb-2 text-xl font-semibold text-secondary-900">
-          {{ __('Order not found', 'sage') }}
+          {{ __('Order not found', 'sega-woo-theme') }}
         </h2>
 
         <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received mb-8 max-w-sm text-secondary-600">
@@ -395,7 +395,7 @@
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
           </svg>
-          {{ __('Continue Shopping', 'sage') }}
+          {{ __('Continue Shopping', 'sega-woo-theme') }}
         </a>
       </div>
     @endif

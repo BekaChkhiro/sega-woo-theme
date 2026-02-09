@@ -62,11 +62,11 @@
   <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
     <div>
       <h2 class="text-xl font-semibold text-secondary-900">
-        {{ sprintf(__('Hello, %s!', 'sage'), esc_html($current_user->display_name)) }}
+        {{ sprintf(__('Hello, %s!', 'sega-woo-theme'), esc_html($current_user->display_name)) }}
       </h2>
       <p class="mt-2 text-secondary-600">
         {!! sprintf(
-          __('From your account dashboard you can view your <a href="%1$s" class="font-medium text-primary-600 hover:text-primary-700">recent orders</a>, manage your <a href="%2$s" class="font-medium text-primary-600 hover:text-primary-700">shipping and billing addresses</a>, and <a href="%3$s" class="font-medium text-primary-600 hover:text-primary-700">edit your password and account details</a>.', 'sage'),
+          __('From your account dashboard you can view your <a href="%1$s" class="font-medium text-primary-600 hover:text-primary-700">recent orders</a>, manage your <a href="%2$s" class="font-medium text-primary-600 hover:text-primary-700">shipping and billing addresses</a>, and <a href="%3$s" class="font-medium text-primary-600 hover:text-primary-700">edit your password and account details</a>.', 'sega-woo-theme'),
           esc_url(wc_get_endpoint_url('orders')),
           esc_url(wc_get_endpoint_url('edit-address')),
           esc_url(wc_get_endpoint_url('edit-account'))
@@ -80,7 +80,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
         <div>
-          <span class="text-xs font-medium uppercase tracking-wider text-primary-600">{{ __('Member since', 'sage') }}</span>
+          <span class="text-xs font-medium uppercase tracking-wider text-primary-600">{{ __('Member since', 'sega-woo-theme') }}</span>
           <p class="text-sm font-semibold text-primary-900">{{ $member_since }}</p>
         </div>
       </div>
@@ -99,7 +99,7 @@
     </div>
     <div class="account-stat-value text-2xl font-bold text-secondary-900">{{ $orders_count }}</div>
     <div class="account-stat-label mt-1 text-xs font-medium uppercase tracking-wider text-secondary-500">
-      {{ __('Total Orders', 'sage') }}
+      {{ __('Total Orders', 'sega-woo-theme') }}
     </div>
   </div>
 
@@ -112,7 +112,7 @@
     </div>
     <div class="account-stat-value text-2xl font-bold text-secondary-900">{{ count($processing_orders) }}</div>
     <div class="account-stat-label mt-1 text-xs font-medium uppercase tracking-wider text-secondary-500">
-      {{ __('Active Orders', 'sage') }}
+      {{ __('Active Orders', 'sega-woo-theme') }}
     </div>
   </div>
 
@@ -125,7 +125,7 @@
     </div>
     <div class="account-stat-value text-2xl font-bold text-secondary-900">{!! wc_price($total_spent) !!}</div>
     <div class="account-stat-label mt-1 text-xs font-medium uppercase tracking-wider text-secondary-500">
-      {{ __('Total Spent', 'sage') }}
+      {{ __('Total Spent', 'sega-woo-theme') }}
     </div>
   </div>
 
@@ -138,7 +138,7 @@
     </div>
     <div class="account-stat-value text-2xl font-bold text-secondary-900">{{ $downloads_count }}</div>
     <div class="account-stat-label mt-1 text-xs font-medium uppercase tracking-wider text-secondary-500">
-      {{ __('Downloads', 'sage') }}
+      {{ __('Downloads', 'sega-woo-theme') }}
     </div>
   </div>
 </div>
@@ -151,13 +151,13 @@
         <svg class="h-5 w-5 text-secondary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
         </svg>
-        {{ __('Recent Orders', 'sage') }}
+        {{ __('Recent Orders', 'sega-woo-theme') }}
       </h3>
       <a
         href="{{ esc_url(wc_get_endpoint_url('orders')) }}"
         class="text-sm font-medium text-primary-600 transition-colors hover:text-primary-700"
       >
-        {{ __('View All', 'sage') }}
+        {{ __('View All', 'sega-woo-theme') }}
       </a>
     </div>
 
@@ -167,16 +167,16 @@
         <thead class="border-b border-secondary-100 bg-secondary-50/50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-secondary-600">
-              {{ __('Order', 'sage') }}
+              {{ __('Order', 'sega-woo-theme') }}
             </th>
             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-secondary-600">
-              {{ __('Date', 'sage') }}
+              {{ __('Date', 'sega-woo-theme') }}
             </th>
             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-secondary-600">
-              {{ __('Status', 'sage') }}
+              {{ __('Status', 'sega-woo-theme') }}
             </th>
             <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-secondary-600">
-              {{ __('Total', 'sage') }}
+              {{ __('Total', 'sega-woo-theme') }}
             </th>
           </tr>
         </thead>
@@ -236,7 +236,7 @@
             </span>
           </div>
           <div class="mt-2 flex items-center justify-between">
-            <span class="text-sm text-secondary-600">{{ __('Total:', 'sage') }}</span>
+            <span class="text-sm text-secondary-600">{{ __('Total:', 'sega-woo-theme') }}</span>
             <span class="font-semibold text-secondary-900">{!! $order->get_formatted_order_total() !!}</span>
           </div>
         </a>
@@ -251,8 +251,8 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
     </div>
-    <h3 class="mb-2 text-lg font-semibold text-secondary-900">{{ __('No orders yet', 'sage') }}</h3>
-    <p class="mb-6 text-secondary-600">{{ __('Start shopping to see your orders here.', 'sage') }}</p>
+    <h3 class="mb-2 text-lg font-semibold text-secondary-900">{{ __('No orders yet', 'sega-woo-theme') }}</h3>
+    <p class="mb-6 text-secondary-600">{{ __('Start shopping to see your orders here.', 'sega-woo-theme') }}</p>
     <a
       href="{{ esc_url(wc_get_page_permalink('shop')) }}"
       class="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
@@ -260,7 +260,7 @@
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
-      {{ __('Start Shopping', 'sage') }}
+      {{ __('Start Shopping', 'sega-woo-theme') }}
     </a>
   </div>
 @endif
@@ -282,13 +282,13 @@
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
           </svg>
-          {{ __('Billing Address', 'sage') }}
+          {{ __('Billing Address', 'sega-woo-theme') }}
         </h3>
         <a
           href="{{ esc_url(wc_get_endpoint_url('edit-address', 'billing')) }}"
           class="text-xs font-medium text-primary-600 transition-colors hover:text-primary-700"
         >
-          {{ __('Edit', 'sage') }}
+          {{ __('Edit', 'sega-woo-theme') }}
         </a>
       </div>
       @if ($has_billing)
@@ -296,7 +296,7 @@
           {!! wc_get_account_formatted_address('billing') !!}
         </address>
       @else
-        <p class="text-sm text-secondary-400">{{ __('No billing address set.', 'sage') }}</p>
+        <p class="text-sm text-secondary-400">{{ __('No billing address set.', 'sega-woo-theme') }}</p>
       @endif
     </div>
 
@@ -308,13 +308,13 @@
             <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
           </svg>
-          {{ __('Shipping Address', 'sage') }}
+          {{ __('Shipping Address', 'sega-woo-theme') }}
         </h3>
         <a
           href="{{ esc_url(wc_get_endpoint_url('edit-address', 'shipping')) }}"
           class="text-xs font-medium text-primary-600 transition-colors hover:text-primary-700"
         >
-          {{ __('Edit', 'sage') }}
+          {{ __('Edit', 'sega-woo-theme') }}
         </a>
       </div>
       @if ($has_shipping)
@@ -322,7 +322,7 @@
           {!! wc_get_account_formatted_address('shipping') !!}
         </address>
       @else
-        <p class="text-sm text-secondary-400">{{ __('No shipping address set.', 'sage') }}</p>
+        <p class="text-sm text-secondary-400">{{ __('No shipping address set.', 'sega-woo-theme') }}</p>
       @endif
     </div>
   </div>
@@ -335,8 +335,8 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     </div>
-    <h3 class="mb-1 font-semibold text-secondary-900">{{ __('Complete your profile', 'sage') }}</h3>
-    <p class="mb-4 text-sm text-secondary-600">{{ __('Add your addresses for faster checkout.', 'sage') }}</p>
+    <h3 class="mb-1 font-semibold text-secondary-900">{{ __('Complete your profile', 'sega-woo-theme') }}</h3>
+    <p class="mb-4 text-sm text-secondary-600">{{ __('Add your addresses for faster checkout.', 'sega-woo-theme') }}</p>
     <a
       href="{{ esc_url(wc_get_endpoint_url('edit-address')) }}"
       class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700"
@@ -344,7 +344,7 @@
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
       </svg>
-      {{ __('Add Address', 'sage') }}
+      {{ __('Add Address', 'sega-woo-theme') }}
     </a>
   </div>
 @endif
@@ -362,8 +362,8 @@
       </svg>
     </div>
     <div>
-      <h4 class="font-semibold text-secondary-900">{{ __('Account Details', 'sage') }}</h4>
-      <p class="text-sm text-secondary-500">{{ __('Edit your profile and password', 'sage') }}</p>
+      <h4 class="font-semibold text-secondary-900">{{ __('Account Details', 'sega-woo-theme') }}</h4>
+      <p class="text-sm text-secondary-500">{{ __('Edit your profile and password', 'sega-woo-theme') }}</p>
     </div>
   </a>
 
@@ -379,8 +379,8 @@
       </svg>
     </div>
     <div>
-      <h4 class="font-semibold text-secondary-900">{{ __('Addresses', 'sage') }}</h4>
-      <p class="text-sm text-secondary-500">{{ __('Manage billing & shipping', 'sage') }}</p>
+      <h4 class="font-semibold text-secondary-900">{{ __('Addresses', 'sega-woo-theme') }}</h4>
+      <p class="text-sm text-secondary-500">{{ __('Manage billing & shipping', 'sega-woo-theme') }}</p>
     </div>
   </a>
 
@@ -396,8 +396,8 @@
         </svg>
       </div>
       <div>
-        <h4 class="font-semibold text-secondary-900">{{ __('Downloads', 'sage') }}</h4>
-        <p class="text-sm text-secondary-500">{{ sprintf(_n('%s file available', '%s files available', $downloads_count, 'sage'), $downloads_count) }}</p>
+        <h4 class="font-semibold text-secondary-900">{{ __('Downloads', 'sega-woo-theme') }}</h4>
+        <p class="text-sm text-secondary-500">{{ sprintf(_n('%s file available', '%s files available', $downloads_count, 'sega-woo-theme'), $downloads_count) }}</p>
       </div>
     </a>
   @endif
@@ -413,12 +413,12 @@
       </svg>
     </div>
     <div>
-      <h4 class="font-semibold text-secondary-900">{{ __('Payment Methods', 'sage') }}</h4>
+      <h4 class="font-semibold text-secondary-900">{{ __('Payment Methods', 'sega-woo-theme') }}</h4>
       <p class="text-sm text-secondary-500">
         @if ($payment_methods_count > 0)
-          {{ sprintf(_n('%s saved method', '%s saved methods', $payment_methods_count, 'sage'), $payment_methods_count) }}
+          {{ sprintf(_n('%s saved method', '%s saved methods', $payment_methods_count, 'sega-woo-theme'), $payment_methods_count) }}
         @else
-          {{ __('Add a payment method', 'sage') }}
+          {{ __('Add a payment method', 'sega-woo-theme') }}
         @endif
       </p>
     </div>
@@ -435,8 +435,8 @@
       </svg>
     </div>
     <div>
-      <h4 class="font-semibold text-secondary-900">{{ __('Browse Shop', 'sage') }}</h4>
-      <p class="text-sm text-secondary-500">{{ __('Continue shopping', 'sage') }}</p>
+      <h4 class="font-semibold text-secondary-900">{{ __('Browse Shop', 'sega-woo-theme') }}</h4>
+      <p class="text-sm text-secondary-500">{{ __('Continue shopping', 'sega-woo-theme') }}</p>
     </div>
   </a>
 </div>

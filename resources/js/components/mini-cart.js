@@ -5,6 +5,9 @@
  * via WooCommerce cart fragments.
  */
 export default function miniCart() {
+  // Get translated strings from global object (set in wp_head via setup.php)
+  const i18n = window.segaThemeI18n || {};
+
   return {
     open: false,
     loading: false,
@@ -171,7 +174,7 @@ export default function miniCart() {
             }
 
             // Show success toast
-            this.showToast('Product added to cart', 'success');
+            this.showToast(i18n.productAddedToCart || 'Product added to cart', 'success');
 
             // Trigger event for other components
             document.body.dispatchEvent(new CustomEvent('added_to_cart', {
@@ -193,7 +196,7 @@ export default function miniCart() {
         }
       } catch (error) {
         console.error('Error adding to cart:', error);
-        this.showToast('Could not add to cart. Please try again.', 'error');
+        this.showToast(i18n.couldNotAddToCart || 'Could not add to cart. Please try again.', 'error');
 
         // Restore button on error
         if (buttonEl && buttonEl.dataset.originalContent) {
@@ -258,7 +261,7 @@ export default function miniCart() {
           }
 
           // Show info toast
-          this.showToast('Item removed from cart', 'info');
+          this.showToast(i18n.itemRemovedFromCart || 'Item removed from cart', 'info');
 
           // Trigger event for other components
           document.body.dispatchEvent(new CustomEvent('removed_from_cart', {
@@ -270,7 +273,7 @@ export default function miniCart() {
         }
       } catch (error) {
         console.error('Error removing item from cart:', error);
-        this.showToast('Could not remove item. Please try again.', 'error');
+        this.showToast(i18n.couldNotRemoveItem || 'Could not remove item. Please try again.', 'error');
 
         // Restore item visibility on error
         if (itemEl) {

@@ -28,7 +28,7 @@
           class="flex-1 rounded-md px-4 py-2 text-sm font-medium transition-all"
           :class="activeTab === 'login' ? 'bg-white text-secondary-900 shadow' : 'text-secondary-600'"
         >
-          {{ __('Login', 'sage') }}
+          {{ __('Login', 'sega-woo-theme') }}
         </button>
         <button
           type="button"
@@ -36,7 +36,7 @@
           class="flex-1 rounded-md px-4 py-2 text-sm font-medium transition-all"
           :class="activeTab === 'register' ? 'bg-white text-secondary-900 shadow' : 'text-secondary-600'"
         >
-          {{ __('Register', 'sage') }}
+          {{ __('Register', 'sega-woo-theme') }}
         </button>
       </div>
 
@@ -55,10 +55,10 @@
               </svg>
             </div>
             <h2 class="text-xl font-semibold text-secondary-900">
-              {{ __('Login', 'sage') }}
+              {{ __('Login', 'sega-woo-theme') }}
             </h2>
             <p class="mt-1 text-sm text-secondary-600">
-              {{ __('Welcome back! Please enter your details.', 'sage') }}
+              {{ __('Welcome back! Please enter your details.', 'sega-woo-theme') }}
             </p>
           </div>
 
@@ -71,7 +71,7 @@
             {{-- Username Field --}}
             <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
               <label for="username" class="mb-1.5 block text-sm font-medium text-secondary-700">
-                {{ __('Username or email address', 'sage') }}
+                {{ __('Username or email address', 'sega-woo-theme') }}
                 <span class="required text-red-500" aria-hidden="true">*</span>
               </label>
               <input
@@ -89,7 +89,7 @@
             {{-- Password Field --}}
             <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
               <label for="password" class="mb-1.5 block text-sm font-medium text-secondary-700">
-                {{ __('Password', 'sage') }}
+                {{ __('Password', 'sega-woo-theme') }}
                 <span class="required text-red-500" aria-hidden="true">*</span>
               </label>
               <div class="relative" x-data="{ showPassword: false }">
@@ -106,7 +106,7 @@
                   type="button"
                   @click="showPassword = !showPassword"
                   class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 transition-colors hover:text-secondary-600"
-                  :aria-label="showPassword ? '{{ __('Hide password', 'sage') }}' : '{{ __('Show password', 'sage') }}'"
+                  :aria-label="showPassword ? '{{ __('Hide password', 'sega-woo-theme') }}' : '{{ __('Show password', 'sega-woo-theme') }}'"
                 >
                   <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -131,14 +131,14 @@
                   class="woocommerce-form__input woocommerce-form__input-checkbox h-4 w-4 rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
                   value="forever"
                 />
-                <span class="text-sm text-secondary-600">{{ __('Remember me', 'sage') }}</span>
+                <span class="text-sm text-secondary-600">{{ __('Remember me', 'sega-woo-theme') }}</span>
               </label>
 
               <a
                 href="{{ esc_url(wp_lostpassword_url()) }}"
                 class="woocommerce-LostPassword lost_password text-sm font-medium text-primary-600 transition-colors hover:text-primary-700"
               >
-                {{ __('Forgot password?', 'sage') }}
+                {{ __('Forgot password?', 'sega-woo-theme') }}
               </a>
             </div>
 
@@ -148,10 +148,10 @@
             <button
               type="submit"
               name="login"
-              value="{{ __('Log in', 'sage') }}"
+              value="{{ __('Log in', 'sega-woo-theme') }}"
               class="woocommerce-button button woocommerce-form-login__submit w-full rounded-xl bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
             >
-              {{ __('Log in', 'sage') }}
+              {{ __('Log in', 'sega-woo-theme') }}
             </button>
 
             @php do_action('woocommerce_login_form_end'); @endphp
@@ -174,10 +174,10 @@
               </svg>
             </div>
             <h2 class="text-xl font-semibold text-secondary-900">
-              {{ __('Register', 'sage') }}
+              {{ __('Register', 'sega-woo-theme') }}
             </h2>
             <p class="mt-1 text-sm text-secondary-600">
-              {{ __('Create an account to track orders and more.', 'sage') }}
+              {{ __('Create an account to track orders and more.', 'sega-woo-theme') }}
             </p>
           </div>
 
@@ -192,7 +192,7 @@
             @if ('no' === get_option('woocommerce_registration_generate_username'))
               <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                 <label for="reg_username" class="mb-1.5 block text-sm font-medium text-secondary-700">
-                  {{ __('Username', 'sage') }}
+                  {{ __('Username', 'sega-woo-theme') }}
                   <span class="required text-red-500" aria-hidden="true">*</span>
                 </label>
                 <input
@@ -211,7 +211,7 @@
             {{-- Email Field --}}
             <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
               <label for="reg_email" class="mb-1.5 block text-sm font-medium text-secondary-700">
-                {{ __('Email address', 'sage') }}
+                {{ __('Email address', 'sega-woo-theme') }}
                 <span class="required text-red-500" aria-hidden="true">*</span>
               </label>
               <input
@@ -230,7 +230,7 @@
             @if ('no' === get_option('woocommerce_registration_generate_password'))
               <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                 <label for="reg_password" class="mb-1.5 block text-sm font-medium text-secondary-700">
-                  {{ __('Password', 'sage') }}
+                  {{ __('Password', 'sega-woo-theme') }}
                   <span class="required text-red-500" aria-hidden="true">*</span>
                 </label>
                 <div class="relative" x-data="{ showPassword: false }">
@@ -247,7 +247,7 @@
                     type="button"
                     @click="showPassword = !showPassword"
                     class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 transition-colors hover:text-secondary-600"
-                    :aria-label="showPassword ? '{{ __('Hide password', 'sage') }}' : '{{ __('Show password', 'sage') }}'"
+                    :aria-label="showPassword ? '{{ __('Hide password', 'sega-woo-theme') }}' : '{{ __('Show password', 'sega-woo-theme') }}'"
                   >
                     <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -263,7 +263,7 @@
               {{-- Password will be emailed --}}
               <div class="rounded-lg bg-secondary-50 p-4">
                 <p class="text-sm text-secondary-600">
-                  {{ __('A link to set a new password will be sent to your email address.', 'sage') }}
+                  {{ __('A link to set a new password will be sent to your email address.', 'sega-woo-theme') }}
                 </p>
               </div>
             @endif
@@ -283,10 +283,10 @@
             <button
               type="submit"
               name="register"
-              value="{{ __('Register', 'sage') }}"
+              value="{{ __('Register', 'sega-woo-theme') }}"
               class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit w-full rounded-xl bg-green-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-green-600/25 transition-all hover:bg-green-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
             >
-              {{ __('Register', 'sage') }}
+              {{ __('Register', 'sega-woo-theme') }}
             </button>
 
             @php do_action('woocommerce_register_form_end'); @endphp
@@ -306,10 +306,10 @@
             </svg>
           </div>
           <h2 class="text-xl font-semibold text-secondary-900">
-            {{ __('Welcome back', 'sage') }}
+            {{ __('Welcome back', 'sega-woo-theme') }}
           </h2>
           <p class="mt-1 text-sm text-secondary-600">
-            {{ __('Please enter your details to sign in.', 'sage') }}
+            {{ __('Please enter your details to sign in.', 'sega-woo-theme') }}
           </p>
         </div>
 
@@ -322,7 +322,7 @@
           {{-- Username Field --}}
           <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
             <label for="username" class="mb-1.5 block text-sm font-medium text-secondary-700">
-              {{ __('Username or email address', 'sage') }}
+              {{ __('Username or email address', 'sega-woo-theme') }}
               <span class="required text-red-500" aria-hidden="true">*</span>
             </label>
             <input
@@ -340,7 +340,7 @@
           {{-- Password Field --}}
           <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
             <label for="password" class="mb-1.5 block text-sm font-medium text-secondary-700">
-              {{ __('Password', 'sage') }}
+              {{ __('Password', 'sega-woo-theme') }}
               <span class="required text-red-500" aria-hidden="true">*</span>
             </label>
             <div class="relative" x-data="{ showPassword: false }">
@@ -357,7 +357,7 @@
                 type="button"
                 @click="showPassword = !showPassword"
                 class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-400 transition-colors hover:text-secondary-600"
-                :aria-label="showPassword ? '{{ __('Hide password', 'sage') }}' : '{{ __('Show password', 'sage') }}'"
+                :aria-label="showPassword ? '{{ __('Hide password', 'sega-woo-theme') }}' : '{{ __('Show password', 'sega-woo-theme') }}'"
               >
                 <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -382,14 +382,14 @@
                 class="woocommerce-form__input woocommerce-form__input-checkbox h-4 w-4 rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
                 value="forever"
               />
-              <span class="text-sm text-secondary-600">{{ __('Remember me', 'sage') }}</span>
+              <span class="text-sm text-secondary-600">{{ __('Remember me', 'sega-woo-theme') }}</span>
             </label>
 
             <a
               href="{{ esc_url(wp_lostpassword_url()) }}"
               class="woocommerce-LostPassword lost_password text-sm font-medium text-primary-600 transition-colors hover:text-primary-700"
             >
-              {{ __('Forgot password?', 'sage') }}
+              {{ __('Forgot password?', 'sega-woo-theme') }}
             </a>
           </div>
 
@@ -399,10 +399,10 @@
           <button
             type="submit"
             name="login"
-            value="{{ __('Log in', 'sage') }}"
+            value="{{ __('Log in', 'sega-woo-theme') }}"
             class="woocommerce-button button woocommerce-form-login__submit w-full rounded-xl bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
           >
-            {{ __('Log in', 'sage') }}
+            {{ __('Log in', 'sega-woo-theme') }}
           </button>
 
           @php do_action('woocommerce_login_form_end'); @endphp

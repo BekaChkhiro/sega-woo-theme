@@ -88,7 +88,7 @@
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
       </svg>
-      {{ __('Filters', 'sage') }}
+      {{ __('Filters', 'sega-woo-theme') }}
     </span>
     <svg
       class="h-5 w-5 transition-transform"
@@ -114,7 +114,7 @@
     @if ($priceRangeData['max'] > 0)
       <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-secondary-100">
         <h3 class="mb-4 border-b border-secondary-200 pb-2 text-lg font-semibold text-secondary-900">
-          {{ __('Price', 'sage') }}
+          {{ __('Price', 'sega-woo-theme') }}
         </h3>
 
         {{-- Current Range Display --}}
@@ -151,7 +151,7 @@
             :aria-valuenow="stagedMinPrice"
             :aria-valuemin="priceMin"
             :aria-valuemax="stagedMaxPrice"
-            aria-label="{{ __('Minimum price', 'sage') }}"
+            aria-label="{{ __('Minimum price', 'sega-woo-theme') }}"
             tabindex="0"
             @keydown.left.prevent="stagedMinPrice = Math.max(priceMin, stagedMinPrice - priceStep)"
             @keydown.right.prevent="stagedMinPrice = Math.min(stagedMaxPrice - priceStep, stagedMinPrice + priceStep)"
@@ -169,7 +169,7 @@
             :aria-valuenow="stagedMaxPrice"
             :aria-valuemin="stagedMinPrice"
             :aria-valuemax="priceMax"
-            aria-label="{{ __('Maximum price', 'sage') }}"
+            aria-label="{{ __('Maximum price', 'sega-woo-theme') }}"
             tabindex="0"
             @keydown.left.prevent="stagedMaxPrice = Math.max(stagedMinPrice + priceStep, stagedMaxPrice - priceStep)"
             @keydown.right.prevent="stagedMaxPrice = Math.min(priceMax, stagedMaxPrice + priceStep)"
@@ -178,7 +178,7 @@
 
         {{-- Range Info --}}
         <p class="text-xs text-secondary-500">
-          {{ __('Range:', 'sage') }}
+          {{ __('Range:', 'sega-woo-theme') }}
           {!! wc_price($minPrice) !!} - {!! wc_price($maxPrice) !!}
         </p>
       </div>
@@ -190,14 +190,14 @@
         <div class="mb-4 flex items-center justify-between border-b border-secondary-200 pb-2">
           <h3 class="text-lg font-semibold text-secondary-900">
             @if ($isCategoryPage && $parentCategory)
-              {{ __('Subcategories', 'sage') }}
+              {{ __('Subcategories', 'sega-woo-theme') }}
             @else
-              {{ __('Categories', 'sage') }}
+              {{ __('Categories', 'sega-woo-theme') }}
             @endif
           </h3>
           <span
             x-show="stagedCategories.length > 0"
-            x-text="stagedCategories.length + ' {{ __('selected', 'sage') }}'"
+            x-text="stagedCategories.length + ' {{ __('selected', 'sega-woo-theme') }}'"
             class="rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700"
           ></span>
         </div>
@@ -235,9 +235,9 @@
               :class="stagedCategories.length === 0 ? 'text-primary-700' : 'text-secondary-700'"
             >
               @if ($isCategoryPage && $parentCategory)
-                {{ sprintf(__('All in %s', 'sage'), $parentCategory['name']) }}
+                {{ sprintf(__('All in %s', 'sega-woo-theme'), $parentCategory['name']) }}
               @else
-                {{ __('All Products', 'sage') }}
+                {{ __('All Products', 'sega-woo-theme') }}
               @endif
             </span>
             <span class="rounded-full bg-secondary-100 px-2 py-0.5 text-xs font-medium text-secondary-600">
@@ -258,7 +258,7 @@
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              <span>{{ __('View all categories', 'sage') }}</span>
+              <span>{{ __('View all categories', 'sega-woo-theme') }}</span>
             </a>
           @endif
 
@@ -269,7 +269,7 @@
           @if (empty($categories) && $isCategoryPage)
             {{-- No subcategories message for category pages --}}
             <p class="px-3 py-2 text-sm text-secondary-500 italic">
-              {{ __('No subcategories in this category', 'sage') }}
+              {{ __('No subcategories in this category', 'sega-woo-theme') }}
             </p>
           @endif
 
@@ -423,7 +423,7 @@
         <svg x-show="!isLoading" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
         </svg>
-        <span x-text="isLoading ? '{{ __('Loading...', 'sage') }}' : '{{ __('Apply Filters', 'sage') }}'"></span>
+        <span x-text="isLoading ? '{{ __('Loading...', 'sega-woo-theme') }}' : '{{ __('Apply Filters', 'sega-woo-theme') }}'"></span>
       </button>
 
       {{-- Clear Button --}}
@@ -437,7 +437,7 @@
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
-        {{ __('Clear All', 'sage') }}
+        {{ __('Clear All', 'sega-woo-theme') }}
       </button>
 
       {{-- Pending Changes Indicator --}}
@@ -445,7 +445,7 @@
         x-show="hasPendingChanges"
         class="text-center text-xs text-amber-600"
       >
-        {{ __('You have unapplied changes', 'sage') }}
+        {{ __('You have unapplied changes', 'sega-woo-theme') }}
       </p>
     </div>
 

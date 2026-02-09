@@ -1,0 +1,1382 @@
+# Copyright (C) 2026 Sega WooCommerce Theme
+# This file is distributed under the same license as the sega-woo-theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sega WooCommerce Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-09 14:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Claude Code\n"
+"X-Domain: sega-woo-theme\n"
+
+
+msgid "%1$s order number %2$s"
+msgstr ""
+
+msgid "%d in stock"
+msgstr ""
+
+#. translators: %d is the number of products found
+msgid "%d product found"
+msgid_plural "%d products found"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d per page"
+msgstr ""
+
+msgid "%s ending in %s"
+msgstr ""
+
+msgid "%s out of 5 stars"
+msgstr ""
+
+msgid "&larr; Older comments"
+msgstr ""
+
+msgid "+1 (555) 000-0000"
+msgstr ""
+
+msgid "A confirmation email has been sent to"
+msgstr ""
+
+msgid "A link to set a new password will be sent to your email address."
+msgstr ""
+
+msgid "Accepted payment methods"
+msgstr ""
+
+msgid "Access your purchased digital products here."
+msgstr ""
+
+msgid "Account Details"
+msgstr ""
+
+msgid "Account Settings"
+msgstr ""
+
+msgid "Account navigation"
+msgstr ""
+
+msgid "Active Orders"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add %s to cart"
+msgstr ""
+
+msgid "Add Address"
+msgstr ""
+
+msgid "Add a payment method"
+msgstr ""
+
+msgid "Add address"
+msgstr ""
+
+msgid "Add items to get started"
+msgstr ""
+
+msgid "Add payment method"
+msgstr ""
+
+msgid "Add slides in Customizer"
+msgstr ""
+
+msgid "Add special instructions for your order"
+msgstr ""
+
+msgid "Add to Cart"
+msgstr ""
+
+msgid "Add to cart"
+msgstr ""
+
+msgid "Add up to %d banner slides. Drag to reorder."
+msgstr ""
+
+msgid "Add your addresses for faster checkout."
+msgstr ""
+
+msgid "Added!"
+msgstr ""
+
+msgid "Adding..."
+msgstr ""
+
+msgid "Additional Information"
+msgstr ""
+
+msgid "Address Line 2"
+msgstr ""
+
+msgid "Addresses"
+msgstr ""
+
+msgid "All Products"
+msgstr ""
+
+msgid "All in"
+msgstr ""
+
+msgid "All in %s"
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
+
+msgid "Apartment, suite, etc."
+msgstr ""
+
+msgid "Apartment, suite, unit, etc. (optional)"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Apply Filters"
+msgstr ""
+
+msgid "Autoplay"
+msgstr ""
+
+msgid "Available on backorder"
+msgstr ""
+
+msgid "Back to Addresses"
+msgstr ""
+
+msgid "Back to Cart"
+msgstr ""
+
+msgid "Back to Orders"
+msgstr ""
+
+msgid "Back to login"
+msgstr ""
+
+msgid "Be the first to review"
+msgstr ""
+
+msgid "Best Sellers"
+msgstr ""
+
+msgid "Bestsellers"
+msgstr ""
+
+msgid "Billing Address"
+msgstr ""
+
+msgid "Billing Fields"
+msgstr ""
+
+msgid "Billing address"
+msgstr ""
+
+msgid "Breadcrumb"
+msgstr ""
+
+msgid "Browse Shop"
+msgstr ""
+
+msgid "Browse Subcategories"
+msgstr ""
+
+msgid "Browse all products"
+msgstr ""
+
+msgid "Browse products"
+msgstr ""
+
+msgid "Button/Label"
+msgstr ""
+
+msgid "Buy Product"
+msgstr ""
+
+msgid "Buy product"
+msgstr ""
+
+msgid "By"
+msgstr ""
+
+msgid "Calculated at checkout"
+msgstr ""
+
+msgid "Cart"
+msgstr ""
+
+msgid "Cart item not found."
+msgstr ""
+
+msgid "Categories"
+msgstr ""
+
+msgid "Check out some of our most popular items"
+msgstr ""
+
+msgid "Check this if you want your order delivered to a different address than your billing address."
+msgstr ""
+
+msgid "Checkout"
+msgstr ""
+
+msgid "Choose %s"
+msgstr ""
+
+msgid "Choose a strong password with at least 8 characters, including uppercase, lowercase, numbers, and special characters."
+msgstr ""
+
+msgid "Choose a username"
+msgstr ""
+
+msgid "City"
+msgstr ""
+
+msgid "Clear All"
+msgstr ""
+
+msgid "Clear all"
+msgstr ""
+
+msgid "Clear filters"
+msgstr ""
+
+msgid "Clear search"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close gallery"
+msgstr ""
+
+msgid "Close search"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "Color Swatch"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Comments are closed."
+msgstr ""
+
+msgid "Company"
+msgstr ""
+
+msgid "Company name"
+msgstr ""
+
+msgid "Company name (optional)"
+msgstr ""
+
+msgid "Complete"
+msgstr ""
+
+msgid "Complete Order"
+msgstr ""
+
+msgid "Complete your profile"
+msgstr ""
+
+msgid "Configure Terms"
+msgstr ""
+
+msgid "Configure display types for product variation attributes."
+msgstr ""
+
+msgid "Confirm new password"
+msgstr ""
+
+msgid "Confirm your password"
+msgstr ""
+
+msgid "Contact Information"
+msgstr ""
+
+msgid "Contact Us"
+msgstr ""
+
+msgid "Continue Shopping"
+msgstr ""
+
+msgid "Continue shopping"
+msgstr ""
+
+msgid "Continued"
+msgstr ""
+
+msgid "Could not add to cart."
+msgstr ""
+
+msgid "Could not remove item from cart."
+msgstr ""
+
+msgid "Could not update cart."
+msgstr ""
+
+msgid "Country / Region"
+msgstr ""
+
+msgid "Coupon code"
+msgstr ""
+
+msgid "Create a password"
+msgstr ""
+
+msgid "Create an account for faster checkout, order tracking, and exclusive offers."
+msgstr ""
+
+msgid "Create an account to track orders and more."
+msgstr ""
+
+msgid "Create an account?"
+msgstr ""
+
+msgid "Create new password"
+msgstr ""
+
+msgid "Create your secure password below:"
+msgstr ""
+
+msgid "Current password"
+msgstr ""
+
+msgid "Customer Service"
+msgstr ""
+
+msgid "Customize your store settings."
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Decrease quantity"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Delay (ms)"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Did you mean @%s? Please check your email address."
+msgstr ""
+
+msgid "Dimensions"
+msgstr ""
+
+msgid "Discount Applied"
+msgstr ""
+
+msgid "Discover More"
+msgstr ""
+
+msgid "Display Type"
+msgstr ""
+
+msgid "Display name"
+msgstr ""
+
+msgid "Display type updated."
+msgstr ""
+
+msgid "Doe"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Downloads"
+msgstr ""
+
+msgid "Drag to reorder. Click to edit. Drag to disabled section to hide."
+msgstr ""
+
+msgid "Dropdown Select"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit your profile and password"
+msgstr ""
+
+msgid "Email Address"
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Email:"
+msgstr ""
+
+msgid "Enter code"
+msgstr ""
+
+msgid "Enter your billing details"
+msgstr ""
+
+msgid "Enter your email"
+msgstr ""
+
+msgid "Enter your new password below to complete the reset process."
+msgstr ""
+
+msgid "Error locating <code>%s</code> for inclusion."
+msgstr ""
+
+msgid "Error locating autoloader. Please run <code>composer install</code>."
+msgstr ""
+
+msgid "Error updating cart"
+msgstr ""
+
+msgid "Expires:"
+msgstr ""
+
+msgid "Express Checkout"
+msgstr ""
+
+msgid "F j, Y 	 g:i a"
+msgstr ""
+
+msgid "FAQ"
+msgstr ""
+
+msgid "Facebook"
+msgstr ""
+
+msgid "Featured"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "Filters:"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "Footer"
+msgstr ""
+
+msgid "Footer Navigation"
+msgstr ""
+
+msgid "Forgot password?"
+msgstr ""
+
+msgid "Fresh products just added to our store"
+msgstr ""
+
+msgid "From %s"
+msgstr ""
+
+msgid "Get the latest updates on new products and upcoming sales."
+msgstr ""
+
+msgid "Go to homepage"
+msgstr ""
+
+msgid "Have a coupon?"
+msgstr ""
+
+msgid "Hello, %s!"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Homepage Slider"
+msgstr ""
+
+msgid "Hot Deals"
+msgstr ""
+
+msgid "House number and street"
+msgstr ""
+
+msgid "House number and street name"
+msgstr ""
+
+msgid "In Stock"
+msgstr ""
+
+msgid "In stock"
+msgstr ""
+
+msgid "Increase quantity"
+msgstr ""
+
+msgid "Instagram"
+msgstr ""
+
+msgid "Invalid address type."
+msgstr ""
+
+msgid "Invalid cart item."
+msgstr ""
+
+msgid "Invalid parameters."
+msgstr ""
+
+msgid "John"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "Latest Posts"
+msgstr ""
+
+msgid "Leave blank to keep your current password."
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Log in"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Login / Register"
+msgstr ""
+
+msgid "Login Required"
+msgstr ""
+
+msgid "Lost your password?"
+msgstr ""
+
+msgid "Manage additional order fields like notes."
+msgstr ""
+
+msgid "Manage billing & shipping"
+msgstr ""
+
+msgid "Manage shipping address fields displayed during checkout."
+msgstr ""
+
+msgid "Manage your saved payment methods for faster checkout."
+msgstr ""
+
+msgid "Max: %d available"
+msgstr ""
+
+msgid "Maximum price"
+msgstr ""
+
+msgid "Mega Menu"
+msgstr ""
+
+msgid "Mega Menu (Homepage)"
+msgstr ""
+
+msgid "Member since"
+msgstr ""
+
+msgid "Menu"
+msgstr ""
+
+msgid "Minimum price"
+msgstr ""
+
+msgid "Most popular products this month"
+msgstr ""
+
+msgid "My Account"
+msgstr ""
+
+msgid "N/A"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "New Arrivals"
+msgstr ""
+
+msgid "New password"
+msgstr ""
+
+msgid "Newer comments &rarr;"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Next categories"
+msgstr ""
+
+msgid "Next image"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "Next products"
+msgstr ""
+
+msgid "Next slide"
+msgstr ""
+
+msgid "Next thumbnails"
+msgstr ""
+
+msgid "No additional information available for this product."
+msgstr ""
+
+msgid "No billing address provided."
+msgstr ""
+
+msgid "No billing address set."
+msgstr ""
+
+msgid "No description available for this product."
+msgstr ""
+
+msgid "No downloads yet"
+msgstr ""
+
+msgid "No items found"
+msgstr ""
+
+msgid "No orders yet"
+msgstr ""
+
+msgid "No products found"
+msgstr ""
+
+msgid "No products match your selected filters. Try adjusting your filter criteria."
+msgstr ""
+
+msgid "No products matched your search for \"%s\". Try using different keywords or browse our categories."
+msgstr ""
+
+msgid "No products matched your search. Try using different keywords or browse our categories."
+msgstr ""
+
+msgid "No results found"
+msgstr ""
+
+msgid "No saved methods found. Add a payment method during checkout and it will appear here."
+msgstr ""
+
+msgid "No saved payment methods"
+msgstr ""
+
+msgid "No shipping address provided."
+msgstr ""
+
+msgid "No shipping address set."
+msgstr ""
+
+msgid "No subcategories in this category"
+msgstr ""
+
+msgid "Not Found"
+msgstr ""
+
+msgid "On Sale"
+msgstr ""
+
+msgid "Optional"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Order Fields"
+msgstr ""
+
+msgid "Order History"
+msgstr ""
+
+msgid "Order Items"
+msgstr ""
+
+msgid "Order Notes"
+msgstr ""
+
+msgid "Order Number"
+msgstr ""
+
+msgid "Order Received"
+msgstr ""
+
+msgid "Order Summary"
+msgstr ""
+
+msgid "Order Updates"
+msgstr ""
+
+msgid "Order not found"
+msgstr ""
+
+msgid "Out of Stock"
+msgstr ""
+
+msgid "Out of stock"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+msgid "Pages:"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password Change"
+msgstr ""
+
+msgid "Payment"
+msgstr ""
+
+msgid "Payment Method"
+msgstr ""
+
+msgid "Payment Methods"
+msgstr ""
+
+msgid "Permission denied."
+msgstr ""
+
+msgid "Personal Information"
+msgstr ""
+
+msgid "Phone Number"
+msgstr ""
+
+msgid "Phone:"
+msgstr ""
+
+msgid "Pinterest"
+msgstr ""
+
+msgid "Placed on %1$s at %2$s"
+msgstr ""
+
+msgid "Please enter a valid phone number."
+msgstr ""
+
+msgid "Please enter your details to sign in."
+msgstr ""
+
+msgid "Popular Categories"
+msgstr ""
+
+msgid "Popular Products"
+msgstr ""
+
+msgid "Powered by SEGA"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Previous categories"
+msgstr ""
+
+msgid "Previous image"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Previous products"
+msgstr ""
+
+msgid "Previous slide"
+msgstr ""
+
+#: app/setup.php (Swiper accessibility)
+msgid "Go to slide {{index}}"
+msgstr ""
+
+#: app/setup.php (Swiper accessibility)
+msgid "Go to products {{index}}"
+msgstr ""
+
+msgid "Previous thumbnails"
+msgstr ""
+
+msgid "Price"
+msgstr ""
+
+msgid "Price not available"
+msgstr ""
+
+msgid "Primary"
+msgstr ""
+
+msgid "Primary Navigation"
+msgstr ""
+
+msgid "Proceed to Checkout"
+msgstr ""
+
+msgid "Product"
+msgstr ""
+
+msgid "Product Attribute Swatches"
+msgstr ""
+
+msgid "Product Details"
+msgstr ""
+
+msgid "Product image gallery"
+msgstr ""
+
+msgid "Product information tabs"
+msgstr ""
+
+msgid "Product not found."
+msgstr ""
+
+msgid "Product pagination"
+msgstr ""
+
+msgid "Product quantity"
+msgstr ""
+
+msgid "Product sorting"
+msgstr ""
+
+msgid "Products"
+msgstr ""
+
+msgid "Products per page"
+msgstr ""
+
+msgid "Qty"
+msgstr ""
+
+msgid "Qty:"
+msgstr ""
+
+msgid "Quantity"
+msgstr ""
+
+msgid "Range:"
+msgstr ""
+
+msgid "Read reviews"
+msgstr ""
+
+msgid "Recent Orders"
+msgstr ""
+
+msgid "Recommended"
+msgstr ""
+
+msgid "Recommended image size: 1200x500px"
+msgstr ""
+
+msgid "Register"
+msgstr ""
+
+msgid "Related Products"
+msgstr ""
+
+msgid "Remaining:"
+msgstr ""
+
+msgid "Remember me"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Remove coupon"
+msgstr ""
+
+msgid "Remove filter"
+msgstr ""
+
+msgid "Remove from cart"
+msgstr ""
+
+msgid "Remove item"
+msgstr ""
+
+msgid "Reset password"
+msgstr ""
+
+msgid "Return to Shop"
+msgstr ""
+
+msgid "Return to addresses"
+msgstr ""
+
+msgid "Return to homepage"
+msgstr ""
+
+msgid "Returns & Exchanges"
+msgstr ""
+
+msgid "SKU"
+msgstr ""
+
+msgid "SKU:"
+msgstr ""
+
+msgid "Sale"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Save %d%%"
+msgstr ""
+
+msgid "Save address"
+msgstr ""
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Save new password"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search Products"
+msgstr ""
+
+msgid "Search: \"%s\""
+msgstr ""
+
+msgid "Search Results for %s"
+msgstr ""
+
+msgid "Search results: \"%s\""
+msgstr ""
+
+msgid "Search products..."
+msgstr ""
+
+msgid "Search results pagination"
+msgstr ""
+
+msgid "Security check failed"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "Select %s"
+msgstr ""
+
+msgid "Select Options"
+msgstr ""
+
+msgid "Select a country / region&hellip;"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Ship to a different address?"
+msgstr ""
+
+msgid "Shipping"
+msgstr ""
+
+msgid "Shipping Address"
+msgstr ""
+
+msgid "Shipping Fields"
+msgstr ""
+
+msgid "Shipping Information"
+msgstr ""
+
+msgid "Shipping address"
+msgstr ""
+
+msgid "Shipping to billing address"
+msgstr ""
+
+msgid "Shop"
+msgstr ""
+
+msgid "Shop Now"
+msgstr ""
+
+msgid "Shop Sidebar"
+msgstr ""
+
+msgid "Shop by Category"
+msgstr ""
+
+msgid "Shop order"
+msgstr ""
+
+msgid "Shopping Cart"
+msgstr ""
+
+msgid "Shopping cart"
+msgstr ""
+
+msgid "Show Arrows"
+msgstr ""
+
+msgid "Show Dots"
+msgstr ""
+
+msgid "Show password"
+msgstr ""
+
+msgid "Showing %1$d–%2$d of %3$d results"
+msgstr ""
+
+#. translators: %d is the total number of results
+msgid "Showing the single result"
+msgid_plural "Showing all %d results"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Sidebar"
+msgstr ""
+
+msgid "Sidebar displayed on WooCommerce shop and archive pages."
+msgstr ""
+
+msgid "Sign In / Register"
+msgstr ""
+
+msgid "Skip to content"
+msgstr ""
+
+msgid "Slide"
+msgstr ""
+
+msgid "Slide 1"
+msgstr ""
+
+msgid "Slide 2"
+msgstr ""
+
+msgid "Slide 3"
+msgstr ""
+
+msgid "Sold out"
+msgstr ""
+
+msgid "Sorry, but the page you are trying to view does not exist."
+msgstr ""
+
+msgid "Sorry, no results were found."
+msgstr ""
+
+msgid "Sorry, only %d items are in stock."
+msgstr ""
+
+msgid "Sorry, you can only purchase %d of this item."
+msgstr ""
+
+msgid "Special instructions for delivery, gift messages, or any other notes about your order..."
+msgstr ""
+
+msgid "Special instructions..."
+msgstr ""
+
+msgid "Start Shopping"
+msgstr ""
+
+msgid "Start shopping to see your orders here."
+msgstr ""
+
+msgid "State / Province"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Street Address"
+msgstr ""
+
+msgid "Subcategories"
+msgstr ""
+
+msgid "Subscribe"
+msgstr ""
+
+msgid "Subscribe to our newsletter"
+msgstr ""
+
+msgid "Subtotal"
+msgstr ""
+
+msgid "Swipe to see more categories"
+msgstr ""
+
+msgid "Swipe to see more products"
+msgstr ""
+
+msgid "Tag: %s"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "The following addresses will be used on the checkout page by default."
+msgstr ""
+
+msgid "There are no products available at the moment. Please check back later."
+msgstr ""
+
+msgid "There are no products in this category yet. Please check back later."
+msgstr ""
+
+msgid "This address will be used as the default shipping address."
+msgstr ""
+
+msgid "This address will be used on the checkout page by default."
+msgstr ""
+
+msgid "This product cannot be purchased."
+msgstr ""
+
+msgid "This product is currently out of stock and unavailable."
+msgstr ""
+
+msgid "This product is currently out of stock."
+msgstr ""
+
+msgid "This variation is unavailable."
+msgstr ""
+
+msgid "This will be how your name will be displayed in the account section and in reviews."
+msgstr ""
+
+msgid "To set colors for each term, go to %s and edit individual terms."
+msgstr ""
+
+msgid "Top Rated"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Total Orders"
+msgstr ""
+
+msgid "Total Spent"
+msgstr ""
+
+msgid "Total:"
+msgstr ""
+
+msgid "Track Your Order"
+msgstr ""
+
+msgid "Track your order in"
+msgstr ""
+
+msgid "Twitter / X"
+msgstr ""
+
+msgid "Type at least 2 characters to search"
+msgstr ""
+
+msgid "Unlimited"
+msgstr ""
+
+msgid "Up to %d%% off"
+msgstr ""
+
+msgid "Up to %s"
+msgstr ""
+
+msgid "Update cart"
+msgstr ""
+
+msgid "Update your personal information and password."
+msgstr ""
+
+msgid "Updating..."
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Username or email"
+msgstr ""
+
+msgid "Username or email address"
+msgstr ""
+
+msgid "View %s options"
+msgstr ""
+
+msgid "View All"
+msgstr ""
+
+msgid "View Cart"
+msgstr ""
+
+msgid "View Products"
+msgstr ""
+
+msgid "View all"
+msgstr ""
+
+msgid "View all categories"
+msgstr ""
+
+msgid "View all orders"
+msgstr ""
+
+msgid "View all products"
+msgstr ""
+
+msgid "View all results for"
+msgstr ""
+
+msgid "View and manage your order history"
+msgstr ""
+
+msgid "View image"
+msgstr ""
+
+msgid "View order number %s"
+msgstr ""
+
+msgid "View your orders"
+msgstr ""
+
+msgid "We will notify you once your order has shipped."
+msgstr ""
+
+msgid "Weight"
+msgstr ""
+
+msgid "What's next?"
+msgstr ""
+
+msgid "Welcome back"
+msgstr ""
+
+msgid "Welcome back! Please enter your details."
+msgstr ""
+
+msgid "Welcome back, %s"
+msgstr ""
+
+msgid "Where should we deliver your order?"
+msgstr ""
+
+msgid "Wishlist"
+msgstr ""
+
+msgid "WooCommerce"
+msgstr ""
+
+msgid "You have not set up this address yet."
+msgstr ""
+
+msgid "You have unapplied changes"
+msgstr ""
+
+msgid "You may also like"
+msgstr ""
+
+msgid "You will receive an order confirmation email shortly."
+msgstr ""
+
+msgid "Your Addresses"
+msgstr ""
+
+msgid "Your Downloads"
+msgstr ""
+
+msgid "Your Orders"
+msgstr ""
+
+msgid "Your cart is currently empty"
+msgstr ""
+
+msgid "Your cart is currently empty. Start shopping to add items to your cart."
+msgstr ""
+
+msgid "Your cart is empty"
+msgstr ""
+
+msgid "Your current order total is %s — you must have an order with a minimum of %s to place your order."
+msgstr ""
+
+msgid "Your order will be delivered to the same address as your billing details."
+msgstr ""
+
+msgid "Your trusted marketplace for quality products. We offer a curated selection with fast shipping and exceptional customer service."
+msgstr ""
+
+msgid "ZIP / Postal Code"
+msgstr ""
+
+msgid "Zoom image"
+msgstr ""
+
+msgid "items"
+msgstr ""
+
+msgid "products"
+msgstr ""
+
+msgid "remaining"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "to close"
+msgstr ""
+
+msgid "to search"
+msgstr ""
+
+msgid "Toggle password visibility"
+msgstr ""
+
+msgid "your@email.com"
+msgstr ""

@@ -81,7 +81,7 @@
                 {{ $category['name'] }}
               </h3>
               <span class="mt-1 text-xs text-secondary-500">
-                {{ sprintf(_n('%d product', '%d products', $category['count'], 'sage'), $category['count']) }}
+                {{ sprintf(_n('%d product', '%d products', $category['count'], 'sega-woo-theme'), $category['count']) }}
               </span>
             </a>
           </div>
@@ -96,7 +96,7 @@
         x-ref="prev"
         type="button"
         class="absolute left-0 top-1/2 z-10 -ml-4 hidden -translate-y-1/2 lg:flex h-10 w-10 items-center justify-center rounded-full bg-white text-secondary-700 shadow-lg transition-all hover:bg-primary-600 hover:text-white hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-700"
-        aria-label="{{ __('Previous categories', 'sage') }}"
+        aria-label="{{ __('Previous categories', 'sega-woo-theme') }}"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -108,7 +108,7 @@
         x-ref="next"
         type="button"
         class="absolute right-0 top-1/2 z-10 -mr-4 hidden -translate-y-1/2 lg:flex h-10 w-10 items-center justify-center rounded-full bg-white text-secondary-700 shadow-lg transition-all hover:bg-primary-600 hover:text-white hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-700"
-        aria-label="{{ __('Next categories', 'sage') }}"
+        aria-label="{{ __('Next categories', 'sega-woo-theme') }}"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -120,7 +120,7 @@
   {{-- Mobile Swipe Hint --}}
   @if ($categoryCount > 2)
     <div class="mt-3 text-center text-xs text-secondary-500 lg:hidden">
-      {{ __('Swipe to see more categories', 'sage') }}
+      {{ __('Swipe to see more categories', 'sega-woo-theme') }}
     </div>
   @endif
 @endif

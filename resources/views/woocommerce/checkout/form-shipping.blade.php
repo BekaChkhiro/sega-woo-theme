@@ -27,10 +27,10 @@
       />
       <div class="flex-1">
         <span class="block text-sm font-medium text-secondary-900">
-          {{ __('Ship to a different address?', 'sage') }}
+          {{ __('Ship to a different address?', 'sega-woo-theme') }}
         </span>
         <p class="mt-1 text-xs text-secondary-500">
-          {{ __('Check this if you want your order delivered to a different address than your billing address.', 'sage') }}
+          {{ __('Check this if you want your order delivered to a different address than your billing address.', 'sega-woo-theme') }}
         </p>
       </div>
       <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full transition-colors"
@@ -107,10 +107,10 @@
       </div>
       <div class="flex-1">
         <p class="text-sm font-medium text-secondary-900">
-          {{ __('Shipping to billing address', 'sage') }}
+          {{ __('Shipping to billing address', 'sega-woo-theme') }}
         </p>
         <p class="mt-0.5 text-xs text-secondary-500">
-          {{ __('Your order will be delivered to the same address as your billing details.', 'sage') }}
+          {{ __('Your order will be delivered to the same address as your billing details.', 'sega-woo-theme') }}
         </p>
       </div>
     </div>

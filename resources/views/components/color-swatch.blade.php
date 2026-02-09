@@ -29,7 +29,7 @@
     data-show_option_none="yes"
     aria-required="true"
   >
-    <option value="">{{ sprintf(__('Choose %s', 'sage'), $attributeLabel) }}</option>
+    <option value="">{{ sprintf(__('Choose %s', 'sega-woo-theme'), $attributeLabel) }}</option>
     @foreach ($options as $option)
       <option
         value="{{ esc_attr($option['slug']) }}"
@@ -54,7 +54,7 @@
         data-value="{{ $option['slug'] }}"
         data-color="{{ $color }}"
         title="{{ $option['name'] }}"
-        aria-label="{{ sprintf(__('Select %s', 'sage'), $option['name']) }}"
+        aria-label="{{ sprintf(__('Select %s', 'sega-woo-theme'), $option['name']) }}"
         style="background-color: {{ $color }};"
       >
         {{-- Inner shadow for depth --}}

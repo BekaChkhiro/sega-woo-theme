@@ -20,7 +20,7 @@
   // Default values for variables passed via @include
   $productId = $productId ?? 0;
   $cartUrl = $cartUrl ?? '';
-  $cartText = $cartText ?? __('Add to cart', 'sage');
+  $cartText = $cartText ?? __('Add to cart', 'sega-woo-theme');
   $quantityData = $quantityData ?? ['min' => 1, 'max' => '', 'step' => 1, 'value' => 1];
   $inStock = $inStock ?? true;
   $purchasable = $purchasable ?? true;
@@ -99,7 +99,7 @@
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
-        {{ __('Clear selection', 'sage') }}
+        {{ __('Clear selection', 'sega-woo-theme') }}
       </a>
     @elseif (!empty($variationAttributes))
       {{-- Fallback to original variationAttributes if variationAttributesWithDisplay is empty --}}
@@ -135,7 +135,7 @@
                 aria-required="true"
               >
                 <option value="">
-                  {{ sprintf(__('Choose %s', 'sage'), $attributeLabel) }}
+                  {{ sprintf(__('Choose %s', 'sega-woo-theme'), $attributeLabel) }}
                 </option>
                 @foreach ($options as $option)
                   @php
@@ -181,7 +181,7 @@
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
-        {{ __('Clear selection', 'sage') }}
+        {{ __('Clear selection', 'sega-woo-theme') }}
       </a>
     @endif
 
@@ -218,7 +218,7 @@
           {{-- Quantity Input --}}
           <div class="quantity-wrapper">
             <label for="quantity-{{ $productId }}" class="sr-only">
-              {{ __('Quantity', 'sage') }}
+              {{ __('Quantity', 'sega-woo-theme') }}
             </label>
 
             <div class="group/qty inline-flex items-center gap-1.5 rounded-full bg-secondary-100/80 p-1.5 transition-all duration-200 hover:bg-secondary-100 hover:shadow-md">
@@ -226,7 +226,7 @@
               <button
                 type="button"
                 class="quantity-btn quantity-minus flex h-10 w-10 items-center justify-center rounded-full bg-white text-secondary-500 shadow-sm ring-1 ring-secondary-200/50 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-500 disabled:hover:ring-secondary-200/50 disabled:active:scale-100 sm:h-11 sm:w-11"
-                aria-label="{{ __('Decrease quantity', 'sage') }}"
+                aria-label="{{ __('Decrease quantity', 'sega-woo-theme') }}"
                 data-action="decrease"
               >
                 <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -248,14 +248,14 @@
                 inputmode="numeric"
                 pattern="[0-9]*"
                 class="quantity-input input-text qty text h-10 w-12 border-0 bg-transparent text-center text-base font-bold text-secondary-900 transition-colors focus:outline-none focus:ring-0 sm:h-11 sm:w-14 sm:text-lg [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                aria-label="{{ __('Product quantity', 'sage') }}"
+                aria-label="{{ __('Product quantity', 'sega-woo-theme') }}"
               />
 
               {{-- Increase Button --}}
               <button
                 type="button"
                 class="quantity-btn quantity-plus flex h-10 w-10 items-center justify-center rounded-full bg-white text-secondary-500 shadow-sm ring-1 ring-secondary-200/50 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-500 disabled:hover:ring-secondary-200/50 disabled:active:scale-100 sm:h-11 sm:w-11"
-                aria-label="{{ __('Increase quantity', 'sage') }}"
+                aria-label="{{ __('Increase quantity', 'sega-woo-theme') }}"
                 data-action="increase"
               >
                 <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -298,7 +298,7 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <span class="ml-2">{{ __('Adding...', 'sage') }}</span>
+              <span class="ml-2">{{ __('Adding...', 'sega-woo-theme') }}</span>
             </span>
 
             {{-- Success State --}}
@@ -306,7 +306,7 @@
               <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span class="ml-2">{{ __('Added!', 'sage') }}</span>
+              <span class="ml-2">{{ __('Added!', 'sega-woo-theme') }}</span>
             </span>
           </button>
 
@@ -606,7 +606,7 @@
                 '<svg class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
                 '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />' +
                 '</svg>' +
-                '<span>{{ __("This combination is unavailable.", "sage") }}</span>' +
+                '<span>{{ __("This combination is unavailable.", "sega-woo-theme") }}</span>' +
                 '</div>';
             }
           }
@@ -871,7 +871,7 @@
 
             // Show success toast
             document.body.dispatchEvent(new CustomEvent('show-toast', {
-              detail: { message: '{{ __("Product added to cart", "sage") }}', type: 'success' },
+              detail: { message: '{{ __("Product added to cart", "sega-woo-theme") }}', type: 'success' },
             }));
 
             // Reset button after delay
@@ -888,7 +888,7 @@
         .catch(error => {
           console.error('Error adding to cart:', error);
           document.body.dispatchEvent(new CustomEvent('show-toast', {
-            detail: { message: '{{ __("Could not add to cart. Please try again.", "sage") }}', type: 'error' },
+            detail: { message: '{{ __("Could not add to cart. Please try again.", "sega-woo-theme") }}', type: 'error' },
           }));
 
           // Reset button
@@ -1074,9 +1074,9 @@
       </svg>
       <p class="text-sm font-medium text-red-800">
         @if (!$inStock)
-          {{ __('This product is currently out of stock.', 'sage') }}
+          {{ __('This product is currently out of stock.', 'sega-woo-theme') }}
         @else
-          {{ __('This product cannot be purchased.', 'sage') }}
+          {{ __('This product cannot be purchased.', 'sega-woo-theme') }}
         @endif
       </p>
     </div>

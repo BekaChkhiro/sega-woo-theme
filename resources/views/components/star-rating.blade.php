@@ -9,7 +9,7 @@
   @endif
 >
   {{-- Star Display --}}
-  <div class="flex items-center {{ $containerClasses() }}" role="img" aria-label="{{ sprintf(__('%s out of 5 stars', 'sage'), $formattedRating()) }}">
+  <div class="flex items-center {{ $containerClasses() }}" role="img" aria-label="{{ sprintf(__('%s out of 5 stars', 'sega-woo-theme'), $formattedRating()) }}">
     {{-- Full Stars --}}
     @for ($i = 0; $i < $fullStars(); $i++)
       <svg class="{{ $starClasses() }} text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">

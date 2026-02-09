@@ -19,10 +19,10 @@
         </svg>
       </div>
       <h2 class="text-xl font-semibold text-secondary-900">
-        {{ __('Lost your password?', 'sage') }}
+        {{ __('Lost your password?', 'sega-woo-theme') }}
       </h2>
       <p class="mt-2 text-sm text-secondary-600">
-        {{ __('Enter your email address or username below and we\'ll send you a link to reset your password.', 'sage') }}
+        {{ __('Enter your email address or username below and we\'ll send you a link to reset your password.', 'sega-woo-theme') }}
       </p>
     </div>
 
@@ -33,7 +33,7 @@
       {{-- Email/Username Field --}}
       <div class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
         <label for="user_login" class="mb-1.5 block text-sm font-medium text-secondary-700">
-          {{ __('Username or email', 'sage') }}
+          {{ __('Username or email', 'sega-woo-theme') }}
           <span class="required text-red-500" aria-hidden="true">*</span>
         </label>
         <input
@@ -55,10 +55,10 @@
 
         <button
           type="submit"
-          value="{{ __('Reset password', 'sage') }}"
+          value="{{ __('Reset password', 'sega-woo-theme') }}"
           class="woocommerce-Button button w-full rounded-xl bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] {{ wc_wp_theme_get_element_class_name('button') }}"
         >
-          {{ __('Reset password', 'sage') }}
+          {{ __('Reset password', 'sega-woo-theme') }}
         </button>
 
         @php wp_nonce_field('lost_password', 'woocommerce-lost-password-nonce'); @endphp
@@ -74,7 +74,7 @@
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        {{ __('Back to login', 'sage') }}
+        {{ __('Back to login', 'sega-woo-theme') }}
       </a>
     </div>
   </div>

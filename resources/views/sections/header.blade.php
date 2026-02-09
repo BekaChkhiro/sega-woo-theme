@@ -30,7 +30,7 @@
               <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              <span>{{ __('Categories', 'sage') }}</span>
+              <span>{{ __('Categories', 'sega-woo-theme') }}</span>
               <svg
                 class="h-4 w-4 transition-transform duration-200"
                 :class="{ 'rotate-180': categoriesOpen }"
@@ -64,7 +64,7 @@
                 :show-product-count="false"
                 :show-thumbnails="true"
                 :show-view-all="true"
-                :title="__('Categories', 'sage')"
+                :title="__('Categories', 'sega-woo-theme')"
                 class="max-h-[70vh] shadow-xl"
               />
             </div>
@@ -96,7 +96,7 @@
           type="button"
           @click="$dispatch('open-search-popup')"
           class="flex h-10 w-10 items-center justify-center rounded-full text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900"
-          aria-label="{{ __('Search', 'sage') }}"
+          aria-label="{{ __('Search', 'sega-woo-theme') }}"
           aria-haspopup="dialog"
         >
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -109,11 +109,14 @@
           @include('partials.mini-cart')
         @endif
 
+        {{-- Language Switcher --}}
+        <x-language-switcher class="hidden sm:block" />
+
         {{-- Mobile Menu Toggle --}}
         <button
           type="button"
           class="flex h-10 w-10 items-center justify-center rounded-full text-secondary-600 transition-colors hover:bg-secondary-100 hover:text-secondary-900 lg:hidden"
-          aria-label="{{ __('Menu', 'sage') }}"
+          aria-label="{{ __('Menu', 'sega-woo-theme') }}"
           aria-expanded="false"
           data-mobile-menu-toggle
         >
@@ -141,7 +144,7 @@
               <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              {{ __('Categories', 'sage') }}
+              {{ __('Categories', 'sega-woo-theme') }}
             </span>
             <svg
               class="h-5 w-5 transition-transform duration-200"
@@ -174,7 +177,7 @@
               :show-product-count="false"
               :show-thumbnails="true"
               :show-view-all="true"
-              :title="__('Categories', 'sage')"
+              :title="__('Categories', 'sega-woo-theme')"
               class="max-h-[50vh]"
             />
           </div>
@@ -193,6 +196,11 @@
           ]) !!}
         </nav>
       @endif
+
+      {{-- Mobile Language Switcher --}}
+      <div class="mt-4 border-t border-secondary-100 pt-4">
+        <x-language-switcher />
+      </div>
     </div>
   </div>
 </header>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    WPML Configuration File for Sega WooCommerce Theme
+
+    This file defines which theme settings, options, and strings
+    should be translatable through WPML.
+
+    Documentation: https://wpml.org/documentation/support/language-configuration-files/
+
+    Theme: sega-woo-theme
+    Textdomain: sega-woo-theme
+-->
+<wpml-config>
+
+    <!--
+        ============================================
+        LANGUAGE SWITCHER SETTINGS
+        ============================================
+        Configure the default language switcher behavior
+    -->
+    <language-switcher-settings>
+        <key name="link_empty">0</key>
+        <key name="native">1</key>
+        <key name="translated">0</key>
+        <key name="widget">
+            <key name="template">dropdown</key>
+            <key name="include_flag">1</key>
+        </key>
+        <key name="panel">
+            <key name="include_flag">1</key>
+        </key>
+    </language-switcher-settings>
+
+    <!--
+        ============================================
+        ADMIN TEXTS (Theme Options & Customizer)
+        ============================================
+        Theme mods and options that contain translatable text
+    -->
+    <admin-texts>
+
+        <!--
+            Homepage Slider Settings
+            The slider data is stored as JSON with slide links that may differ per language
+        -->
+        <key name="theme_mods_sega-woo-theme-master">
+            <!-- Homepage Slider Data (JSON with slide images and links) -->
+            <key name="homepage_slider_data" />
+        </key>
+
+        <!--
+            Checkout Field Labels and Placeholders
+            These are the customizable text for WooCommerce checkout fields
+        -->
+
+        <!-- Billing Fields -->
+        <key name="theme_mods_sega-woo-theme-master">
+            <!-- Email -->
+            <key name="checkout_field_billing_email_label" />
+            <key name="checkout_field_billing_email_placeholder" />
+
+            <!-- Phone -->
+            <key name="checkout_field_billing_phone_label" />
+            <key name="checkout_field_billing_phone_placeholder" />
+
+            <!-- First Name -->
+            <key name="checkout_field_billing_first_name_label" />
+            <key name="checkout_field_billing_first_name_placeholder" />
+
+            <!-- Last Name -->
+            <key name="checkout_field_billing_last_name_label" />
+            <key name="checkout_field_billing_last_name_placeholder" />
+
+            <!-- Company -->
+            <key name="checkout_field_billing_company_label" />
+            <key name="checkout_field_billing_company_placeholder" />
+
+            <!-- Country -->
+            <key name="checkout_field_billing_country_label" />
+
+            <!-- Address 1 -->
+            <key name="checkout_field_billing_address_1_label" />
+            <key name="checkout_field_billing_address_1_placeholder" />
+
+            <!-- Address 2 -->
+            <key name="checkout_field_billing_address_2_label" />
+            <key name="checkout_field_billing_address_2_placeholder" />
+
+            <!-- City -->
+            <key name="checkout_field_billing_city_label" />
+            <key name="checkout_field_billing_city_placeholder" />
+
+            <!-- State -->
+            <key name="checkout_field_billing_state_label" />
+
+            <!-- Postcode -->
+            <key name="checkout_field_billing_postcode_label" />
+            <key name="checkout_field_billing_postcode_placeholder" />
+        </key>
+
+        <!-- Shipping Fields -->
+        <key name="theme_mods_sega-woo-theme-master">
+            <!-- First Name -->
+            <key name="checkout_field_shipping_first_name_label" />
+            <key name="checkout_field_shipping_first_name_placeholder" />
+
+            <!-- Last Name -->
+            <key name="checkout_field_shipping_last_name_label" />
+            <key name="checkout_field_shipping_last_name_placeholder" />
+
+            <!-- Company -->
+            <key name="checkout_field_shipping_company_label" />
+            <key name="checkout_field_shipping_company_placeholder" />
+
+            <!-- Country -->
+            <key name="checkout_field_shipping_country_label" />
+
+            <!-- Address 1 -->
+            <key name="checkout_field_shipping_address_1_label" />
+            <key name="checkout_field_shipping_address_1_placeholder" />
+
+            <!-- Address 2 -->
+            <key name="checkout_field_shipping_address_2_label" />
+            <key name="checkout_field_shipping_address_2_placeholder" />
+
+            <!-- City -->
+            <key name="checkout_field_shipping_city_label" />
+            <key name="checkout_field_shipping_city_placeholder" />
+
+            <!-- State -->
+            <key name="checkout_field_shipping_state_label" />
+
+            <!-- Postcode -->
+            <key name="checkout_field_shipping_postcode_label" />
+            <key name="checkout_field_shipping_postcode_placeholder" />
+        </key>
+
+        <!-- Order Fields -->
+        <key name="theme_mods_sega-woo-theme-master">
+            <!-- Order Comments/Notes -->
+            <key name="checkout_field_order_comments_label" />
+            <key name="checkout_field_order_comments_placeholder" />
+        </key>
+
+    </admin-texts>
+
+    <!--
+        ============================================
+        CUSTOM TYPES (Post Types to Translate)
+        ============================================
+        WooCommerce product-related post types
+    -->
+    <custom-types>
+        <!-- Products are translatable -->
+        <custom-type translate="1">product</custom-type>
+
+        <!-- Product variations are linked to their parent product -->
+        <custom-type translate="1">product_variation</custom-type>
+
+        <!-- Shop orders (optional - usually not translated) -->
+        <custom-type translate="0">shop_order</custom-type>
+
+        <!-- Shop coupons (optional - translate if offering localized coupons) -->
+        <custom-type translate="0">shop_coupon</custom-type>
+    </custom-types>
+
+    <!--
+        ============================================
+        TAXONOMIES (Categories, Tags, Attributes)
+        ============================================
+        Product-related taxonomies that should be translatable
+    -->
+    <taxonomies>
+        <!-- Product Categories -->
+        <taxonomy translate="1">product_cat</taxonomy>
+
+        <!-- Product Tags -->
+        <taxonomy translate="1">product_tag</taxonomy>
+
+        <!-- Product Shipping Classes -->
+        <taxonomy translate="1">product_shipping_class</taxonomy>
+
+        <!--
+            Product Attributes
+            Note: Individual attribute taxonomies (pa_color, pa_size, etc.)
+            are automatically handled by WooCommerce Multilingual
+        -->
+    </taxonomies>
+
+    <!--
+        ============================================
+        CUSTOM FIELDS (Product Meta)
+        ============================================
+        WooCommerce product fields that contain translatable text
+    -->
+    <custom-fields>
+        <!-- Product Short Description (excerpt) is handled automatically -->
+
+        <!-- Product Purchase Note -->
+        <custom-field action="translate">_purchase_note</custom-field>
+
+        <!-- Product Button Text (if customized) -->
+        <custom-field action="translate">_button_text</custom-field>
+
+        <!-- Product External URL (might differ per language) -->
+        <custom-field action="translate">_product_url</custom-field>
+
+        <!-- WooCommerce product data fields that should NOT be translated -->
+        <custom-field action="copy">_sku</custom-field>
+        <custom-field action="copy">_regular_price</custom-field>
+        <custom-field action="copy">_sale_price</custom-field>
+        <custom-field action="copy">_price</custom-field>
+        <custom-field action="copy">_stock</custom-field>
+        <custom-field action="copy">_stock_status</custom-field>
+        <custom-field action="copy">_weight</custom-field>
+        <custom-field action="copy">_length</custom-field>
+        <custom-field action="copy">_width</custom-field>
+        <custom-field action="copy">_height</custom-field>
+        <custom-field action="copy">_virtual</custom-field>
+        <custom-field action="copy">_downloadable</custom-field>
+        <custom-field action="copy">_manage_stock</custom-field>
+        <custom-field action="copy">_backorders</custom-field>
+        <custom-field action="copy">_sold_individually</custom-field>
+        <custom-field action="copy">_product_image_gallery</custom-field>
+        <custom-field action="copy">_thumbnail_id</custom-field>
+        <custom-field action="copy">total_sales</custom-field>
+
+        <!-- Variation-specific fields to copy -->
+        <custom-field action="copy">_variation_description</custom-field>
+    </custom-fields>
+
+    <!--
+        ============================================
+        SHORTCODES
+        ============================================
+        Shortcode attributes that contain translatable content
+    -->
+    <shortcodes>
+        <!-- WooCommerce shortcodes with IDs that might change per language -->
+        <shortcode>
+            <tag>product</tag>
+            <attributes>
+                <attribute>id</attribute>
+            </attributes>
+        </shortcode>
+
+        <shortcode>
+            <tag>product_page</tag>
+            <attributes>
+                <attribute>id</attribute>
+            </attributes>
+        </shortcode>
+
+        <shortcode>
+            <tag>product_category</tag>
+            <attributes>
+                <attribute>category</attribute>
+            </attributes>
+        </shortcode>
+
+        <shortcode>
+            <tag>products</tag>
+            <attributes>
+                <attribute>ids</attribute>
+                <attribute>category</attribute>
+            </attributes>
+        </shortcode>
+
+        <shortcode>
+            <tag>add_to_cart</tag>
+            <attributes>
+                <attribute>id</attribute>
+            </attributes>
+        </shortcode>
+    </shortcodes>
+
+</wpml-config>

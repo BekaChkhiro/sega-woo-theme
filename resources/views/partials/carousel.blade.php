@@ -27,7 +27,7 @@
   $pagination = $pagination ?? false;
   $viewAllUrl = $viewAllUrl ?? null;
   $showHeader = $showHeader ?? true;
-  $viewAllText = $viewAllText ?? __('View All', 'sage');
+  $viewAllText = $viewAllText ?? __('View All', 'sega-woo-theme');
 
   // Convert products to array - handle different types
   $productsArray = [];
@@ -127,7 +127,7 @@
           x-ref="prev"
           type="button"
           class="absolute left-0 top-1/2 z-10 -ml-4 sm:-ml-5 md:-ml-6 hidden -translate-y-1/2 lg:flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-secondary-700 shadow-lg transition-all hover:bg-primary-600 hover:text-white hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-700"
-          aria-label="{{ __('Previous products', 'sage') }}"
+          aria-label="{{ __('Previous products', 'sega-woo-theme') }}"
         >
           <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -139,7 +139,7 @@
           x-ref="next"
           type="button"
           class="absolute right-0 top-1/2 z-10 -mr-4 sm:-mr-5 md:-mr-6 hidden -translate-y-1/2 lg:flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-secondary-700 shadow-lg transition-all hover:bg-primary-600 hover:text-white hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-700"
-          aria-label="{{ __('Next products', 'sage') }}"
+          aria-label="{{ __('Next products', 'sega-woo-theme') }}"
         >
           <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -156,7 +156,7 @@
     {{-- Mobile Navigation Hint --}}
     @if ($productCount > 1)
       <div class="mt-4 text-center text-xs text-secondary-500 lg:hidden">
-        {{ __('Swipe to see more products', 'sage') }}
+        {{ __('Swipe to see more products', 'sega-woo-theme') }}
       </div>
     @endif
   </section>

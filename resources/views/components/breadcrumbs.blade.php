@@ -6,7 +6,7 @@
 
 @if (!empty($items))
   {{-- Breadcrumb Navigation --}}
-  <nav aria-label="{{ __('Breadcrumb', 'sage') }}" {{ $attributes }}>
+  <nav aria-label="{{ __('Breadcrumb', 'sega-woo-theme') }}" {{ $attributes }}>
     <ol class="flex flex-wrap items-center gap-2 text-sm" role="list">
       @foreach ($items as $index => $crumb)
         <li class="flex items-center">

@@ -35,7 +35,7 @@
                             @click="dismiss(t.id)"
                             class="inline-flex rounded-md text-secondary-400 hover:text-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                         >
-                            <span class="sr-only">{{ __('Close', 'sage') }}</span>
+                            <span class="sr-only">{{ __('Close', 'sega-woo-theme') }}</span>
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>

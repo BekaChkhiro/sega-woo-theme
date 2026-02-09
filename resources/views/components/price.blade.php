@@ -16,7 +16,7 @@
       {{-- Show sale badge if any variation is on sale --}}
       @if ($showBadge && $isOnSale() && $salePercentage() > 0)
         <span class="{{ $badgeClasses() }} mt-1 inline-flex items-center gap-1 rounded-full bg-red-100 font-semibold text-red-700">
-          {{ sprintf(__('Up to %d%% off', 'sage'), $salePercentage()) }}
+          {{ sprintf(__('Up to %d%% off', 'sega-woo-theme'), $salePercentage()) }}
         </span>
       @endif
 
@@ -36,7 +36,7 @@
         {{-- Sale Percentage Badge --}}
         @if ($showBadge && $salePercentage() > 0)
           <span class="{{ $badgeClasses() }} rounded-full bg-red-100 font-semibold text-red-700">
-            {{ sprintf(__('Save %d%%', 'sage'), $salePercentage()) }}
+            {{ sprintf(__('Save %d%%', 'sega-woo-theme'), $salePercentage()) }}
           </span>
         @endif
       </div>
@@ -52,7 +52,7 @@
   {{-- No Price Set --}}
   <div {{ $attributes->merge(['class' => 'price-component']) }}>
     <span class="{{ $priceClasses() }} text-secondary-500">
-      {{ __('Price not available', 'sage') }}
+      {{ __('Price not available', 'sega-woo-theme') }}
     </span>
   </div>
 @endif

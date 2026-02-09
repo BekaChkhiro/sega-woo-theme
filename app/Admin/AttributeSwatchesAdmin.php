@@ -19,13 +19,23 @@ namespace App\Admin;
 class AttributeSwatchesAdmin
 {
     /**
-     * Available display types for attributes.
+     * Available display type keys.
      */
-    public const DISPLAY_TYPES = [
-        'select' => 'Dropdown Select',
-        'button' => 'Button/Label',
-        'color'  => 'Color Swatch',
-    ];
+    public const DISPLAY_TYPE_KEYS = ['select', 'button', 'color'];
+
+    /**
+     * Get available display types for attributes with translated labels.
+     *
+     * @return array<string, string>
+     */
+    public static function getDisplayTypes(): array
+    {
+        return [
+            'select' => __('Dropdown Select', 'sega-woo-theme'),
+            'button' => __('Button/Label', 'sega-woo-theme'),
+            'color'  => __('Color Swatch', 'sega-woo-theme'),
+        ];
+    }
 
     /**
      * Initialize the admin hooks.
@@ -61,16 +71,16 @@ class AttributeSwatchesAdmin
     {
         ?>
         <div class="form-field">
-            <label for="attribute_display_type"><?php esc_html_e('Display Type', 'sage'); ?></label>
+            <label for="attribute_display_type"><?php esc_html_e('Display Type', 'sega-woo-theme'); ?></label>
             <select name="attribute_display_type" id="attribute_display_type" class="sega-display-type-select">
-                <?php foreach (self::DISPLAY_TYPES as $value => $label): ?>
+                <?php foreach (self::getDisplayTypes() as $value => $label): ?>
                     <option value="<?php echo esc_attr($value); ?>">
                         <?php echo esc_html($label); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
             <p class="description">
-                <?php esc_html_e('Choose how this attribute will be displayed on the product page.', 'sage'); ?>
+                <?php esc_html_e('Choose how this attribute will be displayed on the product page.', 'sega-woo-theme'); ?>
             </p>
         </div>
         <?php
@@ -98,26 +108,26 @@ class AttributeSwatchesAdmin
         ?>
         <tr class="form-field">
             <th scope="row" valign="top">
-                <label for="attribute_display_type"><?php esc_html_e('Display Type', 'sage'); ?></label>
+                <label for="attribute_display_type"><?php esc_html_e('Display Type', 'sega-woo-theme'); ?></label>
             </th>
             <td>
                 <select name="attribute_display_type" id="attribute_display_type" class="sega-display-type-select">
-                    <?php foreach (self::DISPLAY_TYPES as $value => $label): ?>
+                    <?php foreach (self::getDisplayTypes() as $value => $label): ?>
                         <option value="<?php echo esc_attr($value); ?>" <?php selected($current_type, $value); ?>>
                             <?php echo esc_html($label); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
                 <p class="description">
-                    <?php esc_html_e('Choose how this attribute will be displayed on the product page.', 'sage'); ?>
+                    <?php esc_html_e('Choose how this attribute will be displayed on the product page.', 'sega-woo-theme'); ?>
                 </p>
 
                 <div class="sega-display-type-preview" style="margin-top: 15px;">
-                    <strong><?php esc_html_e('Preview:', 'sage'); ?></strong>
+                    <strong><?php esc_html_e('Preview:', 'sega-woo-theme'); ?></strong>
                     <div class="preview-container" style="margin-top: 10px; padding: 15px; background: #f9f9f9; border-radius: 4px;">
                         <div class="preview-select" <?php echo $current_type !== 'select' ? 'style="display:none;"' : ''; ?>>
                             <select disabled style="min-width: 150px;">
-                                <option><?php esc_html_e('Choose an option', 'sage'); ?></option>
+                                <option><?php esc_html_e('Choose an option', 'sega-woo-theme'); ?></option>
                                 <option>Option 1</option>
                                 <option>Option 2</option>
                             </select>
@@ -139,14 +149,14 @@ class AttributeSwatchesAdmin
 
                 <?php if ($current_type === 'color'): ?>
                     <div class="sega-color-terms-notice" style="margin-top: 15px; padding: 12px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
-                        <strong><?php esc_html_e('Color Configuration:', 'sage'); ?></strong>
+                        <strong><?php esc_html_e('Color Configuration:', 'sega-woo-theme'); ?></strong>
                         <p style="margin: 5px 0 0;">
                             <?php
                             printf(
                                 /* translators: %s: link to configure terms */
-                                esc_html__('To set colors for each term, go to %s and edit individual terms.', 'sage'),
+                                esc_html__('To set colors for each term, go to %s and edit individual terms.', 'sega-woo-theme'),
                                 '<a href="' . esc_url(admin_url('edit-tags.php?taxonomy=pa_' . $attribute->slug . '&post_type=product')) . '">' .
-                                esc_html__('Configure Terms', 'sage') . '</a>'
+                                esc_html__('Configure Terms', 'sega-woo-theme') . '</a>'
                             );
                             ?>
                         </p>
@@ -172,7 +182,7 @@ class AttributeSwatchesAdmin
         $type = sanitize_text_field($_POST['attribute_display_type']);
 
         // Validate type
-        if (!array_key_exists($type, self::DISPLAY_TYPES)) {
+        if (!array_key_exists($type, self::getDisplayTypes())) {
             $type = 'select';
         }
 
@@ -235,14 +245,14 @@ class AttributeSwatchesAdmin
         }
         ?>
         <div class="form-field sega-term-color-field">
-            <label for="sega_term_color"><?php esc_html_e('Swatch Color', 'sage'); ?></label>
+            <label for="sega_term_color"><?php esc_html_e('Swatch Color', 'sega-woo-theme'); ?></label>
             <div class="sega-color-picker-wrapper">
                 <input type="color" name="sega_term_color" id="sega_term_color" value="#808080" class="sega-color-input">
                 <input type="text" name="sega_term_color_hex" id="sega_term_color_hex" value="#808080"
                        class="sega-color-hex-input" placeholder="#000000" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$">
             </div>
             <p class="description">
-                <?php esc_html_e('Choose the color to display as a swatch for this term.', 'sage'); ?>
+                <?php esc_html_e('Choose the color to display as a swatch for this term.', 'sega-woo-theme'); ?>
             </p>
         </div>
         <?php
@@ -269,7 +279,7 @@ class AttributeSwatchesAdmin
         ?>
         <tr class="form-field sega-term-color-field">
             <th scope="row" valign="top">
-                <label for="sega_term_color"><?php esc_html_e('Swatch Color', 'sage'); ?></label>
+                <label for="sega_term_color"><?php esc_html_e('Swatch Color', 'sega-woo-theme'); ?></label>
             </th>
             <td>
                 <div class="sega-color-picker-wrapper">
@@ -280,11 +290,11 @@ class AttributeSwatchesAdmin
                            placeholder="#000000" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$">
                 </div>
                 <p class="description">
-                    <?php esc_html_e('Choose the color to display as a swatch for this term.', 'sage'); ?>
+                    <?php esc_html_e('Choose the color to display as a swatch for this term.', 'sega-woo-theme'); ?>
                 </p>
 
                 <div class="sega-color-preview" style="margin-top: 10px;">
-                    <strong><?php esc_html_e('Preview:', 'sage'); ?></strong>
+                    <strong><?php esc_html_e('Preview:', 'sega-woo-theme'); ?></strong>
                     <span class="sega-preview-swatch" style="display: inline-block; width: 40px; height: 40px; border-radius: 50%; background-color: <?php echo esc_attr($color); ?>; border: 2px solid #ddd; vertical-align: middle; margin-left: 10px;"></span>
                 </div>
             </td>
@@ -352,7 +362,7 @@ class AttributeSwatchesAdmin
 
             // Insert color column after name
             if ($key === 'name') {
-                $new_columns['sega_color'] = __('Color', 'sage');
+                $new_columns['sega_color'] = __('Color', 'sega-woo-theme');
             }
         }
 
@@ -404,7 +414,7 @@ class AttributeSwatchesAdmin
 
             // Insert display type column after name
             if ($key === 'name') {
-                $new_columns['display_type'] = __('Display Type', 'sage');
+                $new_columns['display_type'] = __('Display Type', 'sega-woo-theme');
             }
         }
 
@@ -419,7 +429,7 @@ class AttributeSwatchesAdmin
     public function renderDisplayTypeColumn(object $attribute): void
     {
         $type = get_option("sega_attribute_{$attribute->attribute_name}_type", 'select');
-        $label = self::DISPLAY_TYPES[$type] ?? 'Select';
+        $label = self::getDisplayTypes()[$type] ?? __('Select', 'sega-woo-theme');
 
         $badge_classes = [
             'select' => 'background: #e0e7ff; color: #3730a3;',
@@ -644,22 +654,22 @@ class AttributeSwatchesAdmin
         check_ajax_referer('sega_attribute_swatches', 'nonce');
 
         if (!current_user_can('manage_woocommerce')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'sage')]);
+            wp_send_json_error(['message' => __('Permission denied.', 'sega-woo-theme')]);
         }
 
         $slug = isset($_POST['attribute_slug']) ? sanitize_text_field($_POST['attribute_slug']) : '';
         $type = isset($_POST['display_type']) ? sanitize_text_field($_POST['display_type']) : '';
 
-        if (!$slug || !array_key_exists($type, self::DISPLAY_TYPES)) {
-            wp_send_json_error(['message' => __('Invalid parameters.', 'sage')]);
+        if (!$slug || !array_key_exists($type, self::getDisplayTypes())) {
+            wp_send_json_error(['message' => __('Invalid parameters.', 'sega-woo-theme')]);
         }
 
         update_option("sega_attribute_{$slug}_type", $type);
 
         wp_send_json_success([
-            'message' => __('Display type updated.', 'sage'),
+            'message' => __('Display type updated.', 'sega-woo-theme'),
             'type'    => $type,
-            'label'   => self::DISPLAY_TYPES[$type],
+            'label'   => self::getDisplayTypes()[$type],
         ]);
     }
 }

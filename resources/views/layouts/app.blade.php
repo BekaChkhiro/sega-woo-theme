@@ -19,7 +19,7 @@
         class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary-600 focus:px-4 focus:py-2 focus:text-white focus:outline-none"
         href="#main"
       >
-        {{ __('Skip to content', 'sage') }}
+        {{ __('Skip to content', 'sega-woo-theme') }}
       </a>
 
       {{-- Header --}}
@@ -48,7 +48,7 @@
           @hasSection('sidebar')
             {{-- Layout with sidebar on left --}}
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
-              <aside class="order-2 lg:order-1 lg:col-span-1" role="complementary" aria-label="{{ __('Sidebar', 'sage') }}">
+              <aside class="order-2 lg:order-1 lg:col-span-1" role="complementary" aria-label="{{ __('Sidebar', 'sega-woo-theme') }}">
                 @yield('sidebar')
               </aside>
 

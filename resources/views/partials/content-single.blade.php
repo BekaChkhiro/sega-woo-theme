@@ -13,7 +13,7 @@
 
   @if ($pagination())
     <footer>
-      <nav class="page-nav" aria-label="Page">
+      <nav class="page-nav" aria-label="{{ __('Page', 'sega-woo-theme') }}">
         {!! $pagination !!}
       </nav>
     </footer>

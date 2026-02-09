@@ -34,13 +34,13 @@
         </span>
       @elseif ($onSale)
         <span class="rounded-full bg-red-500 px-3 py-1.5 text-sm font-bold text-white shadow-sm">
-          {{ __('Sale', 'sage') }}
+          {{ __('Sale', 'sega-woo-theme') }}
         </span>
       @endif
 
       @if (!$inStock)
         <span class="rounded-full bg-secondary-800 px-3 py-1.5 text-sm font-semibold text-white shadow-sm">
-          {{ __('Out of stock', 'sage') }}
+          {{ __('Out of stock', 'sega-woo-theme') }}
         </span>
       @endif
     </div>
@@ -51,7 +51,7 @@
       type="button"
       class="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
       @click="previousImage()"
-      aria-label="{{ __('Previous image', 'sage') }}"
+      aria-label="{{ __('Previous image', 'sega-woo-theme') }}"
     >
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -62,7 +62,7 @@
       type="button"
       class="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
       @click="nextImage()"
-      aria-label="{{ __('Next image', 'sage') }}"
+      aria-label="{{ __('Next image', 'sega-woo-theme') }}"
     >
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -75,7 +75,7 @@
         type="button"
         class="absolute right-3 top-3 z-10 rounded-full bg-white/90 p-2 text-secondary-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
         @click="openLightbox()"
-        aria-label="{{ __('Zoom image', 'sage') }}"
+        aria-label="{{ __('Zoom image', 'sega-woo-theme') }}"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
@@ -134,7 +134,7 @@
       x-ref="thumbPrev"
       class="absolute -left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-1.5 text-secondary-600 shadow-md transition-all hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-40 disabled:cursor-not-allowed"
       :class="{ 'invisible': images.length <= 4 }"
-      aria-label="{{ __('Previous thumbnails', 'sage') }}"
+      aria-label="{{ __('Previous thumbnails', 'sega-woo-theme') }}"
     >
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -151,7 +151,7 @@
               class="gallery-thumbnail group aspect-square w-full overflow-hidden rounded-xl border-2 bg-secondary-50 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               :class="currentIndex === index ? 'border-primary-500 ring-2 ring-primary-500/20 shadow-md' : 'border-transparent hover:border-secondary-300 hover:shadow-md'"
               @click="setImage(index); slideThumbnailTo(index)"
-              :aria-label="'{{ __('View image', 'sage') }} ' + (index + 1)"
+              :aria-label="'{{ __('View image', 'sega-woo-theme') }} ' + (index + 1)"
             >
               <img
                 :src="image.thumb_url"
@@ -172,7 +172,7 @@
       x-ref="thumbNext"
       class="absolute -right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white p-1.5 text-secondary-600 shadow-md transition-all hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-40 disabled:cursor-not-allowed"
       :class="{ 'invisible': images.length <= 4 }"
-      aria-label="{{ __('Next thumbnails', 'sage') }}"
+      aria-label="{{ __('Next thumbnails', 'sega-woo-theme') }}"
     >
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -196,14 +196,14 @@
     @keydown.arrow-right.window="nextImage()"
     role="dialog"
     aria-modal="true"
-    aria-label="{{ __('Product image gallery', 'sage') }}"
+    aria-label="{{ __('Product image gallery', 'sega-woo-theme') }}"
   >
     {{-- Close Button --}}
     <button
       type="button"
       class="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       @click="closeLightbox()"
-      aria-label="{{ __('Close gallery', 'sage') }}"
+      aria-label="{{ __('Close gallery', 'sega-woo-theme') }}"
     >
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -216,7 +216,7 @@
       type="button"
       class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       @click="previousImage()"
-      aria-label="{{ __('Previous image', 'sage') }}"
+      aria-label="{{ __('Previous image', 'sega-woo-theme') }}"
     >
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -227,7 +227,7 @@
       type="button"
       class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       @click="nextImage()"
-      aria-label="{{ __('Next image', 'sage') }}"
+      aria-label="{{ __('Next image', 'sega-woo-theme') }}"
     >
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

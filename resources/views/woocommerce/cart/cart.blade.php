@@ -8,9 +8,9 @@
 
 @section('breadcrumbs')
   <x-breadcrumbs :items="[
-    ['label' => __('Home', 'sage'), 'url' => home_url('/')],
-    ['label' => __('Shop', 'sage'), 'url' => wc_get_page_permalink('shop')],
-    ['label' => __('Cart', 'sage'), 'url' => null],
+    ['label' => __('Home', 'sega-woo-theme'), 'url' => home_url('/')],
+    ['label' => __('Shop', 'sega-woo-theme'), 'url' => wc_get_page_permalink('shop')],
+    ['label' => __('Cart', 'sega-woo-theme'), 'url' => null],
   ]" />
 @endsection
 
@@ -33,11 +33,11 @@
         </div>
 
         <h1 class="mb-3 text-2xl font-bold text-secondary-900">
-          {{ __('Your cart is empty', 'sage') }}
+          {{ __('Your cart is empty', 'sega-woo-theme') }}
         </h1>
 
         <p class="mb-8 text-secondary-500">
-          {{ __('Looks like you haven\'t added anything to your cart yet.', 'sage') }}
+          {{ __('Looks like you haven\'t added anything to your cart yet.', 'sega-woo-theme') }}
         </p>
 
         <a
@@ -47,7 +47,7 @@
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
           </svg>
-          {{ __('Start Shopping', 'sage') }}
+          {{ __('Start Shopping', 'sega-woo-theme') }}
         </a>
       </div>
     </div>
@@ -56,10 +56,10 @@
     <div class="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-xl font-bold text-secondary-900 sm:text-2xl lg:text-3xl">
-          {{ __('Shopping Cart', 'sage') }}
+          {{ __('Shopping Cart', 'sega-woo-theme') }}
         </h1>
         <p class="mt-0.5 text-sm text-secondary-500 sm:mt-1">
-          {{ sprintf(_n('%d item', '%d items', $cartCount, 'sage'), $cartCount) }}
+          {{ sprintf(_n('%d item', '%d items', $cartCount, 'sega-woo-theme'), $cartCount) }}
         </p>
       </div>
       <a
@@ -69,7 +69,7 @@
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        {{ __('Continue Shopping', 'sage') }}
+        {{ __('Continue Shopping', 'sega-woo-theme') }}
       </a>
     </div>
 
@@ -91,16 +91,16 @@
             <div class="hidden border-b border-secondary-100 bg-secondary-50/50 px-6 py-4 md:block">
               <div class="grid grid-cols-12 gap-4">
                 <div class="col-span-6 text-xs font-semibold uppercase tracking-wider text-secondary-500">
-                  {{ __('Product', 'sage') }}
+                  {{ __('Product', 'sega-woo-theme') }}
                 </div>
                 <div class="col-span-2 text-center text-xs font-semibold uppercase tracking-wider text-secondary-500">
-                  {{ __('Price', 'sage') }}
+                  {{ __('Price', 'sega-woo-theme') }}
                 </div>
                 <div class="col-span-2 text-center text-xs font-semibold uppercase tracking-wider text-secondary-500">
-                  {{ __('Quantity', 'sage') }}
+                  {{ __('Quantity', 'sega-woo-theme') }}
                 </div>
                 <div class="col-span-2 text-right text-xs font-semibold uppercase tracking-wider text-secondary-500">
-                  {{ __('Total', 'sage') }}
+                  {{ __('Total', 'sega-woo-theme') }}
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@
                             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                            {{ __('Remove', 'sage') }}
+                            {{ __('Remove', 'sega-woo-theme') }}
                           </button>
                         </div>
                       </div>
@@ -195,13 +195,13 @@
 
                       {{-- Quantity --}}
                       <div class="flex items-center justify-between md:col-span-2 md:justify-center">
-                        <span class="text-xs font-medium uppercase tracking-wider text-secondary-400 md:hidden">{{ __('Qty', 'sage') }}</span>
+                        <span class="text-xs font-medium uppercase tracking-wider text-secondary-400 md:hidden">{{ __('Qty', 'sega-woo-theme') }}</span>
                         <div class="quantity-wrapper group/qty inline-flex items-center gap-1 rounded-full bg-secondary-100/80 p-1 transition-all duration-200 hover:bg-secondary-100 hover:shadow-md">
                           {{-- Minus Button --}}
                           <button
                             type="button"
                             class="quantity-btn quantity-minus flex h-8 w-8 items-center justify-center rounded-full bg-white text-secondary-500 shadow-sm ring-1 ring-secondary-200/50 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-200 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-500 disabled:hover:ring-secondary-200/50 disabled:active:scale-100 sm:h-9 sm:w-9"
-                            aria-label="{{ __('Decrease quantity', 'sage') }}"
+                            aria-label="{{ __('Decrease quantity', 'sega-woo-theme') }}"
                           >
                             <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
@@ -217,14 +217,14 @@
                             max="{{ $_product->get_max_purchase_quantity() > 0 ? $_product->get_max_purchase_quantity() : '' }}"
                             step="1"
                             class="quantity-input h-8 w-10 border-0 bg-transparent text-center text-sm font-bold text-secondary-900 transition-colors focus:outline-none focus:ring-0 sm:h-9 sm:w-12 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                            aria-label="{{ __('Product quantity', 'sage') }}"
+                            aria-label="{{ __('Product quantity', 'sega-woo-theme') }}"
                           />
 
                           {{-- Plus Button --}}
                           <button
                             type="button"
                             class="quantity-btn quantity-plus flex h-8 w-8 items-center justify-center rounded-full bg-white text-secondary-500 shadow-sm ring-1 ring-secondary-200/50 transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 hover:ring-primary-200 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-secondary-500 disabled:hover:ring-secondary-200/50 disabled:active:scale-100 sm:h-9 sm:w-9"
-                            aria-label="{{ __('Increase quantity', 'sage') }}"
+                            aria-label="{{ __('Increase quantity', 'sega-woo-theme') }}"
                           >
                             <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -235,7 +235,7 @@
 
                       {{-- Subtotal --}}
                       <div class="flex items-center justify-between border-t border-secondary-100 pt-3 md:col-span-2 md:justify-end md:border-0 md:pt-0">
-                        <span class="text-xs font-medium uppercase tracking-wider text-secondary-400 md:hidden">{{ __('Total', 'sage') }}</span>
+                        <span class="text-xs font-medium uppercase tracking-wider text-secondary-400 md:hidden">{{ __('Total', 'sega-woo-theme') }}</span>
                         <span class="cart-item-subtotal text-base font-bold text-secondary-900 transition-all">
                           {!! $productSubtotal !!}
                         </span>
@@ -251,7 +251,7 @@
                           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
-                          {{ __('Remove from cart', 'sage') }}
+                          {{ __('Remove from cart', 'sega-woo-theme') }}
                         </button>
                       </div>
                     </div>
@@ -272,7 +272,7 @@
                         name="coupon_code"
                         id="coupon_code"
                         class="h-11 w-full rounded-lg border border-secondary-200 bg-white px-3 pr-10 text-base text-secondary-900 placeholder-secondary-400 shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:h-10 sm:text-sm"
-                        placeholder="{{ __('Coupon code', 'sage') }}"
+                        placeholder="{{ __('Coupon code', 'sega-woo-theme') }}"
                         value=""
                       />
                       <svg class="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -283,9 +283,9 @@
                       type="submit"
                       name="apply_coupon"
                       class="h-11 flex-shrink-0 rounded-lg bg-secondary-900 px-4 text-base font-medium text-white shadow-sm transition-colors hover:bg-secondary-800 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 active:scale-[0.98] sm:h-10 sm:text-sm"
-                      value="{{ __('Apply', 'sage') }}"
+                      value="{{ __('Apply', 'sega-woo-theme') }}"
                     >
-                      {{ __('Apply', 'sage') }}
+                      {{ __('Apply', 'sega-woo-theme') }}
                     </button>
                   </div>
                 @endif
@@ -296,21 +296,21 @@
                   name="update_cart"
                   id="update-cart-btn"
                   class="update-cart-btn h-11 w-full rounded-lg border border-secondary-200 bg-white px-5 text-base font-medium text-secondary-600 shadow-sm transition-colors hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:w-auto sm:text-sm"
-                  value="{{ __('Update cart', 'sage') }}"
+                  value="{{ __('Update cart', 'sega-woo-theme') }}"
                   disabled
                 >
                   <span class="btn-text inline-flex items-center justify-center gap-2">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    {{ __('Update cart', 'sage') }}
+                    {{ __('Update cart', 'sega-woo-theme') }}
                   </span>
                   <span class="btn-loading hidden items-center justify-center gap-2">
                     <svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    {{ __('Updating...', 'sage') }}
+                    {{ __('Updating...', 'sega-woo-theme') }}
                   </span>
                 </button>
               </div>
@@ -327,7 +327,7 @@
               {{-- Summary Header --}}
               <div class="border-b border-secondary-100 bg-secondary-50/50 px-4 py-3 sm:px-6 sm:py-4">
                 <h2 class="text-base font-bold text-secondary-900 sm:text-lg">
-                  {{ __('Order Summary', 'sage') }}
+                  {{ __('Order Summary', 'sega-woo-theme') }}
                 </h2>
               </div>
 
@@ -336,7 +336,7 @@
                 <div class="space-y-3 sm:space-y-4">
                   {{-- Subtotal --}}
                   <div class="flex items-center justify-between">
-                    <span class="text-sm text-secondary-600">{{ __('Subtotal', 'sage') }}</span>
+                    <span class="text-sm text-secondary-600">{{ __('Subtotal', 'sega-woo-theme') }}</span>
                     <span class="cart-subtotal text-sm font-semibold text-secondary-900">
                       {!! WC()->cart->get_cart_subtotal() !!}
                     </span>
@@ -353,7 +353,7 @@
                       </span>
                       <span class="flex items-center gap-2 text-sm font-semibold text-green-700">
                         -{!! wc_cart_totals_coupon_html($coupon) !!}
-                        <a href="{{ esc_url(add_query_arg('remove_coupon', rawurlencode($coupon->get_code()), wc_get_cart_url())) }}" class="text-green-600 hover:text-green-800" title="{{ __('Remove coupon', 'sage') }}">
+                        <a href="{{ esc_url(add_query_arg('remove_coupon', rawurlencode($coupon->get_code()), wc_get_cart_url())) }}" class="text-green-600 hover:text-green-800" title="{{ __('Remove coupon', 'sega-woo-theme') }}">
                           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                           </svg>
@@ -366,7 +366,7 @@
                   @if (WC()->cart->needs_shipping() && WC()->cart->show_shipping())
                     <div class="shipping border-t border-secondary-100 pt-4">
                       <div class="mb-2 flex items-center justify-between">
-                        <span class="text-sm text-secondary-600">{{ __('Shipping', 'sage') }}</span>
+                        <span class="text-sm text-secondary-600">{{ __('Shipping', 'sega-woo-theme') }}</span>
                       </div>
                       <div class="shipping-calculator rounded-lg bg-secondary-50 p-3 text-sm text-secondary-600 [&_.woocommerce-shipping-calculator]:mt-2 [&_label]:block [&_label]:text-sm [&_label]:font-medium [&_label]:text-secondary-700">
                         @php wc_cart_totals_shipping_html(); @endphp
@@ -374,8 +374,8 @@
                     </div>
                   @elseif (WC()->cart->needs_shipping() && 'yes' === get_option('woocommerce_enable_shipping_calc'))
                     <div class="flex items-center justify-between border-t border-secondary-100 pt-4">
-                      <span class="text-sm text-secondary-600">{{ __('Shipping', 'sage') }}</span>
-                      <span class="text-sm text-secondary-500">{{ __('Calculated at checkout', 'sage') }}</span>
+                      <span class="text-sm text-secondary-600">{{ __('Shipping', 'sega-woo-theme') }}</span>
+                      <span class="text-sm text-secondary-500">{{ __('Calculated at checkout', 'sega-woo-theme') }}</span>
                     </div>
                   @endif
 
@@ -404,7 +404,7 @@
 
                 {{-- Total --}}
                 <div class="order-total mt-4 flex items-center justify-between border-t border-secondary-200 pt-4 sm:mt-6 sm:pt-6">
-                  <span class="text-base font-bold text-secondary-900">{{ __('Total', 'sage') }}</span>
+                  <span class="text-base font-bold text-secondary-900">{{ __('Total', 'sega-woo-theme') }}</span>
                   <span class="cart-total text-xl font-bold text-secondary-900 sm:text-2xl">
                     {!! WC()->cart->get_total() !!}
                   </span>
@@ -423,7 +423,7 @@
                     href="{{ wc_get_checkout_url() }}"
                     class="checkout-button flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-5 py-3.5 text-base font-bold text-white shadow-lg shadow-primary-600/20 transition-all hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-600/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.98] sm:px-6 sm:py-4"
                   >
-                    {{ __('Proceed to Checkout', 'sage') }}
+                    {{ __('Proceed to Checkout', 'sega-woo-theme') }}
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -449,10 +449,10 @@
       <div class="cross-sells mt-10 sm:mt-16">
         <div class="mb-4 flex items-center justify-between sm:mb-6">
           <h2 class="text-lg font-bold text-secondary-900 sm:text-xl">
-            {{ __('You may also like', 'sage') }}
+            {{ __('You may also like', 'sega-woo-theme') }}
           </h2>
           <a href="{{ wc_get_page_permalink('shop') }}" class="text-sm font-medium text-primary-600 hover:text-primary-700">
-            {{ __('View all', 'sage') }}
+            {{ __('View all', 'sega-woo-theme') }}
           </a>
         </div>
 
@@ -583,7 +583,7 @@
 
             if (updateCartBtn) updateCartBtn.disabled = true;
           } else {
-            showToast(result.data?.message || '{{ __('Error updating cart', 'sage') }}', 'error');
+            showToast(result.data?.message || '{{ __('Error updating cart', 'sega-woo-theme') }}', 'error');
           }
         } catch (error) {
           await updateCartViaForm(cartItemKey, quantity);
@@ -618,7 +618,7 @@
             if (updateCartBtn) updateCartBtn.disabled = true;
           }
         } catch (error) {
-          showToast('{{ __('Error updating cart', 'sage') }}', 'error');
+          showToast('{{ __('Error updating cart', 'sega-woo-theme') }}', 'error');
         }
       }
 

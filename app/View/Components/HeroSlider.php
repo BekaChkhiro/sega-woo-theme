@@ -39,19 +39,19 @@ class HeroSlider extends Component
 
         return [
             [
-                'title' => __('Slide 1', 'sage'),
+                'title' => __('Slide 1', 'sega-woo-theme'),
                 'image' => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&h=600&fit=crop',
                 'gradient_from' => 'from-primary-600',
                 'gradient_to' => 'to-primary-800',
             ],
             [
-                'title' => __('Slide 2', 'sage'),
+                'title' => __('Slide 2', 'sega-woo-theme'),
                 'image' => 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1600&h=600&fit=crop',
                 'gradient_from' => 'from-rose-600',
                 'gradient_to' => 'to-pink-700',
             ],
             [
-                'title' => __('Slide 3', 'sage'),
+                'title' => __('Slide 3', 'sega-woo-theme'),
                 'image' => 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&h=600&fit=crop',
                 'gradient_from' => 'from-emerald-600',
                 'gradient_to' => 'to-teal-700',
@@ -93,7 +93,7 @@ class HeroSlider extends Component
                 'badge' => $slide['badge'] ?? '',
                 'title' => $slide['title'] ?? '',
                 'description' => $slide['description'] ?? '',
-                'button_text' => $slide['button_text'] ?? __('Shop Now', 'sage'),
+                'button_text' => $slide['button_text'] ?? __('Shop Now', 'sega-woo-theme'),
                 'button_url' => $slide['button_url'] ?? '',
                 'gradient_from' => $slide['gradient_from'] ?? 'from-primary-600',
                 'gradient_to' => $slide['gradient_to'] ?? 'to-primary-800',
