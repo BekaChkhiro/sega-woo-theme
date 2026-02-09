@@ -3,10 +3,11 @@
 > **Project Type:** Full-Stack WordPress/WooCommerce Theme
 > **Framework:** Sage 10 (Roots)
 > **Created:** 2026-02-02
-> **Last Updated:** 2026-02-06
-> **Current Focus:** T14.2 - Create categories dropdown button below logo
+> **Last Updated:** 2026-02-09
+> **Current Focus:** T16.1 - Create search-product.blade.php template
 > **Status:** In Progress
-> **Last Updated:** 2026-02-06
+> **Last Updated:** 2026-02-09
+> **In Progress Task:** None
 > **Plugin Version:** 1.1.1
 
 ---
@@ -273,11 +274,11 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
 | T14.1 | Remove account icon from header | Low | DONE ✅ | - |
-| T14.2 | Create categories dropdown button below logo | Medium | TODO | - |
-| T14.3 | Connect dropdown to mega-menu component | Medium | TODO | T14.2 |
-| T14.4 | Implement subcategory hover reveal (like homepage) | Medium | TODO | T14.3 |
-| T14.5 | Ensure mega-menu works on all pages (not just homepage) | Medium | TODO | T14.4 |
-| T14.6 | Test header navigation and mega-menu | Low | TODO | T14.5 |
+| T14.2 | Create categories dropdown button below logo | Medium | DONE ✅ | - |
+| T14.3 | Connect dropdown to mega-menu component | Medium | DONE ✅ | T14.2 |
+| T14.4 | Implement subcategory hover reveal (like homepage) | Medium | DONE ✅ | T14.3 |
+| T14.5 | Ensure mega-menu works on all pages (not just homepage) | Medium | DONE ✅ | T14.4 |
+| T14.6 | Test header navigation and mega-menu | Low | DONE ✅ | T14.5 |
 
 ---
 
@@ -286,16 +287,16 @@ A modern, high-performance WooCommerce theme built with Sage 10 (Roots) framewor
 
 | ID | Task | Complexity | Status | Dependencies |
 |----|------|------------|--------|--------------|
-| T15.1 | Add products per page selector (12/24/48/96) | Medium | TODO | - |
-| T15.2 | Move price filter to top position | Low | TODO | - |
-| T15.3 | Implement dual-handle price range slider | High | TODO | T15.2 |
-| T15.4 | Convert category filter to checkbox style | Medium | TODO | - |
-| T15.5 | Enable multi-category selection | Medium | TODO | T15.4 |
-| T15.6 | Implement smart subcategory logic (show only selected subcategories) | High | TODO | T15.5 |
-| T15.7 | Create taxonomy-product_cat.blade.php template | Medium | TODO | - |
-| T15.8 | Show only subcategories in category page filters | Medium | TODO | T15.7 |
-| T15.9 | Remove Availability filter component | Low | TODO | - |
-| T15.10 | Test shop filters and category template | Medium | TODO | T15.8 |
+| T15.1 | Add products per page selector (12/24/48/96) | Medium | DONE ✅ | - |
+| T15.2 | Move price filter to top position | Low | DONE ✅ | - |
+| T15.3 | Implement dual-handle price range slider | High | DONE ✅ | T15.2 |
+| T15.4 | Convert category filter to checkbox style | Medium | DONE ✅ | - |
+| T15.5 | Enable multi-category selection | Medium | DONE ✅ | T15.4 |
+| T15.6 | Implement smart subcategory logic (show only selected subcategories) | High | DONE ✅ | T15.5 |
+| T15.7 | Create taxonomy-product_cat.blade.php template | Medium | DONE ✅ | - |
+| T15.8 | Show only subcategories in category page filters | Medium | DONE ✅ | T15.7 |
+| T15.9 | Remove Availability filter component | Low | DONE ✅ | - |
+| T15.10 | Test shop filters and category template | Medium | DONE ✅ | T15.8 |
 
 ---
 
@@ -431,11 +432,11 @@ sega-woo-theme/
 | Phase 11: Product Page Improvements | 10 | 10 | 100% |
 | Phase 12: Cart Page Improvements | 5 | 5 | 100% |
 | Phase 13: Homepage Improvements | 7 | 7 | 100% |
-| Phase 14: Header Improvements | 6 | 1 | 17% |
-| Phase 15: Shop Page Improvements | 10 | 0 | 0% |
+| Phase 14: Header Improvements | 6 | 6 | 100% |
+| Phase 15: Shop Page Improvements | 10 | 10 | 100% |
 | Phase 16: Search Functionality | 6 | 0 | 0% |
 | Phase 17: Performance Optimization | 10 | 0 | 0% |
-| **TOTAL** | **150** | **119** | **79%** |
+| **TOTAL** | **150** | **134** | **89%** |
 
 ---
 

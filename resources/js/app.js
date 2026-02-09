@@ -26,6 +26,14 @@ import searchPopup from './components/search-popup';
 import heroSlider from './components/hero-slider';
 import productCarousel from './components/product-carousel';
 import productGallery from './components/product-gallery';
+import priceRangeSlider from './components/price-range-slider';
+import categoryFilter from './components/category-filter';
+import shopFilters from './components/shop-filters';
+import availabilityFilter from './components/availability-filter';
+import perPageFilter from './components/per-page-filter';
+import orderbyFilter from './components/orderby-filter';
+import paginationFilter from './components/pagination-filter';
+import subcategoryCarousel from './components/subcategory-carousel';
 
 Alpine.plugin(collapse);
 
@@ -36,6 +44,14 @@ Alpine.data('searchPopup', searchPopup);
 Alpine.data('heroSlider', heroSlider);
 Alpine.data('productCarousel', productCarousel);
 Alpine.data('productGallery', productGallery);
+Alpine.data('priceRangeSlider', priceRangeSlider);
+Alpine.data('categoryFilter', categoryFilter);
+Alpine.data('shopFilters', shopFilters);
+Alpine.data('availabilityFilter', availabilityFilter);
+Alpine.data('perPageFilter', perPageFilter);
+Alpine.data('orderbyFilter', orderbyFilter);
+Alpine.data('paginationFilter', paginationFilter);
+Alpine.data('subcategoryCarousel', subcategoryCarousel);
 
 window.Alpine = Alpine;
 Alpine.start();

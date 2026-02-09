@@ -16,6 +16,25 @@ add_filter('excerpt_more', function () {
 });
 
 /**
+ * Products Per Page
+ *
+ * Allow users to select how many products to display per page on shop archives.
+ * Valid options: 12, 24, 48, 96
+ */
+add_filter('loop_shop_per_page', function ($per_page) {
+    if (isset($_GET['per_page'])) {
+        $requested = absint($_GET['per_page']);
+        $allowed = [12, 24, 48, 96];
+
+        if (in_array($requested, $allowed, true)) {
+            return $requested;
+        }
+    }
+
+    return $per_page;
+}, 20);
+
+/**
  * Image Performance Optimizations
  *
  * Add lazy loading and async decoding to images for better performance.
@@ -236,15 +255,19 @@ add_action('woocommerce_product_query', function ($query) {
 
     // Category filter via query parameter (for shop page filtering)
     // This allows filtering by category on the main shop page without navigation
-    if (is_shop() && isset($_GET['product_cat']) && ! empty($_GET['product_cat'])) {
-        $category_slugs = array_map('sanitize_title', explode(',', wc_clean(wp_unslash($_GET['product_cat']))));
+    // Categories are now passed as IDs for cleaner URLs
+    if (is_shop() && isset($_GET['cat_ids']) && ! empty($_GET['cat_ids'])) {
+        $category_ids = array_filter(
+            array_map('absint', explode(',', wc_clean(wp_unslash($_GET['cat_ids'])))),
+            fn($id) => $id > 0
+        );
 
-        if (! empty($category_slugs)) {
+        if (! empty($category_ids)) {
             $tax_query = $query->get('tax_query') ?: [];
             $tax_query[] = [
                 'taxonomy' => 'product_cat',
-                'field'    => 'slug',
-                'terms'    => $category_slugs,
+                'field'    => 'term_id',
+                'terms'    => $category_ids,
                 'operator' => 'IN',
             ];
             $query->set('tax_query', $tax_query);
@@ -2468,3 +2491,357 @@ add_action('wp_enqueue_scripts', function () {
     wp_dequeue_style('elementor-icons');
     wp_dequeue_style('elementor-animations');
 }, 999);
+
+/**
+ * ============================================================================
+ * AJAX Product Filter
+ * ============================================================================
+ *
+ * Handles AJAX requests for filtering products by category, price, etc.
+ * Returns HTML for products grid, result count, and pagination.
+ */
+
+/**
+ * Register AJAX handlers for product filtering.
+ */
+add_action('wp_ajax_filter_products', __NAMESPACE__ . '\\ajax_filter_products');
+add_action('wp_ajax_nopriv_filter_products', __NAMESPACE__ . '\\ajax_filter_products');
+
+/**
+ * AJAX handler for product filtering.
+ *
+ * @return void
+ */
+function ajax_filter_products(): void
+{
+    // Verify nonce for security
+    if (! isset($_POST['nonce']) || ! wp_verify_nonce($_POST['nonce'], 'filter_products_nonce')) {
+        wp_send_json_error(['message' => __('Security check failed', 'sage')], 403);
+    }
+
+    // Get filter parameters - categories are now IDs, deduplicate
+    $categories = isset($_POST['categories']) ? array_values(array_unique(array_map('absint', (array) $_POST['categories']))) : [];
+    $categories = array_filter($categories, fn($id) => $id > 0); // Remove invalid IDs
+    $min_price = isset($_POST['min_price']) ? floatval($_POST['min_price']) : null;
+    $max_price = isset($_POST['max_price']) ? floatval($_POST['max_price']) : null;
+    $orderby = isset($_POST['orderby']) ? sanitize_text_field($_POST['orderby']) : 'menu_order';
+    $per_page = isset($_POST['per_page']) ? absint($_POST['per_page']) : 12;
+    $paged = isset($_POST['paged']) ? absint($_POST['paged']) : 1;
+    $on_sale = isset($_POST['on_sale']) && $_POST['on_sale'] === '1';
+    $in_stock = isset($_POST['in_stock']) && $_POST['in_stock'] === '1';
+
+    // Validate per_page
+    $allowed_per_page = [12, 24, 48, 96];
+    if (! in_array($per_page, $allowed_per_page, true)) {
+        $per_page = 12;
+    }
+
+    // Build query args
+    $args = [
+        'post_type'      => 'product',
+        'post_status'    => 'publish',
+        'posts_per_page' => $per_page,
+        'paged'          => $paged,
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ];
+
+    // Apply sorting
+    switch ($orderby) {
+        case 'popularity':
+            $args['meta_key'] = 'total_sales';
+            $args['orderby'] = 'meta_value_num';
+            $args['order'] = 'DESC';
+            break;
+        case 'rating':
+            $args['meta_key'] = '_wc_average_rating';
+            $args['orderby'] = 'meta_value_num';
+            $args['order'] = 'DESC';
+            break;
+        case 'date':
+            $args['orderby'] = 'date';
+            $args['order'] = 'DESC';
+            break;
+        case 'price':
+            $args['meta_key'] = '_price';
+            $args['orderby'] = 'meta_value_num';
+            $args['order'] = 'ASC';
+            break;
+        case 'price-desc':
+            $args['meta_key'] = '_price';
+            $args['orderby'] = 'meta_value_num';
+            $args['order'] = 'DESC';
+            break;
+    }
+
+    // Apply category filter (using term IDs)
+    if (! empty($categories)) {
+        $args['tax_query'] = [
+            [
+                'taxonomy' => 'product_cat',
+                'field'    => 'term_id',
+                'terms'    => $categories,
+                'operator' => 'IN',
+            ],
+        ];
+    }
+
+    // Apply price filter
+    if ($min_price !== null || $max_price !== null) {
+        $args['meta_query'] = ['relation' => 'AND'];
+
+        if ($min_price !== null) {
+            $args['meta_query'][] = [
+                'key'     => '_price',
+                'value'   => $min_price,
+                'compare' => '>=',
+                'type'    => 'DECIMAL(10,2)',
+            ];
+        }
+
+        if ($max_price !== null) {
+            $args['meta_query'][] = [
+                'key'     => '_price',
+                'value'   => $max_price,
+                'compare' => '<=',
+                'type'    => 'DECIMAL(10,2)',
+            ];
+        }
+    }
+
+    // Apply on sale filter
+    if ($on_sale) {
+        $sale_products = wc_get_product_ids_on_sale();
+        $args['post__in'] = ! empty($sale_products) ? $sale_products : [0];
+    }
+
+    // Apply in stock filter
+    if ($in_stock) {
+        if (! isset($args['meta_query'])) {
+            $args['meta_query'] = ['relation' => 'AND'];
+        }
+        $args['meta_query'][] = [
+            'key'     => '_stock_status',
+            'value'   => 'instock',
+            'compare' => '=',
+        ];
+    }
+
+    // Run the query
+    $query = new \WP_Query($args);
+
+    // Setup WooCommerce loop
+    wc_setup_loop([
+        'name'         => 'product',
+        'is_paginated' => true,
+        'total'        => $query->found_posts,
+        'total_pages'  => $query->max_num_pages,
+        'per_page'     => $per_page,
+        'current_page' => $paged,
+    ]);
+
+    // Get grid classes from Shop composer
+    $columns = apply_filters('loop_shop_columns', wc_get_default_products_per_row());
+    $grid_classes = [
+        1 => 'grid-cols-1',
+        2 => 'grid-cols-1 xs:grid-cols-2',
+        3 => 'grid-cols-1 xs:grid-cols-2 md:grid-cols-3',
+        4 => 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+        5 => 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
+        6 => 'grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6',
+    ];
+    $grid_class = $grid_classes[$columns] ?? $grid_classes[4];
+
+    // Build response
+    ob_start();
+
+    if ($query->have_posts()) {
+        echo '<ul class="products grid gap-3 xs:gap-4 sm:gap-5 lg:gap-6 xl:gap-8 ' . esc_attr($grid_class) . '">';
+
+        while ($query->have_posts()) {
+            $query->the_post();
+            $product = wc_get_product(get_the_ID());
+
+            echo '<li class="flex w-full">';
+            echo \Roots\view('partials.product-card', ['product' => $product])->render();
+            echo '</li>';
+        }
+
+        echo '</ul>';
+    } else {
+        echo '<div class="flex flex-col items-center justify-center py-16 text-center">';
+        echo '<svg class="mb-4 h-16 w-16 text-secondary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">';
+        echo '<path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />';
+        echo '</svg>';
+        echo '<h2 class="mb-2 text-xl font-semibold text-secondary-900">' . esc_html__('No products found', 'sage') . '</h2>';
+        echo '<p class="mb-6 max-w-sm text-secondary-600">' . esc_html__('No products match your selected filters. Try adjusting your filter criteria.', 'sage') . '</p>';
+        echo '</div>';
+    }
+
+    $products_html = ob_get_clean();
+
+    // Build result count HTML
+    $total = $query->found_posts;
+    $first = (($paged - 1) * $per_page) + 1;
+    $last = min($paged * $per_page, $total);
+
+    if ($total <= $per_page || $query->max_num_pages === 1) {
+        $result_count = sprintf(
+            _n('Showing the single result', 'Showing all %d results', $total, 'sage'),
+            $total
+        );
+    } else {
+        $result_count = sprintf(
+            __('Showing %1$d–%2$d of %3$d results', 'sage'),
+            $first,
+            $last,
+            $total
+        );
+    }
+
+    // Build pagination HTML with custom styling
+    ob_start();
+    if ($query->max_num_pages > 1) {
+        $total_pages = $query->max_num_pages;
+        $range = 2;
+
+        echo '<nav class="mt-10 flex items-center justify-center" aria-label="' . esc_attr__('Product pagination', 'sage') . '">';
+        echo '<ul class="flex items-center gap-1">';
+
+        // Previous button
+        $prev_class = $paged > 1
+            ? 'text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900'
+            : 'text-secondary-300 cursor-not-allowed pointer-events-none';
+        echo '<li>';
+        echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg transition-colors ' . $prev_class . '" data-page="' . ($paged - 1) . '" aria-label="' . esc_attr__('Previous page', 'sage') . '">';
+        echo '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>';
+        echo '</a>';
+        echo '</li>';
+
+        // Page numbers
+        $show_dots = false;
+        for ($i = 1; $i <= $total_pages; $i++) {
+            if ($i == 1 || $i == $total_pages || ($i >= $paged - $range && $i <= $paged + $range)) {
+                $show_dots = true;
+                $page_class = $paged === $i
+                    ? 'bg-primary-600 text-white'
+                    : 'text-secondary-700 hover:bg-secondary-100';
+                echo '<li>';
+                echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium transition-colors ' . $page_class . '" data-page="' . $i . '"' . ($paged === $i ? ' aria-current="page"' : '') . '>';
+                echo $i;
+                echo '</a>';
+                echo '</li>';
+            } elseif ($show_dots) {
+                $show_dots = false;
+                echo '<li><span class="flex h-10 w-10 items-center justify-center text-secondary-400">&hellip;</span></li>';
+            }
+        }
+
+        // Next button
+        $next_class = $paged < $total_pages
+            ? 'text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900'
+            : 'text-secondary-300 cursor-not-allowed pointer-events-none';
+        echo '<li>';
+        echo '<a href="#" class="pagination-btn flex h-10 w-10 items-center justify-center rounded-lg transition-colors ' . $next_class . '" data-page="' . ($paged + 1) . '" aria-label="' . esc_attr__('Next page', 'sage') . '">';
+        echo '<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>';
+        echo '</a>';
+        echo '</li>';
+
+        echo '</ul>';
+        echo '</nav>';
+    }
+    $pagination_html = ob_get_clean();
+
+    wp_reset_postdata();
+
+    // Build active filters HTML
+    $active_filters = [];
+
+    // Category filters from cat_ids
+    if (! empty($categories)) {
+        foreach ($categories as $cat_id) {
+            $term = get_term($cat_id, 'product_cat');
+            if ($term && ! is_wp_error($term)) {
+                $remaining_ids = array_filter($categories, fn($id) => $id !== $cat_id);
+                $active_filters[] = [
+                    'type'  => 'category',
+                    'label' => $term->name,
+                    'id'    => $cat_id,
+                ];
+            }
+        }
+    }
+
+    // Price filter
+    if ($min_price > 0 || $max_price > 0) {
+        $price_label = '';
+        if ($min_price > 0 && $max_price > 0) {
+            $price_label = wc_price($min_price) . ' - ' . wc_price($max_price);
+        } elseif ($min_price > 0) {
+            $price_label = sprintf(__('From %s', 'sage'), wc_price($min_price));
+        } else {
+            $price_label = sprintf(__('Up to %s', 'sage'), wc_price($max_price));
+        }
+        $active_filters[] = [
+            'type'  => 'price',
+            'label' => $price_label,
+        ];
+    }
+
+    // On Sale filter
+    if ($on_sale) {
+        $active_filters[] = [
+            'type'  => 'on_sale',
+            'label' => __('On Sale', 'sage'),
+        ];
+    }
+
+    // In Stock filter
+    if ($in_stock) {
+        $active_filters[] = [
+            'type'  => 'in_stock',
+            'label' => __('In Stock', 'sage'),
+        ];
+    }
+
+    // Send JSON response
+    wp_send_json_success([
+        'products'       => $products_html,
+        'pagination'     => $pagination_html,
+        'result_count'   => $result_count,
+        'total'          => $total,
+        'total_pages'    => $query->max_num_pages,
+        'current_page'   => $paged,
+        'active_filters' => $active_filters,
+    ]);
+}
+
+/**
+ * Output AJAX data for shop filtering.
+ * Uses wp_head to inject global JS variable before Alpine.js loads.
+ */
+add_action('wp_head', function () {
+    if (! is_shop() && ! is_product_category() && ! is_product_tag()) {
+        return;
+    }
+
+    $data = [
+        'ajaxUrl'         => admin_url('admin-ajax.php'),
+        'nonce'           => wp_create_nonce('filter_products_nonce'),
+        'shopUrl'         => get_permalink(wc_get_page_id('shop')),
+        'isCategoryPage'  => is_product_category(),
+        'categoryId'      => null,
+        'categoryUrl'     => null,
+    ];
+
+    // Add category info when on a category page
+    if (is_product_category()) {
+        $term = get_queried_object();
+        if ($term && ! is_wp_error($term)) {
+            $data['categoryId']  = $term->term_id;
+            $data['categoryUrl'] = get_term_link($term);
+        }
+    }
+
+    echo '<script>window.sageShopAjax = ' . wp_json_encode($data) . ';</script>' . "\n";
+}, 1);

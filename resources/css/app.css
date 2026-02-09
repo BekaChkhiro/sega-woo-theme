@@ -5862,3 +5862,34 @@ html {
     color: var(--color-primary-700);
   }
 }
+
+/* --------------------------------------------
+   Price Range Slider - Shop Sidebar
+   Dual-handle slider for filtering products by price
+   -------------------------------------------- */
+
+@layer components {
+  /* Slider container */
+  .price-range-slider {
+    touch-action: none;
+    user-select: none;
+  }
+
+  /* Handle styling */
+  .price-range-handle {
+    touch-action: none;
+    will-change: left;
+  }
+
+  /* Handle focus state for keyboard navigation */
+  .price-range-handle:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-500-rgb, 234, 179, 8), 0.4);
+  }
+
+  /* Prevent text selection while dragging */
+  .price-range-slider.is-dragging,
+  .price-range-slider.is-dragging * {
+    cursor: grabbing !important;
+  }
+}

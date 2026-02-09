@@ -20,8 +20,17 @@ if (is_singular('product')) {
     } else {
         wc_get_template('single-product.php');
     }
-} elseif (is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy()) {
-    // Shop and product archive pages
+} elseif (is_product_category()) {
+    // Product category archive pages - use taxonomy template
+    if (view()->exists('woocommerce.taxonomy-product_cat')) {
+        echo view('woocommerce.taxonomy-product_cat')->render();
+    } elseif (view()->exists('woocommerce.archive-product')) {
+        echo view('woocommerce.archive-product')->render();
+    } else {
+        wc_get_template('archive-product.php');
+    }
+} elseif (is_shop() || is_product_tag() || is_product_taxonomy()) {
+    // Shop and other product archive pages
     if (view()->exists('woocommerce.archive-product')) {
         echo view('woocommerce.archive-product')->render();
     } else {

@@ -1,33 +1,82 @@
 {{--
-  Shop Sidebar - Filters for WooCommerce archive pages
-  Includes: Category filter, Price range filter
+  Shop Sidebar - Unified Filters for WooCommerce archive pages
+  Includes: Price range filter, Category filter
+  Features: Staged changes with Apply/Clear buttons
   Responsive: Collapsible on mobile
 --}}
 
 @php
   // Convert InvokableComponentVariable objects to plain values
-  $categories = is_callable($productCategories) ? $productCategories() : (is_array($productCategories) ? $productCategories : []);
+  // Use filterCategories() which returns subcategories on category pages
+  $categories = is_callable($filterCategories) ? $filterCategories() : (is_array($filterCategories) ? $filterCategories : []);
   $priceRangeData = is_callable($priceRange) ? $priceRange() : (is_array($priceRange) ? $priceRange : ['min' => 0, 'max' => 0]);
   $priceFilterData = is_callable($priceFilter) ? $priceFilter() : (is_array($priceFilter) ? $priceFilter : ['min' => null, 'max' => null]);
   $shopPageUrl = is_callable($shopUrl) ? $shopUrl() : ($shopUrl ?? get_permalink(wc_get_page_id('shop')));
   $isCategoryPage = is_callable($isCategory) ? $isCategory() : ($isCategory ?? false);
   $totalProducts = is_callable($totalAllProducts) ? $totalAllProducts() : ($totalAllProducts ?? 0);
-  $selectedCategorySlug = is_callable($selectedCategory ?? null) ? $selectedCategory() : ($selectedCategory ?? null);
 
-  // Check if any category is active (either via archive page or query param)
-  $hasCategoryFilter = $isCategoryPage || (isset($_GET['product_cat']) && $_GET['product_cat'] !== '');
+  // Get parent category info when on a category page
+  $parentCategory = is_callable($parentCategoryInfo) ? $parentCategoryInfo() : ($parentCategoryInfo ?? null);
 
-  // Build "All Products" URL preserving other filters
-  $allProductsUrl = $shopPageUrl;
-  $filtersToPreserve = ['min_price', 'max_price', 'on_sale', 'in_stock', 'orderby'];
-  foreach ($filtersToPreserve as $filter) {
-    if (isset($_GET[$filter]) && $_GET[$filter] !== '') {
-      $allProductsUrl = add_query_arg($filter, esc_attr($_GET[$filter]), $allProductsUrl);
+  // Get all selected category IDs (supports multi-select)
+  $selectedCategoryIds = [];
+  if (isset($_GET['cat_ids']) && $_GET['cat_ids'] !== '') {
+    $rawIds = array_filter(array_map('trim', explode(',', wc_clean(wp_unslash($_GET['cat_ids'])))));
+    foreach ($rawIds as $rawId) {
+      $termId = absint($rawId);
+      if ($termId > 0 && !in_array($termId, $selectedCategoryIds, true)) {
+        // Verify term exists
+        $term = get_term($termId, 'product_cat');
+        if ($term && !is_wp_error($term)) {
+          $selectedCategoryIds[] = $termId;
+        }
+      }
     }
   }
+
+  // Build category tree for smart subcategory logic (using IDs)
+  $categoryTree = [];
+  foreach ($categories as $cat) {
+    if (!empty($cat['children'])) {
+      $categoryTree[$cat['id']] = array_values(array_map(fn($child) => $child['id'], $cat['children']));
+    }
+  }
+
+  // Price values
+  $minPrice = floor($priceRangeData['min']);
+  $maxPrice = ceil($priceRangeData['max']);
+  $currentMin = $priceFilterData['min'] ?? null;
+  $currentMax = $priceFilterData['max'] ?? null;
+  $currencySymbol = get_woocommerce_currency_symbol();
+
+  // Availability state
+  $onSaleActive = isset($_GET['on_sale']);
+  $inStockActive = isset($_GET['in_stock']);
 @endphp
 
-<div class="shop-sidebar" x-data="{ mobileOpen: false }">
+<div
+  class="shop-sidebar"
+  x-data="shopFilters({
+    shopUrl: '{{ esc_url($shopPageUrl) }}',
+    ajaxUrl: '{{ admin_url('admin-ajax.php') }}',
+    nonce: '{{ wp_create_nonce('filter_products_nonce') }}',
+    initialCategories: {{ json_encode(array_values($selectedCategoryIds)) }},
+    categoryTree: {{ json_encode($categoryTree) }},
+    priceMin: {{ $minPrice }},
+    priceMax: {{ $maxPrice }},
+    currentMinPrice: {{ $currentMin !== null ? $currentMin : 'null' }},
+    currentMaxPrice: {{ $currentMax !== null ? $currentMax : 'null' }},
+    priceStep: 1,
+    currencySymbol: '{!! $currencySymbol !!}',
+    onSale: {{ $onSaleActive ? 'true' : 'false' }},
+    inStock: {{ $inStockActive ? 'true' : 'false' }},
+    totalPages: {{ $totalPages ?? 1 }},
+    isCategoryPage: {{ $isCategoryPage ? 'true' : 'false' }},
+    parentCategoryId: {{ $parentCategory ? $parentCategory['id'] : 'null' }},
+    parentCategoryUrl: '{{ $parentCategory ? esc_url($parentCategory['url']) : '' }}'
+  })"
+  x-init="init()"
+>
   {{-- Mobile Filter Toggle Button --}}
   <button
     type="button"
@@ -60,49 +109,232 @@
     x-init="if (window.innerWidth >= 1024) mobileOpen = true"
     @resize.window="if (window.innerWidth >= 1024) mobileOpen = true"
   >
-    {{-- Category Filter --}}
-    @if (!empty($categories))
+
+    {{-- ==================== PRICE FILTER ==================== --}}
+    @if ($priceRangeData['max'] > 0)
       <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-secondary-100">
         <h3 class="mb-4 border-b border-secondary-200 pb-2 text-lg font-semibold text-secondary-900">
-          {{ __('Categories', 'sage') }}
+          {{ __('Price', 'sage') }}
         </h3>
 
-        <ul class="space-y-1">
-          {{-- All Products Link --}}
-          <li>
-            <a
-              href="{{ $allProductsUrl }}"
-              class="flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors {{ !$hasCategoryFilter ? 'bg-primary-50 font-medium text-primary-700' : 'text-secondary-700 hover:bg-secondary-50 hover:text-secondary-900' }}"
+        {{-- Current Range Display --}}
+        <div class="mb-4 flex items-center justify-between gap-2 text-sm">
+          <span class="font-medium text-secondary-700">{!! $currencySymbol !!}<span x-text="stagedMinPrice.toLocaleString()"></span></span>
+          <span class="text-secondary-400">-</span>
+          <span class="font-medium text-secondary-700">{!! $currencySymbol !!}<span x-text="stagedMaxPrice.toLocaleString()"></span></span>
+        </div>
+
+        {{-- Slider Track --}}
+        <div
+          class="price-range-slider relative mb-6 h-2 cursor-pointer"
+          x-ref="priceTrack"
+          @click="onPriceTrackClick($event)"
+        >
+          {{-- Background Track --}}
+          <div class="absolute inset-0 rounded-full bg-secondary-200"></div>
+
+          {{-- Active Range --}}
+          <div
+            class="absolute top-0 h-full rounded-full bg-primary-500"
+            :style="`left: ${minPercent}%; right: ${100 - maxPercent}%`"
+          ></div>
+
+          {{-- Min Handle --}}
+          <div
+            class="price-range-handle absolute top-1/2 z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-2 border-primary-500 bg-white shadow-md transition-shadow hover:shadow-lg active:cursor-grabbing active:shadow-lg"
+            :class="{ 'ring-2 ring-primary-300': isDragging === 'min' }"
+            :style="`left: ${minPercent}%`"
+            data-handle="min"
+            @mousedown="startPriceDrag('min', $event)"
+            @touchstart.prevent="startPriceDrag('min', $event)"
+            role="slider"
+            :aria-valuenow="stagedMinPrice"
+            :aria-valuemin="priceMin"
+            :aria-valuemax="stagedMaxPrice"
+            aria-label="{{ __('Minimum price', 'sage') }}"
+            tabindex="0"
+            @keydown.left.prevent="stagedMinPrice = Math.max(priceMin, stagedMinPrice - priceStep)"
+            @keydown.right.prevent="stagedMinPrice = Math.min(stagedMaxPrice - priceStep, stagedMinPrice + priceStep)"
+          ></div>
+
+          {{-- Max Handle --}}
+          <div
+            class="price-range-handle absolute top-1/2 z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-2 border-primary-500 bg-white shadow-md transition-shadow hover:shadow-lg active:cursor-grabbing active:shadow-lg"
+            :class="{ 'ring-2 ring-primary-300': isDragging === 'max' }"
+            :style="`left: ${maxPercent}%`"
+            data-handle="max"
+            @mousedown="startPriceDrag('max', $event)"
+            @touchstart.prevent="startPriceDrag('max', $event)"
+            role="slider"
+            :aria-valuenow="stagedMaxPrice"
+            :aria-valuemin="stagedMinPrice"
+            :aria-valuemax="priceMax"
+            aria-label="{{ __('Maximum price', 'sage') }}"
+            tabindex="0"
+            @keydown.left.prevent="stagedMaxPrice = Math.max(stagedMinPrice + priceStep, stagedMaxPrice - priceStep)"
+            @keydown.right.prevent="stagedMaxPrice = Math.min(priceMax, stagedMaxPrice + priceStep)"
+          ></div>
+        </div>
+
+        {{-- Range Info --}}
+        <p class="text-xs text-secondary-500">
+          {{ __('Range:', 'sage') }}
+          {!! wc_price($minPrice) !!} - {!! wc_price($maxPrice) !!}
+        </p>
+      </div>
+    @endif
+
+    {{-- ==================== CATEGORY FILTER ==================== --}}
+    @if (!empty($categories) || $isCategoryPage)
+      <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-secondary-100">
+        <div class="mb-4 flex items-center justify-between border-b border-secondary-200 pb-2">
+          <h3 class="text-lg font-semibold text-secondary-900">
+            @if ($isCategoryPage && $parentCategory)
+              {{ __('Subcategories', 'sage') }}
+            @else
+              {{ __('Categories', 'sage') }}
+            @endif
+          </h3>
+          <span
+            x-show="stagedCategories.length > 0"
+            x-text="stagedCategories.length + ' {{ __('selected', 'sage') }}'"
+            class="rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700"
+          ></span>
+        </div>
+
+        <div class="space-y-1">
+          {{-- All Products Option (or All in Category on category pages) --}}
+          <div
+            class="group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200"
+            :class="stagedCategories.length === 0 ? 'bg-primary-50 ring-1 ring-primary-200' : 'hover:bg-secondary-50'"
+            @click="stagedCategories = []"
+            role="checkbox"
+            :aria-checked="stagedCategories.length === 0"
+            tabindex="0"
+            @keydown.enter="stagedCategories = []"
+            @keydown.space.prevent="stagedCategories = []"
+          >
+            <span class="relative flex h-5 w-5 items-center justify-center">
+              <span
+                class="absolute inset-0 rounded border-2 transition-all duration-200"
+                :class="stagedCategories.length === 0 ? 'border-primary-500 bg-primary-500' : 'border-secondary-300 bg-white group-hover:border-secondary-400'"
+              ></span>
+              <svg
+                class="relative h-3 w-3 text-white transition-transform duration-200"
+                :class="stagedCategories.length === 0 ? 'scale-100' : 'scale-0'"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <span
+              class="flex-1 text-sm font-medium"
+              :class="stagedCategories.length === 0 ? 'text-primary-700' : 'text-secondary-700'"
             >
-              <span>{{ __('All Products', 'sage') }}</span>
-              <span class="text-xs text-secondary-500">{{ $totalProducts }}</span>
+              @if ($isCategoryPage && $parentCategory)
+                {{ sprintf(__('All in %s', 'sage'), $parentCategory['name']) }}
+              @else
+                {{ __('All Products', 'sage') }}
+              @endif
+            </span>
+            <span class="rounded-full bg-secondary-100 px-2 py-0.5 text-xs font-medium text-secondary-600">
+              @if ($isCategoryPage && $parentCategory)
+                {{ $parentCategory['count'] }}
+              @else
+                {{ $totalProducts }}
+              @endif
+            </span>
+          </div>
+
+          {{-- Back to Shop link on category pages --}}
+          @if ($isCategoryPage)
+            <a
+              href="{{ $shopPageUrl }}"
+              class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-secondary-500 transition-all duration-200 hover:bg-secondary-50 hover:text-secondary-700"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              <span>{{ __('View all categories', 'sage') }}</span>
             </a>
-          </li>
+          @endif
+
+          {{-- Separator --}}
+          <div class="my-2 border-t border-secondary-100"></div>
+
+          {{-- Category List --}}
+          @if (empty($categories) && $isCategoryPage)
+            {{-- No subcategories message for category pages --}}
+            <p class="px-3 py-2 text-sm text-secondary-500 italic">
+              {{ __('No subcategories in this category', 'sage') }}
+            </p>
+          @endif
 
           @foreach ($categories as $category)
             @php
-              $hasActiveChild = collect($category['children'] ?? [])->contains('active', true);
+              $hasChildren = !empty($category['children']);
+              $catId = $category['id'];
             @endphp
-            <li x-data="{ expanded: {{ $category['active'] || $hasActiveChild ? 'true' : 'false' }} }">
-              <div class="flex items-center">
-                <a
-                  href="{{ $category['url'] }}"
-                  class="flex flex-1 items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors {{ $category['active'] ? 'bg-primary-50 font-medium text-primary-700' : 'text-secondary-700 hover:bg-secondary-50 hover:text-secondary-900' }}"
+            <div>
+              <div class="flex items-center gap-1">
+                {{-- Category Item - using ID for filtering --}}
+                <div
+                  class="group flex flex-1 cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200"
+                  :class="stagedCategories.includes({{ $catId }}) ? 'bg-primary-50 ring-1 ring-primary-200' : 'hover:bg-secondary-50'"
+                  @click="
+                    if (stagedCategories.includes({{ $catId }})) {
+                      stagedCategories = stagedCategories.filter(c => c !== {{ $catId }});
+                    } else {
+                      stagedCategories = [...new Set([...stagedCategories, {{ $catId }}])];
+                    }
+                  "
+                  role="checkbox"
+                  :aria-checked="stagedCategories.includes({{ $catId }})"
+                  tabindex="0"
                 >
-                  <span>{{ $category['name'] }}</span>
-                  <span class="text-xs text-secondary-500">({{ $category['count'] }})</span>
-                </a>
+                  <span class="relative flex h-5 w-5 items-center justify-center">
+                    <span
+                      class="absolute inset-0 rounded border-2 transition-all duration-200"
+                      :class="stagedCategories.includes({{ $catId }}) ? 'border-primary-500 bg-primary-500' : 'border-secondary-300 bg-white group-hover:border-secondary-400'"
+                    ></span>
+                    <svg
+                      class="relative h-3 w-3 text-white transition-transform duration-200"
+                      :class="stagedCategories.includes({{ $catId }}) ? 'scale-100' : 'scale-0'"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="3"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span
+                    class="flex-1 text-sm"
+                    :class="stagedCategories.includes({{ $catId }}) ? 'font-medium text-primary-700' : 'text-secondary-700'"
+                  >
+                    {{ $category['name'] }}
+                  </span>
+                  <span
+                    class="rounded-full px-2 py-0.5 text-xs font-medium"
+                    :class="stagedCategories.includes({{ $catId }}) ? 'bg-primary-100 text-primary-700' : 'bg-secondary-100 text-secondary-600'"
+                  >
+                    {{ $category['count'] }}
+                  </span>
+                </div>
 
-                @if (!empty($category['children']))
+                @if ($hasChildren)
                   <button
                     type="button"
-                    class="ml-1 rounded p-1 text-secondary-400 hover:bg-secondary-100 hover:text-secondary-600"
-                    @click="expanded = !expanded"
-                    :aria-expanded="expanded"
+                    class="flex h-8 w-8 items-center justify-center rounded-lg text-secondary-400 transition-colors hover:bg-secondary-100 hover:text-secondary-600"
+                    @click.stop="expandedParents[{{ $catId }}] = !expandedParents[{{ $catId }}]"
+                    :aria-expanded="expandedParents[{{ $catId }}]"
                   >
                     <svg
-                      class="h-4 w-4 transition-transform"
-                      :class="{ 'rotate-90': expanded }"
+                      class="h-4 w-4 transition-transform duration-200"
+                      :class="{ 'rotate-90': expandedParents[{{ $catId }}] }"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -115,160 +347,106 @@
               </div>
 
               {{-- Child Categories --}}
-              @if (!empty($category['children']))
-                <ul
-                  class="ml-4 mt-1 space-y-1 border-l border-secondary-200 pl-2"
-                  x-show="expanded"
+              @if ($hasChildren)
+                <div
+                  class="ml-4 mt-1 space-y-1 border-l-2 border-secondary-100 pl-3"
+                  x-show="expandedParents[{{ $catId }}]"
                   x-collapse
                 >
                   @foreach ($category['children'] as $child)
-                    <li>
-                      <a
-                        href="{{ $child['url'] }}"
-                        class="flex items-center justify-between rounded-md px-2 py-1 text-sm transition-colors {{ $child['active'] ? 'bg-primary-50 font-medium text-primary-700' : 'text-secondary-600 hover:bg-secondary-50 hover:text-secondary-900' }}"
+                    @php $childId = $child['id']; @endphp
+                    <div
+                      class="group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200"
+                      :class="stagedCategories.includes({{ $childId }}) ? 'bg-primary-50 ring-1 ring-primary-200' : 'hover:bg-secondary-50'"
+                      @click="
+                        if (stagedCategories.includes({{ $childId }})) {
+                          stagedCategories = stagedCategories.filter(c => c !== {{ $childId }});
+                        } else {
+                          stagedCategories = [...new Set([...stagedCategories.filter(c => c !== {{ $catId }}), {{ $childId }}])];
+                        }
+                      "
+                      role="checkbox"
+                      :aria-checked="stagedCategories.includes({{ $childId }})"
+                      tabindex="0"
+                    >
+                      <span class="relative flex h-4 w-4 items-center justify-center">
+                        <span
+                          class="absolute inset-0 rounded border-2 transition-all duration-200"
+                          :class="stagedCategories.includes({{ $childId }}) ? 'border-primary-500 bg-primary-500' : 'border-secondary-300 bg-white group-hover:border-secondary-400'"
+                        ></span>
+                        <svg
+                          class="relative h-2.5 w-2.5 text-white transition-transform duration-200"
+                          :class="stagedCategories.includes({{ $childId }}) ? 'scale-100' : 'scale-0'"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="3"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                      <span
+                        class="flex-1 text-sm"
+                        :class="stagedCategories.includes({{ $childId }}) ? 'font-medium text-primary-700' : 'text-secondary-600'"
                       >
-                        <span>{{ $child['name'] }}</span>
-                        <span class="text-xs text-secondary-400">({{ $child['count'] }})</span>
-                      </a>
-                    </li>
+                        {{ $child['name'] }}
+                      </span>
+                      <span
+                        class="rounded-full px-1.5 py-0.5 text-xs font-medium"
+                        :class="stagedCategories.includes({{ $childId }}) ? 'bg-primary-100 text-primary-700' : 'bg-secondary-100 text-secondary-500'"
+                      >
+                        {{ $child['count'] }}
+                      </span>
+                    </div>
                   @endforeach
-                </ul>
+                </div>
               @endif
-            </li>
+            </div>
           @endforeach
-        </ul>
+        </div>
       </div>
     @endif
 
-    {{-- Price Filter --}}
-    @if ($priceRangeData['max'] > 0)
-      <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-secondary-100">
-        <h3 class="mb-4 border-b border-secondary-200 pb-2 text-lg font-semibold text-secondary-900">
-          {{ __('Price', 'sage') }}
-        </h3>
+    {{-- ==================== APPLY & CLEAR BUTTONS ==================== --}}
+    <div class="space-y-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-secondary-100">
+      {{-- Apply Button --}}
+      <button
+        type="button"
+        @click="applyStagedFilters()"
+        :disabled="isLoading"
+        class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <svg x-show="isLoading" class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <svg x-show="!isLoading" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        </svg>
+        <span x-text="isLoading ? '{{ __('Loading...', 'sage') }}' : '{{ __('Apply Filters', 'sage') }}'"></span>
+      </button>
 
-        <form method="get" action="{{ $shopPageUrl }}" class="space-y-4">
-          {{-- Preserve existing query parameters --}}
-          @if (isset($_GET['orderby']))
-            <input type="hidden" name="orderby" value="{{ esc_attr($_GET['orderby']) }}">
-          @endif
-          @if (isset($_GET['s']))
-            <input type="hidden" name="s" value="{{ esc_attr($_GET['s']) }}">
-            <input type="hidden" name="post_type" value="product">
-          @endif
-          @if (isset($_GET['product_cat']) && $_GET['product_cat'] !== '')
-            <input type="hidden" name="product_cat" value="{{ esc_attr($_GET['product_cat']) }}">
-          @endif
-          @if (isset($_GET['on_sale']))
-            <input type="hidden" name="on_sale" value="{{ esc_attr($_GET['on_sale']) }}">
-          @endif
-          @if (isset($_GET['in_stock']))
-            <input type="hidden" name="in_stock" value="{{ esc_attr($_GET['in_stock']) }}">
-          @endif
+      {{-- Clear Button --}}
+      <button
+        type="button"
+        @click="clearAllFilters()"
+        x-show="hasActiveFilters || hasStagedFilters"
+        :disabled="isLoading"
+        class="flex w-full items-center justify-center gap-2 rounded-lg border border-secondary-300 bg-white px-4 py-2.5 text-sm font-medium text-secondary-700 shadow-sm transition-all hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        {{ __('Clear All', 'sage') }}
+      </button>
 
-          <div class="flex items-center gap-3">
-            <div class="flex-1">
-              <label for="min_price" class="sr-only">{{ __('Min price', 'sage') }}</label>
-              <div class="relative">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-secondary-500">
-                  {!! get_woocommerce_currency_symbol() !!}
-                </span>
-                <input
-                  type="number"
-                  name="min_price"
-                  id="min_price"
-                  class="w-full rounded-md border-secondary-300 pl-8 pr-3 py-2 text-sm placeholder-secondary-400 focus:border-primary-500 focus:ring-primary-500"
-                  placeholder="{{ number_format($priceRangeData['min'], 0) }}"
-                  value="{{ $priceFilterData['min'] ?? '' }}"
-                  min="{{ floor($priceRangeData['min']) }}"
-                  max="{{ ceil($priceRangeData['max']) }}"
-                  step="1"
-                >
-              </div>
-            </div>
-
-            <span class="text-secondary-400">-</span>
-
-            <div class="flex-1">
-              <label for="max_price" class="sr-only">{{ __('Max price', 'sage') }}</label>
-              <div class="relative">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-secondary-500">
-                  {!! get_woocommerce_currency_symbol() !!}
-                </span>
-                <input
-                  type="number"
-                  name="max_price"
-                  id="max_price"
-                  class="w-full rounded-md border-secondary-300 pl-8 pr-3 py-2 text-sm placeholder-secondary-400 focus:border-primary-500 focus:ring-primary-500"
-                  placeholder="{{ number_format($priceRangeData['max'], 0) }}"
-                  value="{{ $priceFilterData['max'] ?? '' }}"
-                  min="{{ floor($priceRangeData['min']) }}"
-                  max="{{ ceil($priceRangeData['max']) }}"
-                  step="1"
-                >
-              </div>
-            </div>
-          </div>
-
-          {{-- Price Range Display --}}
-          <p class="text-xs text-secondary-500">
-            {{ __('Range:', 'sage') }}
-            {!! wc_price(floor($priceRangeData['min'])) !!} - {!! wc_price(ceil($priceRangeData['max'])) !!}
-          </p>
-
-          <button
-            type="submit"
-            class="w-full rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-          >
-            {{ __('Apply', 'sage') }}
-          </button>
-
-          @if ($priceFilterData['min'] !== null || $priceFilterData['max'] !== null)
-            <a
-              href="{{ remove_query_arg(['min_price', 'max_price']) }}"
-              class="block text-center text-sm text-secondary-600 hover:text-primary-600"
-            >
-              {{ __('Clear price filter', 'sage') }}
-            </a>
-          @endif
-        </form>
-      </div>
-    @endif
-
-    {{-- Product Status Filter --}}
-    <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-secondary-100">
-      <h3 class="mb-4 border-b border-secondary-200 pb-2 text-lg font-semibold text-secondary-900">
-        {{ __('Availability', 'sage') }}
-      </h3>
-
-      <ul class="space-y-2">
-        <li>
-          <label class="flex cursor-pointer items-center gap-3">
-            <input
-              type="checkbox"
-              name="on_sale"
-              value="1"
-              class="h-4 w-4 rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
-              {{ isset($_GET['on_sale']) ? 'checked' : '' }}
-              onchange="this.form?.submit() || window.location.href = this.checked ? '{{ add_query_arg('on_sale', '1') }}' : '{{ remove_query_arg('on_sale') }}'"
-            >
-            <span class="text-sm text-secondary-700">{{ __('On Sale', 'sage') }}</span>
-          </label>
-        </li>
-        <li>
-          <label class="flex cursor-pointer items-center gap-3">
-            <input
-              type="checkbox"
-              name="in_stock"
-              value="1"
-              class="h-4 w-4 rounded border-secondary-300 text-primary-600 focus:ring-primary-500"
-              {{ isset($_GET['in_stock']) ? 'checked' : '' }}
-              onchange="window.location.href = this.checked ? '{{ add_query_arg('in_stock', '1') }}' : '{{ remove_query_arg('in_stock') }}'"
-            >
-            <span class="text-sm text-secondary-700">{{ __('In Stock', 'sage') }}</span>
-          </label>
-        </li>
-      </ul>
+      {{-- Pending Changes Indicator --}}
+      <p
+        x-show="hasPendingChanges"
+        class="text-center text-xs text-amber-600"
+      >
+        {{ __('You have unapplied changes', 'sage') }}
+      </p>
     </div>
 
     {{-- WordPress Widgets (if any) --}}

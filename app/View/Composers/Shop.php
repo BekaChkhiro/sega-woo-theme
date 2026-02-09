@@ -13,8 +13,10 @@ class Shop extends Composer
      */
     protected static $views = [
         'woocommerce.archive-product',
+        'woocommerce.taxonomy-product_cat',
         'woocommerce.loop.*',
         'partials.woocommerce.*',
+        'partials.sidebar-shop',
     ];
 
     /**
@@ -157,6 +159,50 @@ class Shop extends Composer
     }
 
     /**
+     * Get available products per page options.
+     */
+    public function perPageOptions(): array
+    {
+        $options = [12, 24, 48, 96];
+        $current = $this->currentPerPage();
+
+        return array_map(function ($value) use ($current) {
+            return [
+                'value'    => $value,
+                'label'    => sprintf(__('%d per page', 'sage'), $value),
+                'selected' => $current === $value,
+                'url'      => $this->getPerPageUrl($value),
+            ];
+        }, $options);
+    }
+
+    /**
+     * Get current products per page value.
+     */
+    public function currentPerPage(): int
+    {
+        if (isset($_GET['per_page'])) {
+            $requested = absint($_GET['per_page']);
+            $allowed = [12, 24, 48, 96];
+
+            if (in_array($requested, $allowed, true)) {
+                return $requested;
+            }
+        }
+
+        return $this->productsPerPage();
+    }
+
+    /**
+     * Get the URL for a per page option.
+     */
+    protected function getPerPageUrl(int $perPage): string
+    {
+        $link = $this->getBaseShopUrl();
+        return add_query_arg('per_page', $perPage, $link);
+    }
+
+    /**
      * Get the current page number.
      */
     public function currentPage(): int
@@ -294,7 +340,7 @@ class Shop extends Composer
         }
 
         // Preserve existing filters
-        $preserve = ['min_price', 'max_price', 'rating_filter', 'product_cat', 'on_sale', 'in_stock'];
+        $preserve = ['min_price', 'max_price', 'rating_filter', 'cat_ids', 'on_sale', 'in_stock', 'per_page'];
         foreach ($preserve as $param) {
             if (isset($_GET[$param]) && $_GET[$param] !== '') {
                 $link = add_query_arg($param, wc_clean(wp_unslash($_GET[$param])), $link);
@@ -422,7 +468,7 @@ class Shop extends Composer
         $url = add_query_arg('product_cat', $slug, $base_url);
 
         // Preserve existing filters
-        $filters_to_preserve = ['min_price', 'max_price', 'on_sale', 'in_stock', 'orderby'];
+        $filters_to_preserve = ['min_price', 'max_price', 'on_sale', 'in_stock', 'orderby', 'per_page'];
         foreach ($filters_to_preserve as $filter) {
             if (isset($_GET[$filter]) && $_GET[$filter] !== '') {
                 $url = add_query_arg($filter, wc_clean(wp_unslash($_GET[$filter])), $url);
@@ -434,6 +480,7 @@ class Shop extends Composer
 
     /**
      * Check if a category is currently active (either via archive or query param).
+     * Now uses term_id for comparison since we filter by ID.
      */
     protected function isCategoryActive(string $slug): bool
     {
@@ -442,10 +489,14 @@ class Shop extends Composer
             return true;
         }
 
-        // Check if category is selected via query parameter
-        if (isset($_GET['product_cat'])) {
-            $selected_cats = array_map('sanitize_title', explode(',', wc_clean(wp_unslash($_GET['product_cat']))));
-            return in_array($slug, $selected_cats, true);
+        // Check if category is selected via query parameter (now using IDs)
+        if (isset($_GET['cat_ids'])) {
+            // Get the term by slug to find its ID
+            $term = get_term_by('slug', $slug, 'product_cat');
+            if ($term && ! is_wp_error($term)) {
+                $selected_ids = array_map('absint', explode(',', wc_clean(wp_unslash($_GET['cat_ids']))));
+                return in_array($term->term_id, $selected_ids, true);
+            }
         }
 
         return false;
@@ -453,6 +504,7 @@ class Shop extends Composer
 
     /**
      * Get the currently selected category slug (from archive or query param).
+     * Returns the first selected category for backwards compatibility.
      */
     public function selectedCategory(): ?string
     {
@@ -461,11 +513,46 @@ class Shop extends Composer
             return $term->slug ?? null;
         }
 
-        if (isset($_GET['product_cat']) && ! empty($_GET['product_cat'])) {
-            return sanitize_title(wc_clean(wp_unslash($_GET['product_cat'])));
+        if (isset($_GET['cat_ids']) && ! empty($_GET['cat_ids'])) {
+            $categories = array_map('sanitize_title', explode(',', wc_clean(wp_unslash($_GET['cat_ids']))));
+            return $categories[0] ?? null;
         }
 
         return null;
+    }
+
+    /**
+     * Get all currently selected category slugs (supports multi-select).
+     *
+     * @return array Array of selected category slugs
+     */
+    public function selectedCategories(): array
+    {
+        $selected = [];
+
+        // On category archive page, that category is selected
+        if (is_product_category()) {
+            $term = get_queried_object();
+            if ($term && isset($term->slug)) {
+                $selected[] = $term->slug;
+            }
+        }
+
+        // Categories selected via query parameter (comma-separated)
+        if (isset($_GET['cat_ids']) && ! empty($_GET['cat_ids'])) {
+            $param_categories = array_map('sanitize_title', explode(',', wc_clean(wp_unslash($_GET['cat_ids']))));
+            $selected = array_merge($selected, $param_categories);
+        }
+
+        return array_unique($selected);
+    }
+
+    /**
+     * Get the count of selected categories.
+     */
+    public function selectedCategoryCount(): int
+    {
+        return count($this->selectedCategories());
     }
 
     /**
@@ -571,36 +658,95 @@ class Shop extends Composer
     {
         $filters = [];
 
-        // Category filter (archive page)
-        if (is_product_category()) {
-            $term = get_queried_object();
-            $remove_url = get_permalink(wc_get_page_id('shop'));
+        // On category pages: don't show the category itself as a filter
+        // The category page IS the context, not an active filter
+        // Only show subcategories (cat_ids) and other filters the user actively selects
 
-            // Preserve other filters when removing category
-            $filters_to_preserve = ['min_price', 'max_price', 'on_sale', 'in_stock', 'orderby'];
-            foreach ($filters_to_preserve as $filter) {
-                if (isset($_GET[$filter]) && $_GET[$filter] !== '') {
-                    $remove_url = add_query_arg($filter, wc_clean(wp_unslash($_GET[$filter])), $remove_url);
+        // Category filter (query parameter on shop page only)
+        // On category pages, cat_ids represents subcategory selections
+        if (is_shop() && isset($_GET['cat_ids']) && ! empty($_GET['cat_ids'])) {
+            $raw_param = wc_clean(wp_unslash($_GET['cat_ids']));
+            $raw_ids = array_filter(array_map('trim', explode(',', $raw_param)));
+
+            // Find unique terms by term_id
+            $unique_terms = [];
+            $added_term_ids = [];
+
+            foreach ($raw_ids as $raw_id) {
+                $term_id = absint($raw_id);
+                if ($term_id <= 0 || in_array($term_id, $added_term_ids, true)) {
+                    continue;
+                }
+
+                $term = get_term($term_id, 'product_cat');
+                if ($term && ! is_wp_error($term)) {
+                    $unique_terms[] = $term;
+                    $added_term_ids[] = $term_id;
                 }
             }
 
-            $filters[] = [
-                'type'       => 'category',
-                'label'      => $term->name,
-                'remove_url' => $remove_url,
-            ];
-        }
+            // Build filters from unique terms
+            foreach ($unique_terms as $term) {
+                // Build remove URL with remaining term IDs
+                $remaining_ids = array_map(
+                    fn($t) => $t->term_id,
+                    array_filter($unique_terms, fn($t) => $t->term_id !== $term->term_id)
+                );
 
-        // Category filter (query parameter on shop page)
-        if (is_shop() && isset($_GET['product_cat']) && ! empty($_GET['product_cat'])) {
-            $category_slug = sanitize_title(wc_clean(wp_unslash($_GET['product_cat'])));
-            $term = get_term_by('slug', $category_slug, 'product_cat');
+                // Build remove URL - stays on current page (category or shop)
+                $remove_url = empty($remaining_ids)
+                    ? remove_query_arg('cat_ids')
+                    : add_query_arg('cat_ids', implode(',', $remaining_ids));
 
-            if ($term && ! is_wp_error($term)) {
                 $filters[] = [
                     'type'       => 'category',
                     'label'      => $term->name,
-                    'remove_url' => remove_query_arg('product_cat'),
+                    'id'         => $term->term_id,
+                    'remove_url' => $remove_url,
+                ];
+            }
+        }
+
+        // Subcategory filter on category pages (cat_ids parameter)
+        if (is_product_category() && isset($_GET['cat_ids']) && ! empty($_GET['cat_ids'])) {
+            $raw_param = wc_clean(wp_unslash($_GET['cat_ids']));
+            $raw_ids = array_filter(array_map('trim', explode(',', $raw_param)));
+
+            // Find unique terms by term_id
+            $unique_terms = [];
+            $added_term_ids = [];
+
+            foreach ($raw_ids as $raw_id) {
+                $term_id = absint($raw_id);
+                if ($term_id <= 0 || in_array($term_id, $added_term_ids, true)) {
+                    continue;
+                }
+
+                $term = get_term($term_id, 'product_cat');
+                if ($term && ! is_wp_error($term)) {
+                    $unique_terms[] = $term;
+                    $added_term_ids[] = $term_id;
+                }
+            }
+
+            // Build filters from unique terms
+            foreach ($unique_terms as $term) {
+                // Build remove URL with remaining term IDs
+                $remaining_ids = array_map(
+                    fn($t) => $t->term_id,
+                    array_filter($unique_terms, fn($t) => $t->term_id !== $term->term_id)
+                );
+
+                // Stay on category page when removing subcategory filter
+                $remove_url = empty($remaining_ids)
+                    ? remove_query_arg('cat_ids')
+                    : add_query_arg('cat_ids', implode(',', $remaining_ids));
+
+                $filters[] = [
+                    'type'       => 'category',
+                    'label'      => $term->name,
+                    'id'         => $term->term_id,
+                    'remove_url' => $remove_url,
                 ];
             }
         }
@@ -770,6 +916,123 @@ class Shop extends Composer
         }
 
         return false;
+    }
+
+    /**
+     * Get categories for the filter sidebar based on context.
+     *
+     * On the main shop page: returns all top-level categories with children.
+     * On a category page: returns only subcategories of the current category.
+     *
+     * @return array
+     */
+    public function filterCategories(): array
+    {
+        // If on a category page, return subcategories of that category
+        if (is_product_category()) {
+            $currentTerm = get_queried_object();
+
+            if ($currentTerm && ! is_wp_error($currentTerm)) {
+                return $this->getSubcategoriesForFilter($currentTerm->term_id);
+            }
+        }
+
+        // Default: return all categories (for main shop page)
+        return $this->productCategories();
+    }
+
+    /**
+     * Get subcategories of a parent category for the filter sidebar.
+     *
+     * @param int $parentId The parent category term ID
+     * @return array
+     */
+    protected function getSubcategoriesForFilter(int $parentId): array
+    {
+        $subcategories = get_terms([
+            'taxonomy'   => 'product_cat',
+            'hide_empty' => true,
+            'parent'     => $parentId,
+        ]);
+
+        if (is_wp_error($subcategories) || empty($subcategories)) {
+            return [];
+        }
+
+        return array_map(function ($term) {
+            return [
+                'id'       => $term->term_id,
+                'name'     => $term->name,
+                'slug'     => $term->slug,
+                'count'    => $term->count,
+                'url'      => $this->getCategoryFilterUrl($term->slug),
+                'active'   => $this->isCategoryActive($term->slug),
+                'children' => $this->getChildCategories($term->term_id),
+            ];
+        }, $subcategories);
+    }
+
+    /**
+     * Get the parent category info when on a category page.
+     * Used to show a "back to parent" or "all in category" option.
+     *
+     * @return array|null
+     */
+    public function parentCategoryInfo(): ?array
+    {
+        if (! is_product_category()) {
+            return null;
+        }
+
+        $currentTerm = get_queried_object();
+
+        if (! $currentTerm || is_wp_error($currentTerm)) {
+            return null;
+        }
+
+        // Get total product count for current category (including subcategories)
+        $totalInCategory = $this->getCategoryProductCount($currentTerm->term_id);
+
+        return [
+            'id'    => $currentTerm->term_id,
+            'name'  => $currentTerm->name,
+            'slug'  => $currentTerm->slug,
+            'count' => $totalInCategory,
+            'url'   => get_term_link($currentTerm),
+        ];
+    }
+
+    /**
+     * Get total product count for a category including all subcategories.
+     *
+     * @param int $termId
+     * @return int
+     */
+    protected function getCategoryProductCount(int $termId): int
+    {
+        $term = get_term($termId, 'product_cat');
+
+        if (! $term || is_wp_error($term)) {
+            return 0;
+        }
+
+        // Get direct count
+        $count = (int) $term->count;
+
+        // Add counts from subcategories
+        $children = get_terms([
+            'taxonomy'   => 'product_cat',
+            'hide_empty' => true,
+            'parent'     => $termId,
+        ]);
+
+        if (! is_wp_error($children) && ! empty($children)) {
+            foreach ($children as $child) {
+                $count += $this->getCategoryProductCount($child->term_id);
+            }
+        }
+
+        return $count;
     }
 
 }
